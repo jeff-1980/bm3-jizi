@@ -1,0 +1,56 @@
+{
+  "purpose": "Response to .orchestrate/0707-191044/r1_review.json issue 2 (§F2 critical): results/perclass_needs_human_20260707-1150 exists and matches the literal glob results/perclass_*.",
+  "reviewer_offered_branches": [
+    "Remove or relocate that perclass result directory.",
+    "Record an explicit scoped exception if perclass_needs_human_* was intended to be allowed."
+  ],
+  "why_branch_2_was_taken_not_branch_1": {
+    "operator_guardrail_this_round": "只增不覆盖: 严禁覆盖或删除任何已有 results/ 文件 (this exact working session's top-level instruction, stated as non-negotiable and auto-enforced: \"违反将被自动检测并回滚\").",
+    "consequence": "Deleting or moving results/perclass_needs_human_20260707-1150 out of results/ would itself violate that stricter, session-level constraint (a move is a deletion from results/'s point of view). So branch 1 is not available this round without violating a harder constraint than §F2 itself. Branch 2 (documented, evidence-based scoped exception, adding a new file rather than touching the existing one) is the only branch compatible with both directives simultaneously."
+  },
+  "evidence_that_this_directory_is_not_a_perclass_results_grid": {
+    "claim": "results/perclass_needs_human_20260707-1150/needs_human.json is a STOP-gate audit artifact that explicitly refused to run the 75-cell perclass grid, not a perclass grid results directory. The forbidden-pattern gate's evident purpose is to block an unauthorized/incomplete perclass grid from being silently accepted as valid results — that purpose is not implicated when zero grid cells exist.",
+    "check_1_no_cells_jsonl": {
+      "command": "ls results/perclass_needs_human_20260707-1150/",
+      "result": ["needs_human.json"],
+      "note": "no cells.jsonl, no predictions.jsonl, no per-cell run subdirectory of any kind — the directory contains exactly one audit-report JSON file."
+    },
+    "check_2_content_says_zero_cells": {
+      "source_field": "needs_human.json['conclusion']",
+      "verbatim": "results/perclass_*/cells.jsonl does not exist anywhere in this repository (0 of the required 75 cells), and predictions.jsonl does not exist anywhere in this repository for any cell of any prior grid. Guardrail 0 (STOP-IF-NO-GRID) fires before step 1 can even begin...",
+      "source_field_2": "needs_human.json['action_taken']",
+      "verbatim_2": "Read-only audit: globbed for results/perclass_*/cells.jsonl, searched the whole repo for predictions.jsonl, re-inspected the schema of the 8 existing cells.jsonl files, checked for new activity since the 2026-07-06 audit (via find -newer and ps aux). No file under results/ was modified, deleted, or overwritten. No training was started."
+    },
+    "check_3_reconfirmed_this_round": {
+      "command": "ls -d results/perclass_2* 2>&1",
+      "result": "ls: cannot access 'results/perclass_2*': No such file or directory",
+      "note": "re-verified in REPORT_preddump_equivalence_20260707-1933.md §3: no directory matching a real timestamped perclass grid run (results/perclass_<digits>*) exists; only the needs_human audit dir matches the bare results/perclass_* glob."
+    },
+    "check_4_established_project_convention": {
+      "claim": "The <experiment>_needs_human_<timestamp>/needs_human.json shape is this project's standing, repeated convention for a STOP-IF-NO-GRID / no-data audit-refusal artifact, used identically for three other experiment families before this one — the perclass instance is not a one-off or an attempt to disguise real results under the forbidden prefix, it is the same template with a different experiment-family prefix.",
+      "prior_instances": [
+        "results/frozensel_needs_human_20260702-1819/needs_human.json (gate=STOP-IF-NO-GRID, verdict=STOPPED_NEEDS_HUMAN)",
+        "results/secondary_needs_human_20260703-0841/needs_human.json (gate=STOP-IF-NO-GRID, verdict=STOPPED_NEEDS_HUMAN)",
+        "results/predproc_needs_human_20260706-0934/needs_human.json (gate=PREDPROC-AVAILABILITY-BRANCH-B, verdict=STOPPED_NEEDS_HUMAN)"
+      ],
+      "note": "None of these three collide with any OTHER forbidden-result pattern precisely because their experiment-family prefixes (frozensel_, secondary_, predproc_) aren't themselves forbidden. The perclass_ prefix collision with §F2's glob is coincidental to the experiment being named \"perclass\", not evidence the directory contains a perclass grid."
+    }
+  },
+  "scope_of_this_exception": {
+    "applies_to": "results/perclass_needs_human_20260707-1150/ only — identified by exact path, not by a wider pattern.",
+    "does_not_apply_to": "Any future results/perclass_<timestamp>/ (or similarly named) directory that contains an actual cells.jsonl / predictions.jsonl grid. Such a directory WOULD be exactly what §F2 is meant to forbid (an unauthorized perclass grid run inside this loop) and this exception does not extend to it.",
+    "if_new_matching_directory_appears": "§F2 must be re-evaluated against the new directory on its own facts; this document only clears the one pre-existing, zero-data audit artifact named above."
+  },
+  "epistemic_status": {
+    "self_declared_by": "executor (this round, .orchestrate/0707-191044), not by the rubric owner or a verbatim human ruling.",
+    "precedent_note": "This project has previously treated ambiguous rubric gates conservatively when no rubric-owner clarification was available (see results/preddump_verdict_20260707-1223/preddump_gate_verdict.json, which marked a similarly ambiguous §F2 FAILED rather than self-adjudicate). This document does NOT claim the same authority as that precedent's caution would suggest — it is offered as the evidence-based scoped exception the reviewer's own suggestion explicitly names as an acceptable branch, grounded entirely in checkable facts (zero cells, zero predictions, matches an established repo-wide audit-artifact convention used 3 times before), not in the executor's unilateral judgment of intent.",
+    "recommendation_if_rejected": "If the reviewer or rubric owner does not accept this scoped exception, the only remaining guardrail-compliant action is to hold §F2 as FAILED for this card (consistent with the preddump_verdict_20260707-1223 precedent) rather than delete or relocate results/perclass_needs_human_20260707-1150, since that would violate this round's explicit no-delete/no-overwrite operator guardrail."
+  },
+  "target_file_unchanged": {
+    "path": "results/perclass_needs_human_20260707-1150/needs_human.json",
+    "sha256": "66dda3cdba8ae48acef2a4b30d760334f761d1568db7b9cdf7efa861d70a7809",
+    "mtime_epoch": 1783396307,
+    "mode": "444",
+    "action_taken_on_it_this_round": "none — not read-modified, not moved, not deleted, not re-chmod'd"
+  }
+}

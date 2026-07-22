@@ -1,0 +1,62 @@
+{
+  "device": "cuda",
+  "condition": "clean",
+  "regime": "cross_condition (TRAIN_COND=37.5Hz11kN -> TEST_COND=40Hz10kN, this dir's only regime)",
+  "seed": 0,
+  "n_epochs": 2,
+  "eval_sha256_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_prefix16": "6c20b367522ce5db",
+  "eval_sha256_expected_prefix16": "6c20b367522ce5db",
+  "eval_sha256_match": true,
+  "arms": {
+    "bm3_frozen": {
+      "n_params": 112410,
+      "epochs": [
+        {
+          "epoch": 1,
+          "mean_train_loss": 0.1449399113359793,
+          "has_nan_loss": false,
+          "macro_f1": 0.6812495243447667,
+          "epoch_time_s": 34.46,
+          "n_batches": 82
+        },
+        {
+          "epoch": 2,
+          "mean_train_loss": 0.011769971591647624,
+          "has_nan_loss": false,
+          "macro_f1": 0.6597623570819859,
+          "epoch_time_s": 5.88,
+          "n_batches": 82
+        }
+      ],
+      "loss_decreased_ep1_to_ep_last": true,
+      "any_nan": false
+    },
+    "bm3_kin": {
+      "n_params": 177938,
+      "epochs": [
+        {
+          "epoch": 1,
+          "mean_train_loss": 0.09660021360770504,
+          "has_nan_loss": false,
+          "macro_f1": 0.7163712736625327,
+          "epoch_time_s": 7.51,
+          "n_batches": 82
+        },
+        {
+          "epoch": 2,
+          "mean_train_loss": 0.003552750752466481,
+          "has_nan_loss": false,
+          "macro_f1": 0.6935225845906474,
+          "epoch_time_s": 7.45,
+          "n_batches": 82
+        }
+      ],
+      "loss_decreased_ep1_to_ep_last": true,
+      "any_nan": false
+    }
+  },
+  "throughput_same_order_of_magnitude": true,
+  "bm3_frozen_vs_bm3_kin_time_ratio": 2.697,
+  "all_pass": true
+}

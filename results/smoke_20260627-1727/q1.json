@@ -1,0 +1,11 @@
+{
+  "q1_bm3_vs_tcn": [
+    {
+      "condition": "pink@-6dB",
+      "bm3_f1": 48.81,
+      "tcn_f1": 49.26,
+      "delta_pp": -0.45,
+      "bm3_wins": false
+    }
+  ]
+}

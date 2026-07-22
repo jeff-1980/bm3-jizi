@@ -1,0 +1,4 @@
+condition,arm,n_seeds,f1_mean,f1_std
+pink@-6dB,bm3_kin,1,0.4880953946647377,0.0
+pink@-6dB,s4d,1,0.5005543107985039,0.0
+pink@-6dB,tcn,1,0.49260767141290485,0.0

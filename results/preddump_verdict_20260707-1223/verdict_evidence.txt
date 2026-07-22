@@ -1,0 +1,53 @@
+Evidence transcript for results/preddump_verdict_20260707-1223/preddump_gate_verdict.json
+All commands run read-only against the live workspace; nothing under results/ or in the
+implementation files was modified to produce this evidence.
+
+$ sha256sum xjtu_noisy_harness.py
+dd7eb09548d4be2cedfd47383d7522b1af76c4115f7cd9a1512e1c4a7fdb3462  xjtu_noisy_harness.py
+# identical to every prior round (1207, 1214) -- confirms zero code drift this round.
+
+$ ls -la .git
+total 8
+drwxr-xr-x  2 jeffwork jeffwork 4096 .
+drwxr-xr-x 12 jeffwork jeffwork 4096 ..
+$ find .git -type f
+(no output -- .git has no HEAD, no objects/, no refs/: it is an empty directory, not a
+usable repository. `git status`/`git diff`/`git show` all fail "not a git repository".)
+
+$ find .orchestrate -path "*protected_snapshot*" -iname "*harness*" | wc -l
+0
+# Searched every protected_snapshot/ under all 15 .orchestrate/<run>/ directories in this
+# workspace. None contain any file matching *harness*, i.e. no protected pre-edit copy of
+# xjtu_noisy_harness.py was ever captured. This independently confirms r1_review.json's own
+# observation ("protected_snapshot/files/ contains only protected result artifacts, not the
+# original harness").
+
+$ grep -n "Dry-run output" -A6 REPORT_preddump_20260707-1207.md
+84:Dry-run output (no `perclass_2*` dir exists yet, since the grid hasn't been launched):
+85-
+86-```
+87-===== RUN DIR =====
+88-none found (no results/perclass_2* directory yet)
+89-===== PYTHON PROC =====
+90-NO PYTHON PROC (run ended or died)
+# Confirms the dry-run execution of status_perclass.sh is admitted in an existing, untouched
+# report and is therefore a permanent historical fact -- not something a later round of static
+# checks can retroactively erase.
+
+$ ls results/ | grep perclass
+perclass_needs_human_20260707-1150
+# Only the pre-existing, unrelated audit directory matches; no results/perclass_2* run
+# directory exists. The 75-cell grid itself has never been launched (distinct from the
+# one-time status-script dry-run above, which ran against an empty/nonexistent run dir).
+
+$ python3 -c "import ast; ast.parse(open('xjtu_noisy_harness.py').read()); print('ast parse OK')"
+ast parse OK
+
+$ bash -n launch_perclass.sh && echo "launch_perclass.sh: bash -n OK"
+launch_perclass.sh: bash -n OK
+
+$ bash -n status_perclass.sh && echo "status_perclass.sh: bash -n OK"
+status_perclass.sh: bash -n OK
+
+$ /home/jeffwork/论文8/venv/bin/python3 -c "import xjtu_noisy_harness; print('import OK via project venv')"
+import OK via project venv

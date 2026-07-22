@@ -1,0 +1,56 @@
+{
+  "purpose": "Fresh index for the reviewer round on REPORT_preddump_20260707-1207.md (r1_review.json verdict=REVISE). Fixes: E1 (no diff artifact for byte-level dump-off verification) and F2 (status_perclass.sh dry-run used as evidence). Superseding report: REPORT_preddump_fix_20260707-1214.md.",
+  "freshness_floor": ".orchestrate/0707-115614",
+  "git_state": "workspace .git present but empty (no HEAD/objects/refs) in this sandbox; `git diff`/`git show` are unavailable as a baseline source. All baseline reconstruction below is done without git.",
+  "E1_diff_artifact": {
+    "gate": "reviewer must be able to read a diff and verify dump_predictions=False preserves original eval/train math and cells.jsonl schema",
+    "xjtu_noisy_harness_CURRENT_COPY.py": {
+      "path": "results/preddump_diff_20260707-1214/xjtu_noisy_harness.CURRENT_COPY.py",
+      "description": "Byte-exact frozen copy of the live xjtu_noisy_harness.py taken at diff-authoring time.",
+      "sha256": "dd7eb09548d4be2cedfd47383d7522b1af76c4115f7cd9a1512e1c4a7fdb3462",
+      "matches_live_file_sha256": true
+    },
+    "xjtu_noisy_harness_PREEDIT_reconstructed.py": {
+      "path": "results/preddump_diff_20260707-1214/xjtu_noisy_harness.PREEDIT_reconstructed.py",
+      "description": "NOT a byte-exact historical snapshot (none exists: no VCS history, no backup was kept before the --dump_predictions edit). Reconstructed by independently re-reading the current file and mechanically reverting every dump_predictions/collect_predictions/--perclass-gated addition back out (removing the added parameters, the added branches, the added _write_predictions_jsonl function, and the added --perclass CLI surface), leaving every other line of the file untouched. Reviewer should treat this as a claimed baseline whose correctness is checked by the two independent probes below (diff shape + behavioral equivalence), not by provenance alone.",
+      "sha256": "c5137fa67faa3c5b8f549f0783cce93fb1471146097edd6adabbc0f3818827e7",
+      "ast_parses": true
+    },
+    "preddump.patch": {
+      "path": "results/preddump_diff_20260707-1214/preddump.patch",
+      "description": "unified diff, `diff -u PREEDIT_reconstructed.py CURRENT_COPY.py`. Reviewer check: every hunk is either (a) a new parameter with a default that preserves old call signature, (b) a new branch gated on collect_predictions/dump_predictions/args.perclass, or (c) new standalone code (new function, new argparse flag, new elif arm). No hunk touches tp/fn/fp accumulation, per_f1/macro_f1 arithmetic, the training loop body, optimizer/scheduler calls, or any existing cells.jsonl key when the new flags are off.",
+      "lines_added": 110,
+      "lines_removed": 10,
+      "sha256": "26bb96a86f65de227e09edbf9166a2d725173518b2a341f4bdf1b3a97b70187d"
+    },
+    "eval_macro_f1_equivalence_check": {
+      "path": "results/preddump_diff_20260707-1214/eval_macro_f1_equivalence_check.py",
+      "result_path": "results/preddump_diff_20260707-1214/eval_macro_f1_equivalence_check.json",
+      "description": "Independent BEHAVIORAL (not just textual) check: loads both PREEDIT_reconstructed.py and CURRENT_COPY.py as live Python modules via importlib, builds a tiny fixed-weight nn.Linear model + deterministic synthetic batches (no real XJTU dataset, no real BearMamba3/S4D model, zero training epochs — does not count against the session's training cap), and calls eval_macro_f1() three ways: (1) PREEDIT_reconstructed's 2-arg signature, (2) CURRENT_COPY's default call (no collect_predictions kwarg), (3) CURRENT_COPY's explicit collect_predictions=False, (4) CURRENT_COPY's collect_predictions=True (dump-on). All four return arithmetically identical per_f1/macro_f1. Confirms the diff's claimed 'default path unchanged' and 'dump-on same source as dump-off' properties empirically, not just by code inspection.",
+      "all_pass": true
+    },
+    "launch_status_static_checks.txt": {
+      "path": "results/preddump_diff_20260707-1214/launch_status_static_checks.txt",
+      "description": "bash -n syntax check + grep survey for positional args ($1/$@/$*) and caller-controlled env var reads, for launch_perclass.sh and status_perclass.sh. Both scripts pass bash -n; no positional args in either; every ${VAR} referenced (VENV, TS, RUNDIR, LOG, WORKDIR) is assigned earlier in the SAME script from a hardcoded literal or from `date`/`ls`/`basename` output, never read from the calling shell's environment."
+    }
+  },
+  "F2_launch_status_scripts": {
+    "gate": "launch_perclass.sh and status_perclass.sh must be present and unexecuted; evidence for this gate must not itself be a script execution transcript",
+    "resolution": "REPORT_preddump_20260707-1207.md's dry-run transcript of status_perclass.sh is superseded as evidence for this gate (left in place unmodified per 只增不覆盖 — not deleted/edited). This round's evidence is static-only: bash -n (syntax) plus grep (no positional args / no caller-controlled env vars) captured in launch_status_static_checks.txt. Neither script has been executed in this fix session.",
+    "launched_run_dir_check": "no results/perclass_2* directory exists in results/ as of this fix (confirmed by `ls results/ | grep perclass`); the 75-cell grid remains unlaunched"
+  },
+  "E2_F1_prior_evidence_unchanged": {
+    "path": "results/preddump_unitcheck_20260707-1204/preddump_unitcheck.json",
+    "note": "Untouched (只增不覆盖); still chmod 444; all_pass=true; recorded here only as an index pointer per the reviewer's minor-severity request to name it from a manifest alongside the diff and static-check artifacts."
+  },
+  "artifacts_this_round": [
+    "results/preddump_diff_20260707-1214/xjtu_noisy_harness.CURRENT_COPY.py",
+    "results/preddump_diff_20260707-1214/xjtu_noisy_harness.PREEDIT_reconstructed.py",
+    "results/preddump_diff_20260707-1214/preddump.patch",
+    "results/preddump_diff_20260707-1214/eval_macro_f1_equivalence_check.py",
+    "results/preddump_diff_20260707-1214/eval_macro_f1_equivalence_check.json",
+    "results/preddump_diff_20260707-1214/launch_status_static_checks.txt",
+    "results/preddump_diff_20260707-1214/preddump_review_manifest.json",
+    "REPORT_preddump_fix_20260707-1214.md"
+  ]
+}

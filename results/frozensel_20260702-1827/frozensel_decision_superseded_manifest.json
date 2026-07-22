@@ -1,0 +1,10 @@
+{
+  "run_dir": "results/frozensel_20260702-1827",
+  "superseded_file": "frozensel_decision.json",
+  "superseded_verdict": "SELECTIVITY_CLAIM_FALSIFIED",
+  "reason": "Reviewer escalation .orchestrate/0703-081727/ (r1_review.json, r2_review.json) required a deep-noise-magnitude-based scoped verdict (SELECTIVITY_NOT_PRIMARY_MECHANISM) with an explicit frozen-vs-s4d attribution block, replacing the original significance-band-majority verdict (SELECTIVITY_CLAIM_FALSIFIED) framing for this scoped decision. frozensel_decision.json is left in place unmodified (additive-only guardrail; chmod 444) as the historical record of the original prereg's mechanical rule output.",
+  "authoritative_file": "results/frozensel_20260702-1827/frozensel_decision_scoped.json",
+  "authoritative_file_exists": true,
+  "decision_manifest": "results/frozensel_20260702-1827/decision_manifest.json",
+  "not_a_reversal": "Both artifacts agree bm3_kin's selectivity does not significantly/primarily drive BM3's deep-noise performance; the scoped decision adds magnitude (pp-threshold) framing and non-selective-component attribution that the original significance-band rule did not compute."
+}

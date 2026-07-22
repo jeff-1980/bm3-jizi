@@ -1,0 +1,17 @@
+\section{Background and Related Work}
+\label{sec:background}
+
+\subsection{Time-invariant and selective SSMs}
+\label{sec:background:ssms}
+
+Diagonal structured SSMs (S4D)~\cite{gu2022s4d} evolve a linear state with input-independent parameters ($A$, $B$, $C$, $\Delta$), acting as a bank of learned linear filters. Mamba-style blocks~\cite{gu2023mamba} make $\Delta$, $B$, $C$ functions of the input token (selectivity), wrap the scan in a block containing a short causal convolutional stem, a multiplicative SiLU gate on a parallel branch, and residual/normalisation structure; the concrete block used throughout this paper follows the Mamba-3 formulation~\cite{lahoti2026mamba3}. The narrative crediting selectivity for robustness draws on theory showing input-dependent dynamics can represent discontinuity-sensitive projections and counteract memory decay~\cite{huang2025selectivity}, and on \cite{shandirasegaran2026trainingdynamics}. We treat these as \emph{hypotheses to be tested}, not established attributions: the theoretical results concern representability, which does not by itself determine which component earns empirical robustness in a trained block.
+
+\subsection{The unresolved comparison}
+\label{sec:background:unresolved}
+
+Empirically the picture is contested. A systematic 59-dataset comparison finds S4D-based models superior to Mamba variants on clean time-series classification~\cite{saadatmand2026s4d}; theoretical work identifies long-range regimes where Mamba is weaker than S4D~\cite{yu2025blockbiased}. Meanwhile, application literatures---including machine-condition monitoring---contain many Mamba-hybrid methods reporting noise robustness~\cite{yi2025vibrmamba,nguyen2025mlfork,wang2025mdbimamba,xu2025indicative,lai2025denoising}, but none, to our knowledge, isolates \emph{which component} of the block is responsible under controlled conditions. Our clean-data results agree with the S4D-superiority finding (S4D matches or slightly exceeds the Mamba-style block on clean data); the disagreement in the literature dissolves once the drift $\times$ noise regime is examined separately and the credit is assigned at component level.
+
+\subsection{Testbed rationale}
+\label{sec:background:testbed}
+
+We use bearing vibration diagnosis under cross-speed operating-condition drift as the testbed, for three properties that matter to the attribution question rather than to the application: (a) the distribution shift is physically generated (rotation-speed change), not simulated; (b) fault signatures are sparse transients---precisely the discontinuous structures selectivity theory predicts selective SSMs should excel at~\cite{huang2025selectivity}, making it a \emph{favourable} arena for the selectivity hypothesis; and (c) the robustness gap between the Mamba-style block and S4D is large (up to 20$\pp$), giving the attribution chain high signal. The testbed is two-class (details in Section~\ref{sec:protocol:testbed}); the scope of all claims is bounded accordingly (Section~\ref{sec:boundaries}).

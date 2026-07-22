@@ -1,0 +1,13 @@
+{
+  "run_dir": "results/frozensel_20260702-1827",
+  "n_expected": 105,
+  "n_observed": 105,
+  "n_duplicates": 0,
+  "n_missing": 0,
+  "n_extra": 0,
+  "all_pass": true,
+  "duplicate_tuples": [],
+  "missing_tuples": [],
+  "extra_tuples": [],
+  "rule": "exact set-equality of observed (condition, arm, seed) tuples in cells.jsonl against the full cross product of canonical_conditions() x prereg.design.arms x prereg.design.seeds. Any duplicate, missing, or extra tuple fails this check and stops the script before fairness_report.json / aggregation / decision products are written (E0)."
+}

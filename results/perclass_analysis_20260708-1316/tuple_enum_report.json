@@ -1,0 +1,36 @@
+{
+  "candidate_files": [
+    "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627/results/perclass_20260707-2121/cells.jsonl"
+  ],
+  "n_rows": 75,
+  "n_expected": 75,
+  "arms": [
+    "bm3_frozen",
+    "bm3_kin",
+    "frozen_nogate",
+    "s4d",
+    "s4d_plus_gate"
+  ],
+  "conditions": [
+    "clean",
+    "awgn@+0dB",
+    "awgn@-6dB"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "n_duplicates": 0,
+  "duplicate_tuples": [],
+  "n_missing": 0,
+  "missing_tuples": [],
+  "n_extra": 0,
+  "extra_tuples": [],
+  "n_missing_predictions_jsonl": 0,
+  "missing_predictions_jsonl": [],
+  "all_pass": true,
+  "rule": "STOP-IF-NO-GRID: results/perclass_2*/cells.jsonl must exactly enumerate the 5 arms x 3 conditions x 5 seeds = 75 tuple grid (no missing/duplicate/extra), and every row's predictions_file must exist on disk. Any failure is a hard stop: no training is launched by this script under any outcome."
+}

@@ -1,0 +1,14 @@
+condition,bm3_f1,tcn_f1,delta_pp,winner
+clean,80.04,47.08,32.96,BM3
+awgn@+0dB,48.95,45.71,3.24,BM3
+awgn@-2dB,49.03,46.87,2.17,BM3
+awgn@-6dB,48.89,45.17,3.72,BM3
+awgn@-10dB,47.72,47.37,0.35,BM3
+pink@+0dB,48.84,47.59,1.25,BM3
+pink@-2dB,48.93,47.0,1.93,BM3
+pink@-6dB,48.56,47.28,1.28,BM3
+pink@-10dB,48.52,47.64,0.87,BM3
+impulsive@+0dB,48.97,49.36,-0.39,TCN
+impulsive@-2dB,49.27,49.16,0.12,BM3
+impulsive@-6dB,49.27,49.39,-0.12,TCN
+impulsive@-10dB,49.13,49.4,-0.28,TCN

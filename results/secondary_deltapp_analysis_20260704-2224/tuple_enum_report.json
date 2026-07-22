@@ -1,0 +1,13 @@
+{
+  "run_dir": "results/secondary_20260703-1034",
+  "n_expected": 175,
+  "n_observed": 175,
+  "n_duplicates": 0,
+  "n_missing": 0,
+  "n_extra": 0,
+  "all_pass": true,
+  "duplicate_tuples": [],
+  "missing_tuples": [],
+  "extra_tuples": [],
+  "rule": "exact set-equality of observed (condition, arm, seed) tuples in results/secondary_20260703-1034/cells.jsonl (only this directory — other secondary_* dirs contain no cells.jsonl and are ignored per the task's guardrail 0) against the full cross product of canonical_conditions() x prereg.design.arms x prereg.design.seeds (5 arms x 7 conditions x 5 seeds = 175). Any duplicate, missing, or extra tuple fails this check and stops the script before fairness_report.json / aggregation / decision products are written."
+}

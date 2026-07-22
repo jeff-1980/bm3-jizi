@@ -1,0 +1,19 @@
+{
+  "purpose": "establish GPU noise floor before trusting ON-vs-OFF comparison",
+  "arm": "bm3_frozen",
+  "condition": "clean",
+  "seed": 0,
+  "n_epochs": 2,
+  "mode_both_runs": "off",
+  "run_a_dir": "results/preddump_equiv_determinism_20260707-1916/run_a",
+  "run_b_dir": "results/preddump_equiv_determinism_20260707-1916/run_b",
+  "best_macro_f1_a": 0.6902476700893898,
+  "best_macro_f1_b": 0.6971210338514955,
+  "best_macro_f1_abs_diff": 0.0068733637621056776,
+  "checks": {
+    "best_macro_f1_bitexact_match": false,
+    "eval_sha256_identical": true,
+    "n_params_identical": true
+  },
+  "gpu_is_bitexact_deterministic": false
+}

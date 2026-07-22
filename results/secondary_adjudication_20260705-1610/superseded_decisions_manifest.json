@@ -1,0 +1,31 @@
+{
+  "note": "This manifest records supersession by REFERENCE only. None of the files listed below were modified, overwritten, or deleted -- guardrail: never touch existing results/** artifacts. Each entry states why it no longer speaks for the E3 question, without altering the original file.",
+  "superseded_by": "results/secondary_adjudication_20260705-1610/secondary_decision.json",
+  "entries": [
+    {
+      "path": "results/secondary_analysis_20260704-0708/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Used the mean+/-std band heuristic from results/secondary_prereg_20260704-0708/secondary_prereg.json, which prereg_provenance.md declares void (post-dates grid, not the card's rule)."
+    },
+    {
+      "path": "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json",
+      "kept_in_place": true,
+      "reason_superseded": "Explicitly self-labeled no valid preregistered Delta-pp adjudication exists for this run; correct at the time given repo-only search scope. Superseded now that the vault card registration is on record."
+    },
+    {
+      "path": "results/secondary_e3ruling_20260704-2206/secondary_decision_corrected.json",
+      "kept_in_place": true,
+      "reason_superseded": "Replayed the same void mean+/-std band heuristic as a 'corrected' decision (flagged by .orchestrate/0704-215713/r2_review.json as still not a mechanical Delta-pp adjudication)."
+    },
+    {
+      "path": "results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "A no-decision marker for the void band prereg; superseded by an actual decision now that the valid card rule is applied."
+    },
+    {
+      "path": "results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Correctly set preregistered=false/adjudicates_E3=false because it (rightly, at the time) treated results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json (DRAFT, wrong thresholds, self-prohibited retroactive use) as the only candidate prereg. Its per-component aggregate deltas (secondary_component_deltas.json, q_secondary.json) are NOT superseded -- they are the unmodified, frozen source data this ruling's mechanical decision reads from."
+    }
+  ]
+}

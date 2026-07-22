@@ -1,0 +1,48 @@
+{
+  "pink": {
+    "noise_type": "pink",
+    "property_checked": "1/f log-log PSD slope (independent samples, Welch + OLS)",
+    "n_trials": 32,
+    "mean_slope": -0.9940729199191187,
+    "std_slope": 0.07550787013140745,
+    "mean_r2": 0.6829330314224706,
+    "expected_slope": -1.0,
+    "tolerance": [
+      -1.5,
+      -0.5
+    ],
+    "passed": true
+  },
+  "impulsive": {
+    "noise_type": "impulsive",
+    "property_checked": "excess kurtosis + fraction beyond 5×IQR (independent samples)",
+    "alpha": 1.5,
+    "n_trials": 32,
+    "median_excess_kurtosis": 8940.419189453125,
+    "gaussian_baseline_kurtosis": 0.0,
+    "required_min_kurtosis": 5.0,
+    "median_tail_frac_beyond_5IQR": 0.014,
+    "required_min_tail_frac": 0.01,
+    "gaussian_baseline_tail_frac": 3e-05,
+    "passed": true
+  },
+  "snr_check_awgn": {
+    "target_snr_db": -6.0,
+    "actual_snr_db": -6.0,
+    "error_db": 0.0,
+    "pass": true
+  },
+  "snr_check_pink": {
+    "target_snr_db": -6.0,
+    "actual_snr_db": -6.0,
+    "error_db": 0.0,
+    "pass": true
+  },
+  "snr_check_impulsive": {
+    "target_snr_db": -6.0,
+    "actual_snr_db": -6.0,
+    "error_db": 0.0,
+    "pass": true
+  },
+  "all_pass": true
+}

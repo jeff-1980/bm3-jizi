@@ -1,0 +1,354 @@
+{
+  "decision_kind": "scoped_deep_noise_amendment",
+  "prereg_id": "frozensel_prereg_20260702-1826",
+  "prereg_path": "results/frozensel_prereg_20260702-1826/frozensel_prereg.json",
+  "prereg_amendment_note": "Amends frozensel_prereg_20260702-1826.json's significance-band-majority verdict rule with a deep-noise Δpp magnitude rule, per reviewer escalation .orchestrate/0703-081727/ (r1_review.json, r2_review.json). See decision_manifest.json next to this artifact for the citation chain, the self-referential-deadlock note, and the verbatim human ruling authorizing this scope change.",
+  "responds_to_reviewer": ".orchestrate/0702-181858/codex_last_message.txt (verdict=REVISE, issues E1/F1/E3/F2)",
+  "reviewer_verdict_file": ".orchestrate/0703-081727/r2_review.json",
+  "run_dir": "results/frozensel_20260702-1827",
+  "n_cells_total": 105,
+  "n_cells_expected_full": 105,
+  "n_cells_expected_min": 63,
+  "chance_floor": 0.55,
+  "deep_noise_conditions": [
+    "awgn@+0dB",
+    "awgn@-2dB",
+    "awgn@-6dB",
+    "awgn@-10dB"
+  ],
+  "not_primary_threshold_pp": 10.0,
+  "delta_kin_minus_frozen_deep_noise_pp": {
+    "awgn@+0dB": 5.14,
+    "awgn@-2dB": 3.34,
+    "awgn@-6dB": 2.19,
+    "awgn@-10dB": 3.8
+  },
+  "verdict": "SELECTIVITY_NOT_PRIMARY_MECHANISM",
+  "reason": "bm3_kin's advantage over bm3_frozen stays below the +10pp deep-noise threshold in all four deep-noise conditions (Δ(kin-frozen) per q_frozensel.json: awgn@+0dB=+5.14pp, awgn@-2dB=+3.34pp, awgn@-6dB=+2.19pp, awgn@-10dB=+3.80pp), so input-dependent selectivity is not the primary mechanism behind BM3's deep-noise performance.",
+  "attribution": {
+    "frozen_minus_s4d_deep_noise_pp": {
+      "awgn@+0dB": 13.78,
+      "awgn@-2dB": 16.96,
+      "awgn@-6dB": 17.75
+    },
+    "threshold_pp": 13.0,
+    "excluded_condition": "awgn@-10dB (s4d is at_chance there per q_frozensel.json: mean_macro_f1 <= chance_floor; frozen-vs-s4d not a meaningful comparison)",
+    "all_conditions_meet_threshold": true,
+    "conclusion": "bm3_frozen (selectivity removed) still beats s4d by >= +13pp in every checked deep-noise condition, so BM3's deep-noise advantage over the S4D baseline is attributable mainly to non-selective BM3-architecture components, not to input-dependent selectivity."
+  },
+  "source_data": "q_frozensel.json in this run_dir (mean_macro_f1 per condition x arm)",
+  "superseded_significance_majority_decision": {
+    "file": "frozensel_decision.json",
+    "note": "That artifact used the original prereg's significance-band-majority rule and remains on disk (chmod 444, additive-only guardrail); this scoped decision supersedes it for the deep-noise-attribution question per reviewer escalation. The two are consistent: both conclude bm3_kin's input-dependent selectivity does not primarily/significantly drive BM3's deep-noise performance edge."
+  },
+  "per_condition": {
+    "clean": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.7889113668435864,
+        "std_macro_f1": 0.09190080513892597,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.7891426801761589,
+        "std_macro_f1": 0.0910078971002831,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.8099293828610985,
+        "std_macro_f1": 0.05272090684320872,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": -0.02,
+      "delta_kin_minus_s4d_pp": -2.1,
+      "delta_frozen_minus_s4d_pp": -2.08
+    },
+    "awgn@+10dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.834138263857746,
+        "std_macro_f1": 0.08420937197099147,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.7904000390072395,
+        "std_macro_f1": 0.08242702755131029,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.8151068019528879,
+        "std_macro_f1": 0.05285282195482597,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": 4.37,
+      "delta_kin_minus_s4d_pp": 1.9,
+      "delta_frozen_minus_s4d_pp": -2.47
+    },
+    "awgn@+6dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.8792746074166402,
+        "std_macro_f1": 0.06215104958559048,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.8408231987971826,
+        "std_macro_f1": 0.050615573557952806,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.816594903513591,
+        "std_macro_f1": 0.04283864077200703,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": 3.85,
+      "delta_kin_minus_s4d_pp": 6.27,
+      "delta_frozen_minus_s4d_pp": 2.42
+    },
+    "awgn@+0dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.9504527354120729,
+        "std_macro_f1": 0.02120035091958066,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.8990054026992957,
+        "std_macro_f1": 0.07745149091806086,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.7611639300843871,
+        "std_macro_f1": 0.045871321246132274,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": 5.14,
+      "delta_kin_minus_s4d_pp": 18.93,
+      "delta_frozen_minus_s4d_pp": 13.78
+    },
+    "awgn@-2dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.9540689859735769,
+        "std_macro_f1": 0.014827904644471325,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.9207162893384148,
+        "std_macro_f1": 0.05716828550675499,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.7510963927316436,
+        "std_macro_f1": 0.04046851946664718,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": 3.34,
+      "delta_kin_minus_s4d_pp": 20.3,
+      "delta_frozen_minus_s4d_pp": 16.96
+    },
+    "awgn@-6dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.8848135024579923,
+        "std_macro_f1": 0.02490679521780343,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.8629140543469986,
+        "std_macro_f1": 0.08185958333733193,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.6854515902728129,
+        "std_macro_f1": 0.01674066000465632,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "delta_kin_minus_frozen_pp": 2.19,
+      "delta_kin_minus_s4d_pp": 19.94,
+      "delta_frozen_minus_s4d_pp": 17.75
+    },
+    "awgn@-10dB": {
+      "bm3_kin": {
+        "mean_macro_f1": 0.6811135376162417,
+        "std_macro_f1": 0.04085508476962274,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "bm3_frozen": {
+        "mean_macro_f1": 0.6431563004685603,
+        "std_macro_f1": 0.06349659923260464,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": false
+      },
+      "s4d": {
+        "mean_macro_f1": 0.5233467823335552,
+        "std_macro_f1": 0.03852344789721878,
+        "n_seeds_used": 5,
+        "seeds": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "at_chance": true
+      },
+      "delta_kin_minus_frozen_pp": 3.8,
+      "delta_kin_minus_s4d_pp": 15.78,
+      "delta_frozen_minus_s4d_pp": 11.98
+    }
+  }
+}

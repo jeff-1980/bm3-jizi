@@ -1,0 +1,106 @@
+\section{Results}
+\label{sec:results}
+
+Throughout, ``deep noise'' denotes the preregistered adjudication band $\{0, -2, -6\,\mathrm{dB}\}$; $-10\,\mathrm{dB}$ is reported but excluded from adjudication (the time-invariant baseline is at chance there). All values are macro-F1 (\%), mean over 5 seeds. Figure~\ref{fig:chain} summarises the three-step falsification chain that structures this section.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig1_chain}
+\caption{The three-step preregistered falsification chain: freeze selectivity (Section~\ref{sec:results:falsify}), remove one component at a time on the frozen base to localise the necessary ingredient (Section~\ref{sec:results:localise}), and graft that ingredient onto S4D to test sufficiency (Section~\ref{sec:results:graft}).}
+\label{fig:chain}
+\end{figure}
+
+\subsection{Selectivity is not the mechanism}
+\label{sec:results:falsify}
+
+\begin{table}[htbp]
+\centering
+\caption{BM3 vs.\ BM3-frozen vs.\ S4D, macro-F1 (\%) by SNR. $\Delta$(BM3$-$frozen) and $\Delta$(frozen$-$S4D) in percentage points.}
+\label{tab:falsify}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Condition & BM3 & BM3-frozen & S4D & $\Delta$(BM3$-$frozen) & $\Delta$(frozen$-$S4D) \\
+\midrule
+clean & 78.9 & 78.9 & 81.0 & $-0.0$ & $-2.1$ \\
+0\,dB & 95.1 & 89.9 & 76.1 & $+5.1$ & $\mathbf{+13.8}$ \\
+$-2$\,dB & 95.4 & 92.1 & 75.2 & $+3.3$ & $\mathbf{+17.0}$ \\
+$-6$\,dB & 88.5 & 86.3 & 68.6 & $+2.2$ & $\mathbf{+17.7}$ \\
+$-10$\,dB\rlap{$^{*}$} & 68.1 & 64.3 & 52.3 & $+3.8$ & $+12.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig2_snr_curves}
+\caption{Macro-F1 vs.\ SNR for BM3, BM3-frozen, and S4D across the full noise grid. The frozen arm tracks BM3 closely and stays well above S4D throughout the adjudication band, falsifying the selectivity attribution.}
+\label{fig:snr_curves}
+\end{figure}
+
+Freezing selectivity costs at most $5.1\pp$ anywhere in the adjudication band, while the frozen block retains a $13.8$--$17.7\pp$ advantage over S4D (Table~\ref{tab:falsify}, Figure~\ref{fig:snr_curves}). Under the preregistered rule (attribution confirmed only if $\Delta$(BM3$-$frozen) $\geq 10\pp$ in deep noise with the frozen arm collapsing toward S4D), the selectivity attribution is \textbf{rejected}. On clean data S4D matches or slightly exceeds both Mamba-style arms---consistent with the systematic clean-TSC comparison~\cite{saadatmand2026s4d}---so the literature's conflict is a regime effect, and within the noisy regime the credit must lie elsewhere in the block.
+
+\subsection{The gate is the necessary component---and the only one}
+\label{sec:results:localise}
+
+\begin{table}[htbp]
+\centering
+\caption{Single-component removal on the frozen base, $\Delta$(frozen $-$ arm) in percentage points.}
+\label{tab:localise}
+\begin{tabular}{@{}lrrrp{4.0cm}@{}}
+\toprule
+Component removed & 0\,dB & $-2$\,dB & $-6$\,dB & Adjudication \\
+\midrule
+SiLU gate & $\mathbf{+13.1}$ & $\mathbf{+21.1}$ & $\mathbf{+23.5}$ & PRIMARY (all $\geq 8\pp$; arm falls to/below S4D) \\
+conv stem ($k{=}7$) & $-6.6$ & $-2.7$ & $+7.9$ & outside preregistered bins (regime trade-off) \\
+heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside bins (removal beneficial) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig3_ablation_bars}
+\caption{Component-removal $\Delta$ (percentage points, frozen $-$ arm) by SNR for the three single-component ablations on the frozen base. Only gate removal is monotone, large, and one-signed across the adjudication band.}
+\label{fig:ablation_bars}
+\end{figure}
+
+The gate result is unambiguous and monotone in noise depth; critically, the gateless arm does not merely lose the Mamba advantage---it falls \textbf{below plain S4D} at $-2$\,dB (71.7 vs.\ 75.2) and $-6$\,dB (62.5 vs.\ 68.6). A conv-plus-constant-SSM composition without gating is worse than the simpler time-invariant model, a first hint that components interact rather than add. The other two components tell regime stories rather than robustness stories: the convolutional stem pays $+7.9\pp$ at $-6$\,dB but \emph{costs} $21.0\pp$ on clean cross-speed data (removal yields 98.8 vs.\ 77.8, with seed-std collapsing from $8.1$ to $0.6\pp$)---consistent either with speed-specific local temporal patterns mistransferring across conditions, or with optimisation friction under the matched budget; we report both readings. The heavy-tailed state parameterisation is mildly harmful throughout (its S4D-style replacement is the best deep-noise cell in the whole component grid, 90.1 at $-6$\,dB).
+
+\subsection{Necessary but not sufficient: the graft fails}
+\label{sec:results:graft}
+
+\begin{table}[htbp]
+\centering
+\caption{Grafting the SiLU gate branch onto plain S4D (S4D unchanged key-by-key; only the gate branch added).}
+\label{tab:graft}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Condition & S4D+gate & S4D & BM3-frozen & Recovery ratio \\
+\midrule
+0\,dB & 79.8 & 76.2 & 90.6 & 0.249 \\
+$-2$\,dB & 79.4 & 75.2 & 92.8 & 0.239 \\
+$-6$\,dB & 69.2 & 68.6 & 86.0 & $\mathbf{0.035}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig4_graft}
+\caption{Graft outcome: S4D+gate, plain S4D, and BM3-frozen across the adjudication band, with the per-condition recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery collapses to near zero at the deepest adjudicated noise level.}
+\label{fig:graft}
+\end{figure}
+
+Preregistered recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D}) = \mathbf{0.174}$, far below the 0.7 confirmation threshold; at the deepest adjudicated level the graft recovers essentially nothing. Together with Section~\ref{sec:results:localise} this closes a symmetric argument: \emph{removal collapses below the baseline; addition barely moves it}. If the gate were a self-contained robustness mechanism, both directions would move by comparable amounts. Instead the gate functions only inside its native composition. Two readings are compatible with the graft failure and we report both: genuine interaction dependence (the gate needs the conv stem / constant-scan context it co-trained with), and transplant friction (the grafted branch may be harder to optimise in a foreign host under the matched budget; training converges normally, but convergence is not robustness). Under either reading, the practical conclusion stands: single-component transplants should not be expected to confer the donor block's robustness.
+
+\subsection{The interaction effect concentrates on the hard class}
+\label{sec:results:perclass}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig5_perclass}
+\caption{Per-class recall (inner-race, IR, and outer-race, OR) as a function of noise depth, split by gate presence. Gated arms lift IR recall under matched noise; gateless arms let it deteriorate.}
+\label{fig:perclass}
+\end{figure}
+
+Per-class analysis (5 arms $\times$ $\{$clean, 0, $-6\,\mathrm{dB}\}$ $\times$ 5 seeds, per-sample predictions dumped and re-verified against reported metrics cell-by-cell): the inner-race class is hard from the outset (clean recall $0.41$--$0.62$ vs.\ $0.96$--$1.00$ for outer-race). Its trajectory under noise is governed by gate presence: in all three gated arms IR improves under matched noise, while in both gateless arms it deteriorates (Figure~\ref{fig:perclass}). Both ablation directions hit IR hardest---gate removal costs IR $2.6$--$3.8\times$ more F1 than OR at every level, and the graft's noise-time gains also concentrate on IR ($-6$\,dB: $+6.8\pp$ IR vs.\ $+4.2\pp$ OR). Because macro-F1 averages the two classes, the arm-level robustness gaps of Sections~\ref{sec:results:falsify}--\ref{sec:results:graft} are carried substantially by the hard class. This refines the headline claim: the component-interaction effect operates through the low-margin class---multiplicative gating appears to protect precisely the class with the least separability margin---and it is honest to state that the effect is class-concentrated rather than uniform.

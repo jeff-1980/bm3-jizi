@@ -1,0 +1,600 @@
+{
+  "device": "cuda",
+  "arm": "s4d_plus_gate",
+  "base_arm": "s4d",
+  "checks": {
+    "forward_pass": {
+      "built_via": "xjtu_noisy_harness.build_model('s4d_plus_gate', device)",
+      "output_shape": [
+        4,
+        2
+      ],
+      "expected_shape": [
+        4,
+        2
+      ],
+      "shape_ok": true,
+      "has_nan": false,
+      "passed": true
+    },
+    "backward_grads": {
+      "n_params_checked": 42,
+      "params_with_none_grad": [],
+      "passed": true
+    },
+    "state_dict_diff": {
+      "description": "s4d vs s4d_plus_gate (both built via THIS dir's xjtu_noisy_harness.build_model()): every state_dict key outside ARM_ALLOWED_DIFFS (gate_proj.*) must match name+shape AND tensor value exactly (max_abs_diff == 0, float64) \u2014 proof that the graft ADDS a gate branch without touching any S4D original key (arch_map.md \u00a76.4).",
+      "allowed_diff_keys": {
+        "gate_proj.0.weight": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer",
+        "gate_proj.1.weight": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer",
+        "gate_proj.2.weight": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer",
+        "gate_proj.3.weight": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer",
+        "gate_proj.0.bias": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias",
+        "gate_proj.1.bias": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias",
+        "gate_proj.2.bias": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias",
+        "gate_proj.3.bias": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias"
+      },
+      "all_allowed_keys_accounted_for": true,
+      "all_shared_nonallowed_keys_byte_identical": true,
+      "per_key_diff": [
+        {
+          "key": "classifier.bias",
+          "s4d_shape": [
+            2
+          ],
+          "s4d_plus_gate_shape": [
+            2
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "classifier.weight",
+          "s4d_shape": [
+            2,
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            2,
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "conv_embed.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "conv_embed.weight",
+          "s4d_shape": [
+            64,
+            1,
+            8
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            1,
+            8
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "gate_proj.0.bias",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias"
+        },
+        {
+          "key": "gate_proj.0.weight",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64,
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer"
+        },
+        {
+          "key": "gate_proj.1.bias",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias"
+        },
+        {
+          "key": "gate_proj.1.weight",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64,
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer"
+        },
+        {
+          "key": "gate_proj.2.bias",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias"
+        },
+        {
+          "key": "gate_proj.2.weight",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64,
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer"
+        },
+        {
+          "key": "gate_proj.3.bias",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model) bias"
+        },
+        {
+          "key": "gate_proj.3.weight",
+          "s4d_shape": null,
+          "s4d_plus_gate_shape": [
+            64,
+            64
+          ],
+          "max_abs_diff": null,
+          "status": "allowed_diff (expected \u2014 new gate_proj key, not present in s4d)",
+          "reason": "arch_map.md \u00a76.3 \u2014 new per-layer nn.Linear(d_model,d_model): z's source projection, applied to the same ln(h) that also feeds _S4DLayer"
+        },
+        {
+          "key": "layer_norms.0.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.0.weight",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.1.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.1.weight",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.2.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.2.weight",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.3.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "layer_norms.3.weight",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "norm.bias",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "norm.weight",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.0.D",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.0.kernel_fn.B",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.0.kernel_fn.C",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.0.kernel_fn.log_dt",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.0.kernel_fn.log_neg_A",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.1.D",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.1.kernel_fn.B",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.1.kernel_fn.C",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.1.kernel_fn.log_dt",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.1.kernel_fn.log_neg_A",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.2.D",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.2.kernel_fn.B",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.2.kernel_fn.C",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.2.kernel_fn.log_dt",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.2.kernel_fn.log_neg_A",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.3.D",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.3.kernel_fn.B",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.3.kernel_fn.C",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.3.kernel_fn.log_dt",
+          "s4d_shape": [
+            64
+          ],
+          "s4d_plus_gate_shape": [
+            64
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        },
+        {
+          "key": "s4d_layers.3.kernel_fn.log_neg_A",
+          "s4d_shape": [
+            64,
+            128
+          ],
+          "s4d_plus_gate_shape": [
+            64,
+            128
+          ],
+          "max_abs_diff": 0.0,
+          "status": "identical",
+          "reason": null
+        }
+      ],
+      "unexpected_missing_keys": [],
+      "unexpected_added_keys": [],
+      "unexpected_shape_diff_keys": [],
+      "unexpected_value_diff_keys": [],
+      "diff_is_gate_only": true,
+      "passed": true
+    }
+  },
+  "n_params": {
+    "s4d": 100162,
+    "s4d_plus_gate": 116802,
+    "delta": 16640
+  },
+  "expected_param_delta(arch_map_section6_5)": 16640,
+  "delta_explained": true,
+  "param_table": {
+    "params": {
+      "bm3_kin": 177938,
+      "bm3_frozen": 112410,
+      "frozen_noconv": 112026,
+      "frozen_nogate": 79642,
+      "frozen_As4d": 112410,
+      "cnn1d": 100546,
+      "tcn": 100546,
+      "cnnlstm": 117186,
+      "s4d": 100162,
+      "s4d_wide": 178498,
+      "s4d_plus_gate": 116802,
+      "bm3_nokin (== bm3_kin architecture)": 177938
+    },
+    "s4d_expected": 100162,
+    "s4d_plus_gate_expected": 116802,
+    "s4d_matches_expected": true,
+    "s4d_plus_gate_matches_expected": true,
+    "passed": true
+  },
+  "ALL_PASS": true
+}

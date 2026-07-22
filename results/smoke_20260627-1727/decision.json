@@ -1,0 +1,14 @@
+{
+  "verdict": "c",
+  "verdict_label": "CLAIM_FALSIFIED",
+  "clean_bm3_vs_best_baseline_pp": null,
+  "bm3_wins_clean": null,
+  "bm3_wins_nongauss": "0/1",
+  "bm3_wins_awgn": "0/4",
+  "q1_bm3_vs_tcn_wins": 0,
+  "n_conditions_q1": 1,
+  "losing_cells": [
+    "pink@-6dB"
+  ],
+  "winning_cells": []
+}

@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+s4d,awgn@-6dB,OR,12477,5043,17520
+s4d,awgn@-6dB,IR,3810,4910,8720

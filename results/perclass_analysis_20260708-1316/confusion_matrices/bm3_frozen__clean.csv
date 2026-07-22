@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+bm3_frozen,clean,OR,17303,217,17520
+bm3_frozen,clean,IR,3917,4803,8720

@@ -1,0 +1,16 @@
+\section{Boundaries and Limitations}
+\label{sec:boundaries}
+
+We state the scope plainly.
+
+\begin{enumerate}
+\item \textbf{Testbed scope.} All claims are bounded to cross-speed bearing vibration, binary classification, GPU execution (no edge/real-time claims); multi-class and cross-dataset replication is future work.
+\item \textbf{Attribution level.} The credit assigned to ``the rest of the composition'' is by elimination within the enumerated component set; pairwise interaction terms are not decomposed.
+\item \textbf{The transplant conclusion is budget-conditional.} All arms share a matched 20-epoch budget; the grafted gate trains normally yet recovers little, and convergence is not robustness (Section~\ref{sec:results:graft})---but we cannot exclude that a longer or graft-tuned budget would recover more. ``Not transplantable'' therefore means \emph{not transplantable under a matched training budget}, and the headline should be read with this condition attached.
+\item \textbf{Matched-SNR scope.} Training and evaluation share the same injected SNR throughout (Section~\ref{sec:protocol:testbed}); ``robustness'' in this paper is matched-noise robustness under noise-aware training, not clean-train/noisy-test generalisation. The gate's benefit may operate by exploiting matched-noise training (consistent with Section~\ref{sec:results:perclass}) rather than by test-time denoising; attribution under mismatched-noise protocols is untested and may differ.
+\item \textbf{Graft dual reading.} Interaction dependence vs.\ transplant friction (Section~\ref{sec:results:graft}), the latter now subsumed under the budget condition of item~3.
+\item \textbf{Noise-regime coverage.} Under strong coloured noise at $-10$\,dB a TCN baseline slightly overtakes the Mamba-style block, and $-10$\,dB is near-chance for the time-invariant baseline and excluded from adjudication; the demonstrated advantage regime is matched, Gaussian-dominated noise.
+\item \textbf{Conv-stem dual reading.} Its clean-data cost admits both representation-mistransfer and optimisation-difficulty readings, reported in place (Section~\ref{sec:results:localise}).
+\end{enumerate}
+
+Process-level non-determinism ($\sim\!0.7\pp$, an order below seed variance) and the full fingerprint/adjudication trail are documented in the reproducibility appendix (Appendices~\ref{app:fairness}--\ref{app:confusion}).

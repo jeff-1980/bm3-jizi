@@ -1,0 +1,27 @@
+{
+  "check": "eval_macro_f1 dump-off/default behavioral equivalence vs reconstructed pre-edit baseline",
+  "model": "TinyModel(nn.Linear, fixed weights, eval() mode, deterministic synthetic batches)",
+  "note_no_training_no_real_dataset": true,
+  "per_f1_match_default_call": true,
+  "macro_f1_match_default_call": true,
+  "per_f1_match_explicit_collect_predictions_false": true,
+  "macro_f1_match_explicit_collect_predictions_false": true,
+  "per_f1_match_dumpon_same_source_as_dumpoff": true,
+  "macro_f1_match_dumpon_same_source_as_dumpoff": true,
+  "preedit_per_f1": [
+    0.39436619718309857,
+    0.5168539325842696
+  ],
+  "preedit_macro_f1": 0.45561006488368405,
+  "current_default_per_f1": [
+    0.39436619718309857,
+    0.5168539325842696
+  ],
+  "current_default_macro_f1": 0.45561006488368405,
+  "current_dumpon_per_f1": [
+    0.39436619718309857,
+    0.5168539325842696
+  ],
+  "current_dumpon_macro_f1": 0.45561006488368405,
+  "all_pass": true
+}

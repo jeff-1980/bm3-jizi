@@ -1,0 +1,1085 @@
+{
+  "decision_kind": "mechanical_vault_prereg_application",
+  "preregistered": true,
+  "adjudicates_E3": true,
+  "prereg_source": "vault card bm3-secondary-ablation-decide (created 2026-07-03) + log.md 2026-07-03, materialized in prereg_provenance.md",
+  "prereg_card_path": "/mnt/c/Users/ThinkPad/Obsidian Vault/故障诊断Wiki/_tasks/bm3-secondary-ablation-decide.md",
+  "prereg_provenance_doc": "prereg_provenance.md",
+  "run_dir": "results/secondary_20260703-1034",
+  "grid_start": "2026-07-03T10:34",
+  "prereg_predates_grid": true,
+  "void_preregs": {
+    "results/secondary_prereg_20260704-0708/secondary_prereg.json": "post-dates grid start and grid completion; mean+/-std band heuristic; not the card's rule; void for E3.",
+    "results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json": "post-dates grid; status=DRAFT_PENDING_REVIEWER_APPROVAL; self-declares it MUST NOT be applied retroactively to this run_dir; void for E3."
+  },
+  "decisive_rule": "Vault card decisive rule (verbatim, see prereg_provenance.md): for each component arm X in {frozen_noconv, frozen_nogate, frozen_As4d}, over deep-noise conditions {awgn@+0dB, awgn@-2dB, awgn@-6dB}: PRIMARY_DRIVER iff Delta(frozen-X) >= +8pp in ALL three deep-noise bins AND X collapses toward s4d (Delta(X-s4d) <= +5pp in all three deep-noise bins). CONTRIBUTOR iff mean of the three deep-noise Delta(frozen-X) values is in [+3, +8)pp. NOT_DRIVER iff |mean of the three deep-noise Delta(frozen-X) values| < +3pp. No single PRIMARY_DRIVER but >=2 CONTRIBUTOR arms => overall DISTRIBUTED_ACROSS_COMPONENTS. Significance-vote or any non-preregistered criterion is explicitly forbidden by the card.",
+  "last_effective_reviewer_verdict_file": ".orchestrate/0704-070402/r2_review.json",
+  "last_effective_reviewer_verdict": "REVISE",
+  "reviewer_revise_reason_addressed": "r1/r2 review at .orchestrate/0704-070402 correctly found that the executor's decision used a non-preregistered mean+/-std band heuristic instead of a preregistered Delta-pp rule, and explicitly invited: 'Replace the adjudication artifact with one that mechanically applies an already-registered Delta-pp threshold, if such a valid prior registration exists' (.orchestrate/0704-070402/r1_review.json). This decision does exactly that, using the rule already present in the vault card since 2026-07-03 (predating the grid) rather than inventing a new one. See e3_human_ruling.json for why the automated reviewer could not see the card itself (structural scope limitation, not an error).",
+  "per_component_verdicts": {
+    "frozen_noconv": {
+      "verdict": "NOT_DRIVER",
+      "rule_applied": "neither PRIMARY_DRIVER nor CONTRIBUTOR condition met; |mean of three deep-noise bins| = 0.4367pp",
+      "mean_deep_noise_delta_pp": -0.4367,
+      "deep_noise_bins_used": [
+        "awgn@+0dB",
+        "awgn@-2dB",
+        "awgn@-6dB"
+      ],
+      "deep_noise_delta_frozen_minus_X_pp": {
+        "awgn@+0dB": -6.56,
+        "awgn@-2dB": -2.66,
+        "awgn@-6dB": 7.91
+      },
+      "deep_noise_delta_X_minus_s4d_pp": {
+        "awgn@+0dB": 20.96,
+        "awgn@-2dB": 20.3,
+        "awgn@-6dB": 9.52
+      }
+    },
+    "frozen_nogate": {
+      "verdict": "PRIMARY_DRIVER",
+      "rule_applied": "all three deep-noise bins of delta_frozen_minus_X_pp >= 8.0 AND all three deep-noise bins of delta_X_minus_s4d_pp <= 5.0",
+      "deep_noise_bins_used": [
+        "awgn@+0dB",
+        "awgn@-2dB",
+        "awgn@-6dB"
+      ],
+      "deep_noise_delta_frozen_minus_X_pp": {
+        "awgn@+0dB": 13.05,
+        "awgn@-2dB": 21.1,
+        "awgn@-6dB": 23.53
+      },
+      "deep_noise_delta_X_minus_s4d_pp": {
+        "awgn@+0dB": 1.36,
+        "awgn@-2dB": -3.46,
+        "awgn@-6dB": -6.1
+      }
+    },
+    "frozen_As4d": {
+      "verdict": "NOT_DRIVER",
+      "rule_applied": "neither PRIMARY_DRIVER nor CONTRIBUTOR condition met; |mean of three deep-noise bins| = 2.9233pp",
+      "mean_deep_noise_delta_pp": -2.9233,
+      "deep_noise_bins_used": [
+        "awgn@+0dB",
+        "awgn@-2dB",
+        "awgn@-6dB"
+      ],
+      "deep_noise_delta_frozen_minus_X_pp": {
+        "awgn@+0dB": -2.41,
+        "awgn@-2dB": -2.21,
+        "awgn@-6dB": -4.15
+      },
+      "deep_noise_delta_X_minus_s4d_pp": {
+        "awgn@+0dB": 16.81,
+        "awgn@-2dB": 19.85,
+        "awgn@-6dB": 21.58
+      }
+    }
+  },
+  "per_component_evidence": {
+    "frozen_noconv": {
+      "all_conditions_delta_frozen_minus_X_pp": {
+        "clean": -20.95,
+        "awgn@+10dB": -18.96,
+        "awgn@+6dB": -15.19,
+        "awgn@+0dB": -6.56,
+        "awgn@-2dB": -2.66,
+        "awgn@-6dB": 7.91,
+        "awgn@-10dB": 12.05
+      },
+      "all_conditions_delta_X_minus_s4d_pp": {
+        "clean": 17.57,
+        "awgn@+10dB": 17.46,
+        "awgn@+6dB": 17.1,
+        "awgn@+0dB": 20.96,
+        "awgn@-2dB": 20.3,
+        "awgn@-6dB": 9.52,
+        "awgn@-10dB": 0.24
+      },
+      "OUT_OF_PREREG_BINS": {
+        "bins": [
+          "clean",
+          "awgn@+10dB",
+          "awgn@+6dB",
+          "awgn@-10dB"
+        ],
+        "note": "reported for transparency per card's '逐档证据在场、不掩盖逐档'; NOT used in classification",
+        "shape_annotation_delta_frozen_minus_X": "sign changes across out-of-prereg bins (not monotonic in one direction)",
+        "delta_frozen_minus_X_pp": {
+          "clean": -20.95,
+          "awgn@+10dB": -18.96,
+          "awgn@+6dB": -15.19,
+          "awgn@-10dB": 12.05
+        },
+        "delta_X_minus_s4d_pp": {
+          "clean": 17.57,
+          "awgn@+10dB": 17.46,
+          "awgn@+6dB": 17.1,
+          "awgn@-10dB": 0.24
+        }
+      },
+      "raw_mean_std_macro_f1_by_condition": {
+        "clean": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7782226068730947,
+            "std_macro_f1": 0.08127227883370043,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.9877167717992092,
+            "std_macro_f1": 0.006130164530928055,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8119701622736294,
+            "std_macro_f1": 0.05325762981870527,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7996313517101333,
+            "std_macro_f1": 0.06749926198757278,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.9892649867791476,
+            "std_macro_f1": 0.006500455890286236,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8146929197021473,
+            "std_macro_f1": 0.052720571251788084,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8365555566571219,
+            "std_macro_f1": 0.03739673576063133,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.9884954992909138,
+            "std_macro_f1": 0.008690356463583009,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8175380450824813,
+            "std_macro_f1": 0.04504402835565481,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+0dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9064205876063728,
+            "std_macro_f1": 0.06637527735211927,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.9720523350055703,
+            "std_macro_f1": 0.009857761342030374,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7624087568951109,
+            "std_macro_f1": 0.045193124276846235,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-2dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9283133502027292,
+            "std_macro_f1": 0.04571508985711031,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.9549333718257056,
+            "std_macro_f1": 0.007623034671192268,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7518870839867308,
+            "std_macro_f1": 0.03893709790231638,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8599154309620903,
+            "std_macro_f1": 0.0935382072912062,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.7807835216769508,
+            "std_macro_f1": 0.06196724256552592,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.6856281128195365,
+            "std_macro_f1": 0.01639345706672035,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.6463042171250878,
+            "std_macro_f1": 0.06140131044886217,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_noconv": {
+            "mean_macro_f1": 0.5257873749135025,
+            "std_macro_f1": 0.013147884658935379,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": true
+          },
+          "s4d": {
+            "mean_macro_f1": 0.5233467823335552,
+            "std_macro_f1": 0.03852344789721878,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": true
+          }
+        }
+      }
+    },
+    "frozen_nogate": {
+      "all_conditions_delta_frozen_minus_X_pp": {
+        "clean": 6.78,
+        "awgn@+10dB": 8.42,
+        "awgn@+6dB": 12.21,
+        "awgn@+0dB": 13.05,
+        "awgn@-2dB": 21.1,
+        "awgn@-6dB": 23.53,
+        "awgn@-10dB": 12.67
+      },
+      "all_conditions_delta_X_minus_s4d_pp": {
+        "clean": -10.16,
+        "awgn@+10dB": -9.92,
+        "awgn@+6dB": -10.31,
+        "awgn@+0dB": 1.36,
+        "awgn@-2dB": -3.46,
+        "awgn@-6dB": -6.1,
+        "awgn@-10dB": -0.37
+      },
+      "OUT_OF_PREREG_BINS": {
+        "bins": [
+          "clean",
+          "awgn@+10dB",
+          "awgn@+6dB",
+          "awgn@-10dB"
+        ],
+        "note": "reported for transparency per card's '逐档证据在场、不掩盖逐档'; NOT used in classification",
+        "shape_annotation_delta_frozen_minus_X": "consistently non-negative (frozen >= X) across out-of-prereg bins",
+        "delta_frozen_minus_X_pp": {
+          "clean": 6.78,
+          "awgn@+10dB": 8.42,
+          "awgn@+6dB": 12.21,
+          "awgn@-10dB": 12.67
+        },
+        "delta_X_minus_s4d_pp": {
+          "clean": -10.16,
+          "awgn@+10dB": -9.92,
+          "awgn@+6dB": -10.31,
+          "awgn@-10dB": -0.37
+        }
+      },
+      "raw_mean_std_macro_f1_by_condition": {
+        "clean": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7782226068730947,
+            "std_macro_f1": 0.08127227883370043,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.7103859264633032,
+            "std_macro_f1": 0.07380995851804117,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8119701622736294,
+            "std_macro_f1": 0.05325762981870527,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7996313517101333,
+            "std_macro_f1": 0.06749926198757278,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.7154779792638715,
+            "std_macro_f1": 0.07401661120260312,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8146929197021473,
+            "std_macro_f1": 0.052720571251788084,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8365555566571219,
+            "std_macro_f1": 0.03739673576063133,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.7144858728006429,
+            "std_macro_f1": 0.047957929628602264,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8175380450824813,
+            "std_macro_f1": 0.04504402835565481,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+0dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9064205876063728,
+            "std_macro_f1": 0.06637527735211927,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.775960811058401,
+            "std_macro_f1": 0.08257775766974187,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7624087568951109,
+            "std_macro_f1": 0.045193124276846235,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-2dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9283133502027292,
+            "std_macro_f1": 0.04571508985711031,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.7172692417435496,
+            "std_macro_f1": 0.14788536665070084,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7518870839867308,
+            "std_macro_f1": 0.03893709790231638,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8599154309620903,
+            "std_macro_f1": 0.0935382072912062,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.6246293335557078,
+            "std_macro_f1": 0.11559060610808235,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.6856281128195365,
+            "std_macro_f1": 0.01639345706672035,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.6463042171250878,
+            "std_macro_f1": 0.06140131044886217,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_nogate": {
+            "mean_macro_f1": 0.519616067204573,
+            "std_macro_f1": 0.008895025046464356,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": true
+          },
+          "s4d": {
+            "mean_macro_f1": 0.5233467823335552,
+            "std_macro_f1": 0.03852344789721878,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": true
+          }
+        }
+      }
+    },
+    "frozen_As4d": {
+      "all_conditions_delta_frozen_minus_X_pp": {
+        "clean": -0.76,
+        "awgn@+10dB": -0.23,
+        "awgn@+6dB": 0.21,
+        "awgn@+0dB": -2.41,
+        "awgn@-2dB": -2.21,
+        "awgn@-6dB": -4.15,
+        "awgn@-10dB": -1.62
+      },
+      "all_conditions_delta_X_minus_s4d_pp": {
+        "clean": -2.61,
+        "awgn@+10dB": -1.28,
+        "awgn@+6dB": 1.69,
+        "awgn@+0dB": 16.81,
+        "awgn@-2dB": 19.85,
+        "awgn@-6dB": 21.58,
+        "awgn@-10dB": 13.92
+      },
+      "OUT_OF_PREREG_BINS": {
+        "bins": [
+          "clean",
+          "awgn@+10dB",
+          "awgn@+6dB",
+          "awgn@-10dB"
+        ],
+        "note": "reported for transparency per card's '逐档证据在场、不掩盖逐档'; NOT used in classification",
+        "shape_annotation_delta_frozen_minus_X": "sign changes across out-of-prereg bins (not monotonic in one direction)",
+        "delta_frozen_minus_X_pp": {
+          "clean": -0.76,
+          "awgn@+10dB": -0.23,
+          "awgn@+6dB": 0.21,
+          "awgn@-10dB": -1.62
+        },
+        "delta_X_minus_s4d_pp": {
+          "clean": -2.61,
+          "awgn@+10dB": -1.28,
+          "awgn@+6dB": 1.69,
+          "awgn@-10dB": 13.92
+        }
+      },
+      "raw_mean_std_macro_f1_by_condition": {
+        "clean": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7782226068730947,
+            "std_macro_f1": 0.08127227883370043,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.7858234863058622,
+            "std_macro_f1": 0.06600003906720812,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8119701622736294,
+            "std_macro_f1": 0.05325762981870527,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.7996313517101333,
+            "std_macro_f1": 0.06749926198757278,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.8018887833600086,
+            "std_macro_f1": 0.07154319339994628,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8146929197021473,
+            "std_macro_f1": 0.052720571251788084,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8365555566571219,
+            "std_macro_f1": 0.03739673576063133,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.834409667227931,
+            "std_macro_f1": 0.030126601091041313,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.8175380450824813,
+            "std_macro_f1": 0.04504402835565481,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@+0dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9064205876063728,
+            "std_macro_f1": 0.06637527735211927,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.9305298605497507,
+            "std_macro_f1": 0.04458000591337667,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7624087568951109,
+            "std_macro_f1": 0.045193124276846235,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-2dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.9283133502027292,
+            "std_macro_f1": 0.04571508985711031,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.9504256185049883,
+            "std_macro_f1": 0.022602464075630612,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.7518870839867308,
+            "std_macro_f1": 0.03893709790231638,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-6dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.8599154309620903,
+            "std_macro_f1": 0.0935382072912062,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.9014472188476699,
+            "std_macro_f1": 0.020966491780039887,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.6856281128195365,
+            "std_macro_f1": 0.01639345706672035,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          }
+        },
+        "awgn@-10dB": {
+          "bm3_frozen": {
+            "mean_macro_f1": 0.6463042171250878,
+            "std_macro_f1": 0.06140131044886217,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "frozen_As4d": {
+            "mean_macro_f1": 0.6625358257961447,
+            "std_macro_f1": 0.0683781757168681,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": false
+          },
+          "s4d": {
+            "mean_macro_f1": 0.5233467823335552,
+            "std_macro_f1": 0.03852344789721878,
+            "n_seeds_used": 5,
+            "seeds": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "at_chance": true
+          }
+        }
+      }
+    }
+  },
+  "overall_verdict": "SINGLE_PRIMARY_DRIVER",
+  "overall_reason": "exactly one component arm (frozen_nogate) meets PRIMARY_DRIVER; no other arm is PRIMARY_DRIVER or CONTRIBUTOR.",
+  "supersedes": [
+    "results/secondary_analysis_20260704-0708/secondary_decision.json",
+    "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json",
+    "results/secondary_e3ruling_20260704-2206/secondary_decision_corrected.json",
+    "results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json",
+    "results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json"
+  ],
+  "supersedes_note": "The five artifacts above remain in place, unmodified, as historical record (guardrail: never overwrite/delete results/**). Each is superseded for the E3 question by this artifact; see superseded_decisions_manifest.json in this directory for the reason each one is superseded."
+}

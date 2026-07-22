@@ -1,0 +1,18 @@
+{
+  "candidate_files": [
+    "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627/results/graft_20260705-224137/cells.jsonl"
+  ],
+  "n_rows_per_file": {
+    "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627/results/graft_20260705-224137/cells.jsonl": 35
+  },
+  "n_expected": 35,
+  "n_observed": 35,
+  "n_duplicates": 0,
+  "n_missing": 0,
+  "n_extra": 0,
+  "duplicate_tuples": [],
+  "missing_tuples": [],
+  "extra_tuples": [],
+  "all_pass": true,
+  "rule": "STOP-IF-NO-GRID: union of every results/graft_*/cells.jsonl row with arm==s4d_plus_gate must exactly equal the cross product of {clean,+10,+6,0,-2,-6,-10} x 5 seeds = 35 tuples. Any missing/duplicate/extra tuple is a hard stop: no training is launched by this script under any outcome; a failing grid is reported needs_human and the run stops here."
+}

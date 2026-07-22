@@ -1,0 +1,6 @@
+condition,bm3_f1,best_baseline,best_bl_f1,delta_pp,bm3_wins
+clean,80.04,s4d,80.98,-0.94,False
+awgn@+0dB,48.95,s4d,49.7,-0.74,False
+awgn@-2dB,49.03,s4d,49.75,-0.71,False
+awgn@-6dB,48.89,s4d,49.78,-0.89,False
+awgn@-10dB,47.72,s4d,49.67,-1.95,False

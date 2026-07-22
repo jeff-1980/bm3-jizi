@@ -1,0 +1,49 @@
+{
+  "purpose": "Corrects the critical E3 finding raised in .orchestrate/0704-070402/r1_review.json against results/secondary_analysis_20260704-0708/secondary_decision.json and its prereg results/secondary_prereg_20260704-0708/secondary_prereg.json. Neither of those two files is modified or deleted (both already chmod 444, protected by the additive-only guardrail); this artifact supersedes them for E3-adjudication purposes only and is itself chmod 444 immediately after being written.",
+  "responds_to_reviewer": ".orchestrate/0704-070402/r1_review.json (verdict=REVISE)",
+  "reviewer_finding": {
+    "severity": "critical",
+    "claim": "§E3 is not satisfied. The adjudication uses a non-overlapping mean±std band heuristic as the decisive rule, not a preregistered Δpp threshold. This is explicit in results/secondary_prereg_20260704-0708/secondary_prereg.json:41-44 and repeated in results/secondary_analysis_20260704-0708/secondary_decision.json:12. The prereg also discloses that the full grid data already existed before the rule file was authored at results/secondary_prereg_20260704-0708/secondary_prereg.json:4-6, so this cannot be treated as the rubric-required preregistered Δpp-gated adjudication.",
+    "suggestion": "Replace the adjudication artifact with one that mechanically applies an already-registered Δpp threshold, if such a valid prior registration exists. If no prior Δpp threshold exists, do not claim §E3 PASS; mark the current decision as exploratory/post-hoc and create a fresh reviewer-approved preregistration for a future run before inspecting or aggregating that future run's results."
+  },
+  "search_for_a_valid_prior_delta_pp_threshold": {
+    "search_performed": "Searched the full working tree (results/**, .orchestrate/** including protected_snapshot copies, and repo root) for any artifact that defines a Δpp / percentage-point decision threshold, at any timestamp.",
+    "candidates_found": [
+      {
+        "artifact": "results/frozensel_20260702-1827/frozensel_decision_scoped.json and decision_manifest.json (a +10pp/+13pp deep-noise Δ(kin-frozen) rule)",
+        "why_it_does_not_qualify": "This is the ONLY Δpp-threshold rule anywhere in the tree, and it was itself already adjudicated and REJECTED as a valid E3-satisfying criterion in results/frozensel_e3adjudication_20260703-0847/e3_adjudication.json (finding_1_nonpreregistered_criterion): it was authored after its grid's data already existed, is formally designated post_hoc_exploratory=true / preregistered=false / adjudicates_E3=false there, and remains so. A rule already ruled invalid for its own study cannot be borrowed to retroactively validate a different study's adjudication. It is also scoped to a different 3-arm (kin/frozen/s4d) comparison, not this study's 3-component-ablation-vs-frozen design (arch_map.md §§5a/5b/5c) -- the arm semantics do not transfer even if the label did."
+      }
+    ],
+    "conclusion": "No valid prior Δpp threshold registration exists anywhere in the tree for this (or any) study. Per the reviewer's second branch, §E3 PASS must NOT be claimed for the current secondary component-ablation analysis."
+  },
+  "why_the_existing_band_rule_also_cannot_satisfy_e3": {
+    "distinction_from_frozensel_precedent": "results/frozensel_prereg_20260702-1826/frozensel_prereg.json was written 2026-07-02T18:26, BEFORE results/frozensel_20260702-1827/ (grid launch 18:27) existed -- true pre-launch preregistration, which is why frozensel_decision.json's mean±std-band verdict WAS designated the authoritative E3 artifact for that study in results/frozensel_e3adjudication_20260703-0847/e3_adjudication.json.",
+    "why_secondary_differs": "results/secondary_prereg_20260704-0708/secondary_prereg.json explicitly discloses (its own lines 4-6, field grid_data_already_existed_at_write_time=true) that results/secondary_20260703-1034/cells.jsonl already held its full 175/175 completed cells (finished 2026-07-04T03:06) nearly 4 hours before the prereg file was authored (2026-07-04T07:08). Independently confirmed here: `stat` shows cells.jsonl mtime 2026-07-04 03:06:01 vs secondary_prereg.json mtime 2026-07-04 07:09:39. Even though the prereg's authors disclose they did not compute or view any aggregate number before fixing the rule (secondary_prereg.json's own prereg_timing_disclosure), the grid's raw per-seed data existing and being inspectable at authoring time is exactly the condition the reviewer's suggestion treats as disqualifying for an E3 claim -- unlike frozensel's genuinely pre-launch prereg."
+  },
+  "designation": {
+    "results/secondary_analysis_20260704-0708/secondary_decision.json": "Unmodified. Formally re-designated POST-HOC / EXPLORATORY. MUST NOT be cited as satisfying §E3 (preregistered-decision-criterion compliance). Its directional conclusions (overall_verdict=NO_COMPONENTS_SHOWN_TO_CONTRIBUTE; all 3 component-arm verdicts=COMPONENT_NOT_SHOWN_TO_CONTRIBUTE) may still be reported as exploratory context, exactly as frozensel_decision_scoped.json's Delta magnitudes were retained as exploratory context after its own re-designation.",
+    "results/secondary_prereg_20260704-0708/secondary_prereg.json": "Unmodified. Its own prereg_timing_disclosure already correctly flagged itself as a weaker-than-pre-launch guarantee; this adjudication makes the consequence of that disclosure explicit and binding: it does not satisfy §E3's preregistered-Delta pp-gated-adjudication requirement.",
+    "e3_status_for_secondary_component_ablation_study": "NOT SATISFIED. No valid preregistered Δpp-gated adjudication exists for results/secondary_20260703-1034/. This study's decision output is exploratory/post-hoc only, pending a genuinely fresh run under the preregistration created below."
+  },
+  "resolution_fresh_preregistration_for_a_future_run": {
+    "artifact": "results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json",
+    "scope": "Locks a mechanical Δpp-threshold decision rule for a FUTURE secondary-ablation-style grid run that has not yet been launched and whose cells.jsonl does not yet exist anywhere in this tree as of this adjudication's timestamp.",
+    "critical_restriction": "This new prereg explicitly MUST NOT be applied retroactively to results/secondary_20260703-1034/ (this run's grid data already exists and has already been aggregated/viewed in this very session via secondary_analysis_20260704-0708/ and the reviewer excerpt quoted above) -- doing so would repeat exactly the post-hoc-rationalization risk this fix is correcting. It is only valid for a run_dir created strictly after this file's chmod-444 timestamp, subject to the fairness/tuple-enumeration gates already established in secondary_aggregate.py.",
+    "reviewer_approval": "This file is submitted as part of the current review round for reviewer sign-off (.orchestrate/0704-070402/); it is not self-certified as reviewer-approved. It becomes usable as an E3-adjudicating prereg for a future run only once a reviewer records a PASS verdict against the round containing it."
+  },
+  "code_fix_for_future_runs": {
+    "file": "secondary_aggregate.py",
+    "function": "apply_decision_rule() (~line 586-606)",
+    "change": "Added four self-labeling fields to every decision dict this function writes: post_hoc_exploratory=true, preregistered=false, adjudicates_E3=false, authoritative_e3_prereg=null (no valid Delta-pp prereg exists yet for this design). This makes the post-hoc/exploratory status of the mean±std-band verdict machine-readable in the artifact itself, exactly mirroring frozensel_aggregate.py::apply_scoped_decision_rule()'s fix in results/frozensel_e3adjudication_20260703-0847/e3_adjudication.json, so this mislabeling cannot recur the next time this function runs against a fresh run_dir. Declared verbatim with exact before/after lines in REPORT_secondary_e3fix_20260704-0719.md.",
+    "note": "This code change does NOT touch results/secondary_analysis_20260704-0708/secondary_decision.json (already written, chmod 444, untouched) -- it only affects decision.json files produced by future invocations of this script."
+  },
+  "net_effect": {
+    "results/secondary_analysis_20260704-0708/secondary_decision.json": "Unmodified. Now explicitly designated post-hoc/exploratory, NOT the §E3-adjudicating artifact.",
+    "results/secondary_prereg_20260704-0708/secondary_prereg.json": "Unmodified. Its band rule is confirmed insufficient for §E3 given the disclosed post-hoc timing.",
+    "secondary_aggregate.py": "One function patched (root-cause fix for future runs only; does not touch any already-written results/** artifact): apply_decision_rule() now self-labels its output as post_hoc_exploratory / not adjudicates_E3. Declared verbatim in REPORT_secondary_e3fix_20260704-0719.md.",
+    "new_artifacts": [
+      "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json (this file)",
+      "results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json (fresh prereg, scoped to a future run only)"
+    ]
+  }
+}

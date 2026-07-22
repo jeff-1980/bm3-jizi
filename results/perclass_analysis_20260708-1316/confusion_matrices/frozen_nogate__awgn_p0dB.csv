@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+frozen_nogate,awgn@+0dB,OR,16092,1428,17520
+frozen_nogate,awgn@+0dB,IR,5406,3314,8720

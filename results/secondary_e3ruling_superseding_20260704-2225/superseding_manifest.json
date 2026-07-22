@@ -1,0 +1,45 @@
+{
+  "purpose": "Supersedes results/secondary_e3ruling_20260704-2206/secondary_decision_corrected.json in response to a reviewer finding that that file (a) republished mean+/-std band-rule per-component verdicts as the decisive basis of a 'corrected' decision artifact despite carrying preregistered=false/adjudicates_E3=false, and (b) carried conflicting reviewer-verdict citations (a stale PASS in responds_to_reviewer/reviewer_verdict_file alongside a separately-named later REVISE at line 1025). This directory and its sibling analysis directories listed below are the new, protected artifacts that replace it in substance. results/secondary_e3ruling_20260704-2206/ itself is left completely untouched (not modified, not chmod-changed, not deleted) per the append-only guardrail; it is superseded, not erased.",
+  "reviewer_findings_addressed": [
+    {
+      "severity": "critical",
+      "id": "G2_G3_band_rule_replay",
+      "finding": "secondary_decision_corrected.json's decisive_rule (line 12) was non-overlapping mean+/-std bands, and its per_component_verdicts/overall_verdict (lines 14-25+) were reasoned from that heuristic and published as the decision basis, even though preregistered=false/adjudicates_E3=false were also set.",
+      "fix": "The heuristic decision writer no longer exists in secondary_aggregate.py (see code_changes below), so it is structurally impossible to reproduce a band-rule verdict as a decision going forward. For the same band-rule prereg (results/secondary_prereg_20260704-0708/secondary_prereg.json) applied to the same run_dir (results/secondary_20260703-1034), main() now emits results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json: no per_component_verdicts, no overall_verdict, preregistered=false, adjudicates_E3=false, prereg_source=null, with a reason string stating no E3 adjudication was attempted or performed. Separately, results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json applies the actual preregistered Δpp-threshold rule (secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json, decisive_rule_delta_pp_threshold=10.0pp) mechanically against the same 175-cell grid via apply_deltapp_decision_rule() -- this IS a real, traceable, per-condition Δpp classification (not a heuristic replay), but it is explicitly non-E3: preregistered=false and adjudicates_E3=false, because prereg_provenance_chain_reason correctly reports the deltapp prereg's written_at (2026-07-04T07:19) postdates this run_dir's grid start (2026-07-03T10:34), and prereg_reviewer_status is DRAFT_PENDING_REVIEWER_APPROVAL, not REVIEWER_APPROVED. Both facts independently force adjudicates_E3=false via hard assertions in apply_deltapp_decision_rule()."
+    },
+    {
+      "severity": "critical",
+      "id": "H2_heuristic_not_deleted",
+      "finding": "band_significant() (old lines 492-511) and apply_post_hoc_band_report() (old lines 699-835) were still defined and still runnable via main()'s dispatch (old lines 894-899) for any prereg lacking decisive_rule_delta_pp_threshold.",
+      "fix": "Both functions are deleted outright from secondary_aggregate.py (not merely gated by an assertion). main()'s dispatch for a non-deltapp-schema prereg no longer calls any decision-writing function; it writes secondary_no_decision.json instead (see code_changes). apply_deltapp_decision_rule() is now the only decision-emitting function in the module."
+    },
+    {
+      "severity": "major",
+      "id": "conflicting_reviewer_citations",
+      "finding": "secondary_decision_corrected.json cited .orchestrate/0703-085303/r2_review.json (verdict=PASS) as responds_to_reviewer/reviewer_verdict_file (lines 5-6) while separately naming .orchestrate/0704-070402/r2_review.json (verdict=REVISE) as the last effective E3 reviewer verdict (line 1025) -- ambiguous which citation governs the E3 decision.",
+      "fix": "secondary_aggregate.py now emits two explicitly-scoped, unambiguous fields in every apply_deltapp_decision_rule() decision: reviewer_verdict_file (latest CLOSED round with status=='passed' -- general implementation-provenance only, resolved by the pre-existing _resolve_latest_reviewer_verdict()) plus a new reviewer_verdict_file_scope string stating in-band that this field is NOT necessarily the last verdict on the E3 question, and a new last_effective_reviewer_verdict_file field (resolved by the new _resolve_last_effective_reviewer_verdict(), which does not filter on status=='passed', only skips the self-referential in-progress round with no result.json at all). In results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json this resolves to reviewer_verdict_file=.orchestrate/0703-085303/r2_review.json (PASS, implementation-only) and last_effective_reviewer_verdict_file=.orchestrate/0704-070402/r2_review.json (REVISE, the effective E3 verdict) -- no stale PASS appears in the E3 citation path."
+    }
+  ],
+  "code_changes_to_secondary_aggregate.py": [
+    "Deleted band_significant() (formerly lines 492-511 in the pre-fix file) entirely -- no replacement, no gated no-op stub.",
+    "Deleted apply_post_hoc_band_report() (formerly lines 699-835 in the pre-fix file) entirely -- no replacement, no gated no-op stub.",
+    "Rewrote main()'s dispatch (formerly lines 894-899 'is_deltapp_prereg -> apply_deltapp_decision_rule() else apply_post_hoc_band_report()'): the else branch no longer calls any decision-writing function. It now assembles a `no_decision` dict (decision_kind=no_decision_non_deltapp_prereg, preregistered=false, adjudicates_E3=false, prereg_source=null, per_component_verdicts=null, overall_verdict=null, reason=<explanatory string>) and writes it to secondary_no_decision.json (chmod 444), never secondary_decision.json.",
+    "Added _resolve_last_effective_reviewer_verdict() (new function, next to the pre-existing _resolve_latest_reviewer_verdict()): walks .orchestrate rounds newest-first, skips only rounds with no result.json at all (the in-progress/self-referential round), and returns the first PASS/REVISE verdict file found regardless of that round's overall status -- unlike _resolve_latest_reviewer_verdict() which requires status=='passed'.",
+    "In apply_deltapp_decision_rule()'s decision dict: added reviewer_verdict_file_scope (clarifying string) and last_effective_reviewer_verdict_file (calls the new resolver) alongside the pre-existing responds_to_reviewer/reviewer_verdict_file fields. No other fields, assertions, or the Δpp classification logic itself were changed.",
+    "Updated the module docstring (top-of-file) and apply_deltapp_decision_rule()'s own docstring to describe the heuristic's deletion (previously they described it as merely hard-asserted/gated, which is what the reviewer flagged as insufficient)."
+  ],
+  "e3_status_for_run_dir_results/secondary_20260703-1034": "NOT SATISFIED. adjudicates_E3=false in every artifact touching this run_dir (both the new no_decision record and the new mechanical Δpp decision). No valid preregistered-and-reviewer-approved Δpp chain exists for this already-executed grid: the only Δpp prereg in this tree (secondary_deltapp_prereg_20260704-0719.json) postdates the grid's start timestamp and is status=DRAFT_PENDING_REVIEWER_APPROVAL, and it explicitly self-prohibits retroactive application to this exact run_dir (see its critical_restriction.explicit_prohibition). This matches results/secondary_e3adjudication_20260704-0719/e3_adjudication.json's ruling, which remains the operative E3 adjudication and is left untouched.",
+  "new_protected_artifacts": {
+    "no_decision_for_band_rule_prereg": "results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json",
+    "mechanical_nonE3_deltapp_classification": "results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json"
+  },
+  "prior_artifacts_left_untouched_not_modified_not_chmod_changed": [
+    "results/secondary_e3ruling_20260704-2206/ (secondary_decision_corrected.json, e3_human_ruling.json, prereg_provenance.md) -- superseded in substance, not deleted",
+    "results/secondary_analysis_20260704-0708/ (secondary_decision.json and siblings)",
+    "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json",
+    "results/secondary_prereg_20260704-0708/secondary_prereg.json",
+    "results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json",
+    "results/secondary_20260703-1034/ (raw grid cells.jsonl, never read-write, only read)"
+  ],
+  "verified_runnable": "Both `python secondary_aggregate.py --run-dir results/secondary_20260703-1034 --prereg results/secondary_prereg_20260704-0708/secondary_prereg.json --out-dir <new>` and `... --prereg results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json --out-dir <new>` were re-run end-to-end against the venv at /home/jeffwork/论文8/venv/bin/python (see launch_secondary.sh's VENV var) with no tracebacks, producing the two new_protected_artifacts above plus all upstream tuple/fairness/aggregate/curve/delta/significance products, each chmod 444 immediately after write."
+}

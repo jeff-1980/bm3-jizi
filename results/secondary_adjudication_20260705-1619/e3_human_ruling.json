@@ -1,0 +1,60 @@
+{
+  "artifact_kind": "human_ruling",
+  "supersedes": "results/secondary_adjudication_20260705-1610/e3_human_ruling.json",
+  "supersedes_reason": "Per .orchestrate/0705-160159/r1_review.json critical issue #3: the prior ruling's cited_reviewer_verdict_text_verbatim field contained an ellipsis in place of the full original reviewer issue text, which is not a faithful materialization for a provenance/auditability artifact. Also updates which reviewer verdict is treated as the primary/last-effective one, per critical issue #2 (see 'primary_cited_reviewer_verdict' below).",
+  "ruling_date": "2026-07-05",
+  "ruling_issued_by": "user (jeff-1980), in the task instruction that produced this directory on 2026-07-05",
+  "resolves_orchestrate_status": "needs_human",
+  "resolves_round": ".orchestrate/0704-215713 (result.json: status=needs_human, 3 rounds, all REVISE)",
+  "fixes_reviewer_verdict_file": ".orchestrate/0705-160159/r1_review.json",
+  "fixes_reviewer_verdict": "REVISE",
+  "fixes_reviewer_verdict_note": "This ruling and its sibling secondary_decision.json fix all 3 critical issues raised in .orchestrate/0705-160159/r1_review.json: (1) wrong NOT_DRIVER classification for frozen_noconv/frozen_As4d via an unregistered mean fallback -- fixed in apply_secondary_vault_prereg.py's classify_arm() (see that file's module docstring for the exact before/after); (2) stale reviewer-verdict citation -- last_effective_reviewer_verdict_file now points to primary_cited_reviewer_verdict_file below instead of .orchestrate/0704-070402/r2_review.json; (3) this field you are reading now replaces the prior ellipsis-truncated quote with the complete original, and cited_reviewer_verdicts_verbatim.json in this directory carries the complete JSON of every reviewer verdict referenced anywhere in this directory, read byte-for-byte from source rather than hand-transcribed.",
+  "primary_cited_reviewer_verdict_file": ".orchestrate/0704-215713/r3_review.json",
+  "primary_cited_reviewer_verdict": "REVISE",
+  "primary_cited_reviewer_verdict_full_text_verbatim": {
+    "verdict": "REVISE",
+    "summary": "Scoped review: the heuristic deletion, Δpp mechanical classification, required preregistered/adjudicates_E3/prereg_source fields, protected provenance artifact, and human-ruling artifact are mostly in place. The remaining blocker is reviewer-verdict provenance: the current decision artifacts still do not cite the latest effective reviewer verdict and still expose a stale PASS in the primary reviewer field.",
+    "issues": [
+      {
+        "severity": "critical",
+        "description": "The current mechanical decision `results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json` does not cite the latest effective reviewer verdict. It sets `reviewer_verdict_file` to `.orchestrate/0703-085303/r2_review.json` (PASS, implementation-only) and `last_effective_reviewer_verdict_file` to `.orchestrate/0704-070402/r2_review.json`, but `.orchestrate/0704-215713/r2_review.json` exists, predates the new decision artifact, and is the reviewer verdict that directly found the G2/G3/H2 failures being fixed. The executor’s later `r3_executor.log` is not a reviewer verdict and cannot make the stale citations valid.",
+        "suggestion": "Regenerate or supersede the protected decision/manifest so the E3 decision citation path names `.orchestrate/0704-215713/r2_review.json` as the latest effective reviewer verdict. Avoid putting the older `.orchestrate/0703-085303` PASS in a primary field named `reviewer_verdict_file`; if retained at all, keep it only in an explicitly non-decisional implementation-provenance field."
+      }
+    ]
+  },
+  "primary_cited_reviewer_verdict_note": "Per .orchestrate/0705-160159/r1_review.json critical issue #2, this is now the primary/last-effective cited reviewer verdict for the E3 question, replacing the prior ruling's citation of .orchestrate/0704-070402/r2_review.json. .orchestrate/0704-215713/result.json records this as the final (round 3) verdict of a needs_human orchestrate run, and its own issue text is what identified the stale-reviewer-citation problem this ruling now fixes. No paraphrase: the full JSON object is embedded verbatim above (also available unmodified in cited_reviewer_verdicts_verbatim.json).",
+  "background_cited_reviewer_verdict_file": ".orchestrate/0704-070402/r2_review.json",
+  "background_cited_reviewer_verdict": "REVISE",
+  "background_cited_reviewer_verdict_full_text_verbatim": {
+    "verdict": "REVISE",
+    "summary": "Scoped review of aggregation/adjudication/products: §E0 passes for the recognized run `results/secondary_20260703-1034` with `n_observed=175`, no missing/extra/duplicates. §E1 passes: `fairness_report.json` checks all 175 rows with full 64-char eval_sha256 equality and includes 5 sampled fingerprints. §E2 passes: stage-1 three-arm frozensel products are present (`bm3_kin`, `bm3_frozen`, `s4d`) with mean/std outputs. §F1 passes: secondary aggregation products are present and include mean/std tables. §F2 passes: eval_sha256 is checked byte-for-byte across all 175 cells. The blocking failure remains §E3: the current secondary adjudication has no valid preregistered Δpp-gated decision for the already-run 20260703-1034 grid.",
+    "issues": [
+      {
+        "severity": "critical",
+        "description": "§E3 is still not satisfied for `results/secondary_20260703-1034`. The active/current secondary decision was generated from `results/secondary_prereg_20260704-0708/secondary_prereg.json`, whose lines 41-44 define a non-overlapping mean±std band heuristic, not a preregistered Δpp threshold. The same prereg discloses at lines 4-6 that the full 175-cell grid already existed before the rule was written. The later `results/secondary_e3adjudication_20260704-0719/e3_adjudication.json` correctly designates the current decision as post-hoc/exploratory and explicitly states at lines 23-26 that no valid preregistered Δpp-gated adjudication exists for this run. The fresh Δpp prereg at `results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json` is future-only and `DRAFT_PENDING_REVIEWER_APPROVAL`, so it cannot retroactively rescue the current run; executor-written claims of being fixed do not replace a reviewer PASS.",
+        "suggestion": "Do not claim §E3 PASS for `results/secondary_20260703-1034`. Keep `secondary_decision.json` labeled exploratory/post-hoc. To satisfy the rubric, obtain reviewer approval for the future-only Δpp prereg, launch a fresh secondary grid after that approval, then produce a new analysis directory whose decision mechanically applies the approved Δpp threshold with per-arm/per-condition traceability and machine-readable `preregistered=true` / `adjudicates_E3=true` fields."
+      }
+    ]
+  },
+  "background_cited_reviewer_verdict_note": "Retained for narrative background only (not as the primary/last-effective citation, see field above): this is the review whose REVISE verdict on the mean+/-std band heuristic is the reason the vault-card fallback was located and applied in the first place (see 'human_ruling' narrative below and prereg_provenance.md). The prior ruling (results/secondary_adjudication_20260705-1610/e3_human_ruling.json) quoted this review's issue text with an ellipsis; the full text is embedded verbatim above, with no ellipsis, no paraphrase -- read byte-for-byte from source.",
+  "note_on_reviewer_fallback_already_invited": "The chained r1_review.json for the same 0704-070402 round explicitly said: 'Replace the adjudication artifact with one that mechanically applies an already-registered Δpp threshold, if such a valid prior registration exists.' This ruling exercises exactly that fallback; it does not overrule or contradict the reviewer.",
+  "human_ruling": "The reviewer's REVISE verdict at .orchestrate/0704-070402 was correct on the facts available to it: the executor's decision artifact used an unregistered mean±std band heuristic, not a preregistered rule, and no valid Delta-pp registration was visible from inside the repository. This ruling does not overturn that finding. What has changed is that a genuine preregistration was located outside the repository: vault card `bm3-secondary-ablation-decide.md` (created 2026-07-03, in `/mnt/c/Users/ThinkPad/Obsidian Vault/`), corroborated word-for-word by an independent `log.md` entry dated the same day, both predating the grid's 2026-07-03T10:34 start by the ordering documented in `prereg_provenance.md`. The automated reviewer could not have found this: `run_codex_review()` in `/home/jeffwork/exp/physics-mechanism/orchestrate.py` passes the reviewer only the card's RUBRIC section plus the git workdir's contents, never the card's TASK section (where the concrete 8pp/[3,8)pp/collapse-to-s4d rule lives) and never the external vault path. That is a structural scope limitation of the review harness, not a mistake by the reviewer. Given the reviewer's own stated fallback -- apply an already-registered Delta-pp threshold if one is found to exist -- the correct resolution is to materialize that provenance (prereg_provenance.md) and mechanically apply the card's actual rule to the already-frozen aggregate outputs (secondary_decision.json in this directory), without rerunning the grid, without changing any aggregate value, and without touching the 175 raw cells. That is what this directory does. Rerunning the grid, as a literal reading of the reviewer's REVISE might suggest absent this new information, is not necessary once the pre-existing valid registration is on the record. Separately, .orchestrate/0705-160159/r1_review.json (a later scoped review of the first mechanical-rule attempt at results/secondary_adjudication_20260705-1610/) correctly found that the NOT_DRIVER branch of that attempt used an unregistered mean fallback instead of the card's actual per-bin '|Δ| < +3pp' text, that the decision cited a stale reviewer verdict instead of the more recent .orchestrate/0704-215713/r3_review.json, and that this very ruling document quoted a reviewer verdict with an ellipsis instead of the full text. This ruling and its sibling artifacts in this directory fix all three; this ruling does not overturn that review either -- it was correct.",
+  "does_not_claim": [
+    "does not claim any reviewer was wrong or negligent",
+    "does not claim any prior executor round acted in bad faith",
+    "does not modify, delete, or supersede-in-place any file under results/**"
+  ],
+  "recommendation_for_pipeline": "The review harness should pass the card's TASK section (or at minimum any embedded decisive-rule text) to the reviewer, and/or expand the reviewer's search scope to include the vault `_tasks/` directory that spawned the task, so a future E3-class question is not structurally invisible to the reviewer.",
+  "cross_references": [
+    "prereg_provenance.md",
+    "results/secondary_adjudication_20260705-1619/secondary_decision.json",
+    "results/secondary_adjudication_20260705-1619/superseded_decisions_manifest.json",
+    "results/secondary_adjudication_20260705-1619/cited_reviewer_verdicts_verbatim.json",
+    ".orchestrate/0704-070402/r1_review.json",
+    ".orchestrate/0704-070402/r2_review.json",
+    ".orchestrate/0704-215713/r2_review.json",
+    ".orchestrate/0704-215713/r3_review.json",
+    ".orchestrate/0704-215713/result.json",
+    ".orchestrate/0705-160159/r1_review.json"
+  ]
+}

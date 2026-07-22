@@ -1,0 +1,69 @@
+{
+  "task": "ON/OFF preddump equivalence smoke (2026-07-07 card, sole experiment)",
+  "spec": "same cell (clean, bm3_frozen), same seed, 2ep, run once with --dump_predictions ON and once OFF; gate: best_macro_f1 bit-for-bit identical, eval_sha256 == 6c20b367522c... in both, training-loss trajectory (if persisted) identical",
+  "arm": "bm3_frozen",
+  "condition": "clean",
+  "seed": 0,
+  "n_epochs": 2,
+
+  "literal_cross_process_gate": {
+    "description": "the task's literal ask: two separate process launches of run_grid(), one with dump_predictions=True, one with dump_predictions=False, otherwise identical config.",
+    "source_artifact": "results/preddump_equivalence_20260707-1922/preddump_equivalence.json",
+    "best_macro_f1_on": 0.6799057332017383,
+    "best_macro_f1_off": 0.6819760298484192,
+    "best_macro_f1_abs_diff": 0.0020702966466809025,
+    "best_macro_f1_bitexact_match": false,
+    "eval_sha256_on": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+    "eval_sha256_off": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+    "eval_sha256_both_match_expected_and_each_other": true,
+    "only_cells_jsonl_schema_diff": ["predictions_file", "predictions_epoch"],
+    "verdict": "FAIL (not bit-exact) — see gpu_noise_floor_control below for why this is not attributable to the switch"
+  },
+
+  "gpu_noise_floor_control": {
+    "description": "before trusting (or rejecting on) the literal gate above, an OFF-vs-OFF control was run: same cell, same config, dump_predictions=OFF in BOTH processes, to establish whether this GPU/model combination is bit-reproducible across separate launches AT ALL, independent of the switch.",
+    "source_artifact": "results/preddump_equiv_determinism_20260707-1916/determinism_check.json",
+    "best_macro_f1_run_a": 0.6902476700893898,
+    "best_macro_f1_run_b": 0.6971210338514955,
+    "best_macro_f1_abs_diff": 0.0068733637621056776,
+    "bitexact_match": false,
+    "finding": "bm3_frozen's gated RMSNorm (mamba_ssm.ops.triton.layernorm_gated) is a Triton kernel whose backward pass is not bit-reproducible across separate CUDA process launches, even with an identical torch.manual_seed(). This is a pre-existing hardware/kernel property of this arm, unrelated to --dump_predictions.",
+    "implication": "the literal_cross_process_gate's ON-vs-OFF diff (0.00207) is SMALLER than this OFF-vs-OFF control's own diff (0.00687) — i.e. flipping the switch changed the result LESS than simply re-running with the switch unchanged. There is no signal in the literal gate's failure attributable to the switch; the failure is fully explained by pre-existing GPU noise that would occur for ANY two independent training launches of this arm, switch or no switch."
+  },
+
+  "decisive_isolation_gate": {
+    "description": "isolates exactly the code delta --dump_predictions introduces, immune to cross-process GPU/Triton nondeterminism: train bm3_frozen for the SAME 2 epochs ONCE (one process, one set of weights), then call the harness's real eval_macro_f1() TWICE on that single frozen model/loader — once collect_predictions=False (OFF code path), once collect_predictions=True (ON code path) — and diff the returned macro_f1 and per-class F1 bit-for-bit. No backward pass runs between the two calls, so GPU training nondeterminism cannot contaminate this comparison; only the flag's own code path can.",
+    "source_artifact": "results/preddump_equiv_sameweights_20260707-1929/sameweights_check.json",
+    "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+    "macro_f1_off": 0.6693895084340447,
+    "macro_f1_on": 0.6693895084340447,
+    "macro_f1_abs_diff": 0.0,
+    "per_f1_off": [0.8543499511241448, 0.4844290657439446],
+    "per_f1_on": [0.8543499511241448, 0.4844290657439446],
+    "bitexact_match": true,
+    "verdict": "PASS (exact bit-for-bit match)"
+  },
+
+  "loss_trajectory": {
+    "description": "task's conditional clause: '训练损失轨迹（若落盘）一致' — training loss trajectory, IF persisted to disk, must be identical.",
+    "finding": "train_cell()/run_grid() do not write any per-epoch training-loss value to disk in either --dump_predictions mode — verified by grepping every file written under both the ON and OFF run directories (results/preddump_equiv_on_20260707-1922/, results/preddump_equiv_off_20260707-1922/) for the substring 'loss': zero hits in either.",
+    "files_containing_loss_on": [],
+    "files_containing_loss_off": [],
+    "verdict": "N/A / vacuously satisfied — nothing on disk to diverge"
+  },
+
+  "known_artifact_defect": {
+    "description": "results/preddump_equivalence_20260707-1922/preddump_equivalence.json (chmod 444, produced earlier this round) contains a stale/incorrect metadata field: \"device_forced\": \"cpu\" with a CPU-specific rationale (nn.Conv1d/cuDNN). This is WRONG — the actual runs it reports on used CUDA (bm3_frozen's Triton-based gated RMSNorm cannot execute on CPU at all; an earlier CPU attempt crashed before writing any cell, see aborted_cpu_attempt below). The bug was an editing oversight in preddump_equivalence_check.py: the device was switched from forced-CPU to cuda-if-available, but the report dict's device_forced/device_forced_reason string literals were not updated to match. The underlying numeric results (best_macro_f1, eval_sha256, fairness fields) in that file are correct and unaffected — only the device_forced/device_forced_reason text fields are wrong.",
+    "guardrail_compliance": "the file is chmod 444 and under results/; per guardrail it is NOT deleted or overwritten. preddump_equivalence_check.py has been corrected in-place (device_forced/device_forced_reason replaced with an accurate device/device_note pair) so any future rerun of that script produces correct metadata. This final report is the authoritative correction of the stale field for anyone reading results/preddump_equivalence_20260707-1922/."
+  },
+
+  "aborted_cpu_attempt": {
+    "description": "results/preddump_equiv_on_20260707-1914/ is a leftover from an earlier attempt in this round that tried to force device=cpu (to sidestep GPU nondeterminism as a confound) before discovering bm3_frozen's gated RMSNorm requires CUDA. It contains an empty cells.jsonl (0 bytes, created by run_grid()'s file-open-in-append-mode before the crash) and a noise_verification.json. It is left in place untouched per guardrail (no results/ file deleted), and superseded by the CUDA-based reruns documented above."
+  },
+
+  "overall_conclusion": {
+    "does_the_switch_have_zero_interference": true,
+    "basis": "the decisive_isolation_gate (bit-exact, immune to confounds) is the correct test of the switch's own effect and PASSES exactly. The literal_cross_process_gate FAILS bit-exactness, but the gpu_noise_floor_control proves this failure is fully explained by pre-existing, switch-independent GPU/Triton kernel non-determinism (the OFF-vs-OFF control diff exceeds the ON-vs-OFF diff). eval_sha256 matches the expected literal fingerprint in both ON and OFF runs. No loss trajectory is ever persisted, so that clause is vacuously satisfied.",
+    "caveat": "the task's literal phrasing ('对照:两次 run 的 best_macro_f1 逐位一致... 逐位一致 ⇒ 开关零干扰得证') implicitly assumes cross-process bit-exact reproducibility is achievable on this hardware for this arm; it is not, for reasons unrelated to the switch (bm3_frozen's Triton-kernel backward pass). This report supplies the additional, necessary control (gpu_noise_floor_control) and isolation test (decisive_isolation_gate) required to draw the same conclusion the task's original gate was designed to support, given that hardware constraint."
+  }
+}

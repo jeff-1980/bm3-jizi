@@ -1,0 +1,59 @@
+{
+  "gate": "STOP-IF-NO-GRID",
+  "verdict": "STOPPED_NEEDS_HUMAN",
+  "checked_at": "2026-07-07T11:50",
+  "checked_by": "automated-task-run (xjtu_noisy_defense_20260627, perclass step 0)",
+  "task_requested": {
+    "0": "hard gate: enumerate (arm, condition, seed) tuples in results/perclass_*/cells.jsonl (75 cells expected, reject missing/duplicate); every cell's run dir must contain predictions.jsonl",
+    "1": "fairness_report.json: 75 rows, eval_sha256 byte-for-byte == 6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+    "2": "same-source reconciliation: recompute macro-F1 from each cell's predictions.jsonl, compare to that cell's self-reported value in cells.jsonl (75/75 must match); sanity-compare arm x condition means against the frozensel/secondary/graft historical grids (report-only, not a gate)",
+    "3": "confusion matrices for 5 arms x {clean, 0dB, -6dB}, summed across seeds, to confusion_matrices/*.png + *.csv (row sums = support)",
+    "4": "per-class precision/recall/F1 (with support) per arm per condition, to per_class_report.csv/json",
+    "5": "perclass_summary.md: which fault class degrades first under deep noise; which gate (split-gate / graft-gate) affects which class most, cross-referenced against the section-4b component map"
+  },
+  "grid_required": {
+    "arms": ["bm3_kin", "bm3_frozen", "s4d", "frozen_nogate", "s4d_plus_gate"],
+    "conditions": ["clean", "awgn@0dB", "awgn@-6dB"],
+    "seeds": [0, 1, 2, 3, 4],
+    "n_cells_required": 75,
+    "per_cell_artifact_required": "predictions.jsonl (per-sample y_true/y_pred, or equivalent) inside that cell's run directory",
+    "source_of_this_75_figure": "matches the identical grid scope already estimated one day earlier in results/predproc_needs_human_20260706-0934/needs_human.json:minimal_cost_estimate_for_human_decision.what_must_be_rerun (5 arms x 3 conditions x 5 seeds = 75 cells) -- same task, same required scope, re-verified below rather than assumed."
+  },
+  "checks_performed": {
+    "glob_results_perclass_star_cells_jsonl": {
+      "command": "find . -iname cells.jsonl matched against a results/perclass_*/ prefix",
+      "matches_found": 0,
+      "existing_cells_jsonl_directories_found_instead": [
+        "results/fullgrid_20260627-1731", "results/fullgrid_fixed_20260628-2248",
+        "results/smoke_20260627-1727", "results/ablation_nokin_20260630-0958",
+        "results/capctrl_s4dwide_20260701-2237", "results/frozensel_20260702-1827",
+        "results/secondary_20260703-1034", "results/graft_20260705-224137"
+      ],
+      "note": "none of these 8 directories is named perclass_*, and none is scoped to exactly (5 arms x 3 conditions x 5 seeds) -- they are earlier design/ablation/frozensel/secondary/graft grids with their own different arm/condition/seed scopes."
+    },
+    "repo_wide_predictions_jsonl_search": {
+      "command": "find . -iname predictions.jsonl",
+      "matches_found": 0
+    },
+    "existing_cells_jsonl_schema_recheck": {
+      "fields_present_all_runs": ["condition", "noise_type", "snr_db", "arm", "seed", "best_macro_f1", "n_params", "elapsed_s", "fairness{eval_sha256, train_order_sha256, noise_sha256}"],
+      "per_sample_predictions_present": false,
+      "per_class_counts_or_confusion_present": false,
+      "checkpoints_present_anywhere": false
+    },
+    "activity_since_yesterdays_identical_audit": {
+      "reference_audit": "results/predproc_needs_human_20260706-0934/needs_human.json + results/predproc_availability_20260706-0934/predproc_availability.md (2026-07-06T09:34), which asked the exact same underlying question (confusion matrices / per-class report for 5 arms x 3 conditions) and hit Branch B: predictions not saved AND no checkpoint for deterministic replay (mamba_ssm Triton selective-scan kernel backward is not bit-deterministic across reruns even with fixed seeds; xjtu_noisy_harness.py's eval_macro_f1 discards per-class tp/fn/fp after computing the macro_f1 scalar and never persists them)",
+      "find_cells_jsonl_newer_than_reference_audit": "0 matches -- no new grid run has landed since",
+      "running_training_processes": "ps aux shows no python xjtu_noisy_harness.py process and no new tmux training session; only an unrelated orchestrator/watcher process for this task loop itself",
+      "conclusion": "nothing has changed in the 1-day interval: the Branch B finding from 2026-07-06 still holds verbatim, and it is now re-confirmed under the narrower perclass_* naming this task's step 0 asks for."
+    }
+  },
+  "conclusion": "results/perclass_*/cells.jsonl does not exist anywhere in this repository (0 of the required 75 cells), and predictions.jsonl does not exist anywhere in this repository for any cell of any prior grid. Guardrail 0 (STOP-IF-NO-GRID) fires before step 1 can even begin: this task run stops here without enumerating a tuple table, without checking eval_sha256 rows, without recomputing macro-F1 from predictions, and without producing confusion_matrices/, per_class_report.csv/json, or perclass_summary.md from data that does not exist. Per explicit task instruction, no training is started inside this loop to manufacture the missing grid.",
+  "action_taken": "Read-only audit: globbed for results/perclass_*/cells.jsonl, searched the whole repo for predictions.jsonl, re-inspected the schema of the 8 existing cells.jsonl files, checked for new activity since the 2026-07-06 audit (via find -newer and ps aux). No file under results/ was modified, deleted, or overwritten. No training was started. No implementation code (xjtu_noisy_harness.py, bm3_models.py, bm3_frozen.py, etc.) was changed.",
+  "action_required_from_human": [
+    "Confirm whether the 5-arm x 3-condition x 5-seed = 75-cell perclass grid should reuse the existing frozensel/secondary/graft eval split (eval_sha256 prefix 6c20b367522ce5db...) -- if so, the same code patch already scoped in results/predproc_needs_human_20260706-0934/needs_human.json is the prerequisite: eval_macro_f1 (xjtu_noisy_harness.py:305-330) must accumulate and return a full per-sample record (or at minimum a CxC confusion matrix) instead of discarding tp/fn/fp after the macro_f1 scalar is computed, and train_cell (:349-415) must write that record to a predictions.jsonl (or cells_confusion.jsonl) file per cell -- this file itself intentionally does NOT make that patch.",
+    "Authorize and run the 75-cell training grid out-of-band (outside this loop) writing into a NEW results/perclass_<timestamp>/ directory containing cells.jsonl plus per-cell predictions.jsonl, matching this gate's required_grid.",
+    "Once that grid exists and passes step 0 (75/75 tuples, no dupes/missing, predictions.jsonl present per cell), re-invoke this task's steps 1-5 (fairness_report.json, same-source reconciliation, confusion matrices, per-class report, perclass_summary.md) pointing at that run-dir.",
+    "Be aware best_macro_f1 will NOT be bit-exactly reproducible against the existing frozensel/secondary/graft cells.jsonl values even at the same seeds, per the Triton selective-scan backward non-determinism already documented in results/predproc_availability_20260706-0934/predproc_availability.md section 2.2 -- this affects the historical-grid sanity comparison in step 2, which is explicitly scoped as report-only in this task and not a pass/fail gate for that reason."
+  ]
+}

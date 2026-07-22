@@ -1,0 +1,33 @@
+{
+  "verdict": "c",
+  "verdict_label": "CLAIM_FALSIFIED",
+  "clean_bm3_vs_best_baseline_pp": -1.84,
+  "bm3_wins_clean": false,
+  "bm3_wins_nongauss": "10/12",
+  "bm3_wins_awgn": "6/4",
+  "q1_bm3_vs_tcn_wins": 18,
+  "n_conditions_q1": 19,
+  "losing_cells": [
+    "clean",
+    "impulsive@+10dB",
+    "pink@-10dB"
+  ],
+  "winning_cells": [
+    "awgn@+0dB",
+    "awgn@+10dB",
+    "awgn@+6dB",
+    "awgn@-10dB",
+    "awgn@-2dB",
+    "awgn@-6dB",
+    "impulsive@+0dB",
+    "impulsive@+6dB",
+    "impulsive@-10dB",
+    "impulsive@-2dB",
+    "impulsive@-6dB",
+    "pink@+0dB",
+    "pink@+10dB",
+    "pink@+6dB",
+    "pink@-2dB",
+    "pink@-6dB"
+  ]
+}

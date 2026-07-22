@@ -1,0 +1,36 @@
+{
+  "device": "cuda",
+  "arm": "s4d_plus_gate",
+  "condition": "clean",
+  "regime": "cross_condition (TRAIN_COND=37.5Hz11kN -> TEST_COND=40Hz10kN, this dir's only regime)",
+  "seed": 0,
+  "n_epochs": 2,
+  "eval_sha256_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_prefix12": "6c20b367522c",
+  "eval_sha256_expected_prefix12": "6c20b367522c",
+  "eval_sha256_prefix_match": true,
+  "eval_sha256_expected_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_full_match": true,
+  "n_params": 116802,
+  "epochs": [
+    {
+      "epoch": 1,
+      "mean_train_loss": 0.4169751413893409,
+      "has_nan_loss": false,
+      "macro_f1": 0.7674373797246026,
+      "epoch_time_s": 5.31,
+      "n_batches": 82
+    },
+    {
+      "epoch": 2,
+      "mean_train_loss": 0.08052503762812149,
+      "has_nan_loss": false,
+      "macro_f1": 0.786649074443005,
+      "epoch_time_s": 5.5,
+      "n_batches": 82
+    }
+  ],
+  "loss_decreased_ep1_to_ep_last": true,
+  "any_nan": false,
+  "all_pass": true
+}

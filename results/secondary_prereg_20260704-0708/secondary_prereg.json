@@ -1,0 +1,68 @@
+{
+  "prereg_id": "secondary_prereg_20260704-0708",
+  "written_at": "2026-07-04T07:08",
+  "grid_data_already_existed_at_write_time": true,
+  "prereg_timing_disclosure": "UNLIKE frozensel_prereg_20260702-1826.json (which was written before any frozensel grid cell existed), results/secondary_20260703-1034/cells.jsonl already contained its full 175/175 cells (completed 2026-07-04T03:06 per secondary_20260703-1034.log) when this file was authored -- this task run began after the grid had already finished. This is a weaker guarantee than true pre-launch preregistration and is disclosed as such, per this project's own established practice of disclosing rigor deviations explicitly (see frozensel_aggregate.py's apply_scoped_decision_rule() post_hoc_exploratory disclosure for a precedent). To preserve as much of the anti-rationalization purpose of preregistration as is still possible at this stage: this file's authors did not run any aggregation, did not compute or view any per-condition/per-arm mean_macro_f1, std, or delta, and did not open q_secondary.*/secondary_curve.* (none of those files exist yet at write time) before fixing the decision rule below. The rule was derived purely from (a) the component-ablation design semantics in arch_map.md SS5, (b) the chance-floor convention already used in results/fullgrid_20260627-1731/decision.json and results/frozensel_prereg_20260702-1826/frozensel_prereg.json, and (c) the frozensel_prereg's own significance_rule structure, adapted from a 3-arm (kin/frozen/s4d) comparison to a 3-component x (frozen vs component-ablated arm vs s4d) comparison. Aggregation is performed by a separate script (secondary_aggregate.py) run strictly after this file is written and chmod 444.",
+  "purpose": "Lock the secondary single-component ablation study's decision rule BEFORE any aggregate number from results/secondary_20260703-1034/cells.jsonl is computed or viewed in this task run, so secondary_decision.json is a mechanical application of a rule fixed in advance of aggregation, not a post-hoc rationalization of observed numbers.",
+  "responds_to_reviewer": ".orchestrate/0703-085303/r2_review.json (verdict=PASS; reviewed the frozen_noconv/frozen_nogate/frozen_As4d arm implementations, secondary_unitcheck_20260703-0920/secondary_unitcheck.json ALL_PASS=true, results/secondary_smoke_20260703-0925/smoke_report.json, launch_secondary.sh/status_secondary.sh -- this is the latest CLOSED .orchestrate round touching the secondary grid's implementation; .orchestrate/0704-070402/ is the in-progress round for this very task and is excluded per the self-referential-deadlock rule documented in frozensel_aggregate.py:_resolve_latest_reviewer_verdict())",
+  "question": "For each single-component ablation of BearMamba3Frozen (bm3_frozen) -- conv-embed stem (frozen_noconv), z-gating (frozen_nogate), A's parameterization (frozen_As4d), per arch_map.md SS5a/SS5b/SS5c -- does removing that one component causally hurt bm3_frozen's macro-F1 performance under the AWGN noise column, and does the ablated arm still retain an edge over the never-selective s4d floor baseline?",
+  "design": {
+    "arms": ["bm3_frozen", "frozen_noconv", "frozen_nogate", "frozen_As4d", "s4d"],
+    "arm_semantics": {
+      "bm3_frozen": "full frozen-selectivity baseline (BearMamba3Frozen, bm3_frozen.py): all three ablatable components present -- kernel=7 conv_embed stem, z-gating, A_const (heavy_tail_activation+clamp parameterization). Same arm used as frozensel's frozen baseline.",
+      "frozen_noconv": "bm3_frozen with conv_embed replaced by StridedLinearStem (no nn.Conv1d anywhere in the forward path; explicit stride-slice + per-timestep Linear, provably same map/output-length as the removed kernel=1 conv revision) -- ablates cross-timestep mixing only (arch_map.md SS5a).",
+      "frozen_nogate": "bm3_frozen with z-gating removed (in_proj rebuilt to drop the z slice; fused kernel called with Z=None, so the gating multiply does not execute at all, verified against mamba3_siso_fwd.py's HAS_Z compile-time flag) -- ablates input-dependent gating only (arch_map.md SS5b).",
+      "frozen_As4d": "bm3_frozen with A's parameterization changed from A_const (heavy_tail_activation+clamp) to A_log with A = -exp(A_log), an S4D-style reparameterization -- ablates the frozen-selectivity A parameterization only (arch_map.md SS5c). A single-line functional-form ablation, not a full S4D kernel swap.",
+      "s4d": "never-selective S4D baseline, same arm used as frozensel's and fullgrid's floor baseline. Cells in this grid were reused/copied from results/frozensel_20260702-1827/cells.jsonl per launch_secondary.sh's documented optional pre-launch step (identical best_macro_f1 and train_order_sha256 per (condition,seed), verified by direct comparison of the two cells.jsonl files) -- the same eval_sha256 fairness invariant holds because both grids construct base_test identically via xjtu_noisy_harness.py's unmodified make_cross_condition_split()/XJTUDataset()."
+    },
+    "component_arms": ["frozen_noconv", "frozen_nogate", "frozen_As4d"],
+    "full_baseline_arm": "bm3_frozen",
+    "floor_baseline_arm": "s4d",
+    "conditions": ["clean", "awgn@+10dB", "awgn@+6dB", "awgn@+0dB", "awgn@-2dB", "awgn@-6dB", "awgn@-10dB"],
+    "n_conditions": 7,
+    "seeds": [0, 1, 2, 3, 4],
+    "n_seeds": 5,
+    "min_acceptable_seeds": 3,
+    "n_epochs": 50,
+    "metric": "best_macro_f1",
+    "cells_expected_full": 175,
+    "cells_expected_min": 105,
+    "source": "xjtu_noisy_harness.py --secondary branch (lines ~678-758 per REPORT_secondary_20260703-0907.md SS6); grid launched via launch_secondary.sh, completed 2026-07-04T03:06 per secondary_20260703-1034.log"
+  },
+  "fairness_verification_required": {
+    "rule": "Before any aggregation, recompute eval_sha256 independently for the grid's test split (same base_test / XJTUDatasetNoisy('clean', None, 0) construction the harness itself uses at run_grid() start, via xjtu_noisy_harness.make_cross_condition_split()/XJTUDataset()/eval_fingerprint()) and assert every one of the 175 cells' fairness.eval_sha256 equals this recomputed full hash byte-for-byte (all 64 hex chars, not just a prefix). If any cell's eval_sha256 differs from the recomputed value, aggregation MUST be rejected and a fairness_report.json with all_pass=false written instead of q_secondary.*/secondary_curve.png/secondary_decision.json.",
+    "min_cells_gate": "If completed cells != 175 (the full design), or the observed (condition,arm,seed) tuple set duplicates or omits any of the expected 5x7x5=175 tuples, do not aggregate; write a needs_human.json instead, mirroring results/secondary_needs_human_20260703-0841/. (Guardrail 0 of the task assigning this analysis already verified 175/175, no dup/no missing, against results/secondary_20260703-1034/cells.jsonl specifically -- ignoring other secondary_* directories, none of which contain a cells.jsonl.)"
+  },
+  "chance_floor": {
+    "threshold_macro_f1": 0.55,
+    "rationale": "N_CLASSES=2 (binary cross-condition fault classification, per xjtu_noisy_harness.py N_CLASSES=2); chance=50%. Matches the exact threshold already used in results/fullgrid_20260627-1731/decision.json and results/frozensel_prereg_20260702-1826/frozensel_prereg.json, for consistency across this project's grids.",
+    "application": "A (condition, arm) cell-mean is 'at_chance' if mean_macro_f1 <= 0.55. For a given component arm X, a condition is 'meaningful' for the bm3_frozen-vs-X comparison only if BOTH bm3_frozen's and X's condition-means are > 0.55 in that condition; otherwise it is excluded from that component's win/loss tally below (recorded, not discarded). Symmetrically, a condition is 'meaningful' for the X-vs-s4d context comparison only if both X's and s4d's condition-means are > 0.55."
+  },
+  "per_condition_aggregation": {
+    "unit": "for each (condition, arm) across all 5 arms: mean_macro_f1 and std_macro_f1 across all completed seeds, n_seeds_used reported alongside.",
+    "decisive_band_rule": "non-overlapping mean+/-std bands (the SAME heuristic frozensel_prereg_20260702-1826.json used as its original significance_rule -- a magnitude/dispersion comparison at the aggregate level, not a p-value test): for a given component arm X, bm3_frozen SIGNIFICANTLY beats X in a condition iff (mean_frozen - std_frozen) > (mean_X + std_X). Symmetric definition for X beating bm3_frozen. If bands overlap, the condition is a TIE (no significant difference) regardless of which mean is nominally higher. THIS band rule, not the paired significance test below, is what secondary_decision.json's per-arm/overall verdicts are mechanically computed from.",
+    "paired_significance_reporting_only": "In addition, secondary_aggregate.py computes a real paired-sample significance test (paired t-test via scipy.stats.ttest_rel, plus Wilcoxon signed-rank as a non-parametric cross-check), matched by seed (same seed = same split/init/noise-instance across arms), for Delta(frozen-X) and Delta(X-s4d) in every condition, for every component arm X. This paired test is REPORTING ONLY -- it supplements but does NOT replace or feed into the decisive_band_rule above, and MUST NOT be cited as the basis for any verdict in secondary_decision.json. This mirrors frozensel_paired_significance.py's own documented relationship to frozensel_decision.json ('supplements, does not replace').",
+    "linkage": "every per_condition entry in secondary_decision.json must carry n_cells_frozen/n_cells_X/n_cells_s4d and the exact list of seeds contributing, so each aggregate number traces back to specific cells.jsonl rows. Every condition (including at-chance / non-meaningful ones) must be present in the emitted per_condition evidence table -- summarizing to a majority count must never omit or hide a condition's raw evidence row."
+  },
+  "decision_rule": {
+    "per_component_verdicts": {
+      "COMPONENT_CONTRIBUTES": "bm3_frozen significantly beats X (per decisive_band_rule) in a STRICT MAJORITY of meaningful conditions, AND bm3_frozen does not lose significantly to X in any meaningful condition. Interpreted as: removing this component causally hurts bm3_frozen's performance.",
+      "COMPONENT_NOT_SHOWN_TO_CONTRIBUTE": "bm3_frozen does NOT significantly beat X in a strict majority of meaningful conditions -- i.e. ties and/or X-wins dominate or are tied with frozen-wins. This is the default/null outcome.",
+      "INCONCLUSIVE": "fewer than 2 meaningful conditions exist for this component's bm3_frozen-vs-X comparison (everything at-chance for one or both arms), OR completed cells for {bm3_frozen, X} across the 7 conditions x 5 seeds < min_acceptable_seeds x 7 x 2 = 70."
+    },
+    "tie_break": "'strict majority' = more than half of meaningful conditions; if the count of meaningful conditions is even and exactly half are frozen-wins, that is NOT a strict majority -> falls through to COMPONENT_NOT_SHOWN_TO_CONTRIBUTE (ties favor the null/default outcome, not the claim). Identical to frozensel_prereg_20260702-1826.json's tie_break.",
+    "overall_verdict": {
+      "unit": "count of component arms (out of 3: frozen_noconv, frozen_nogate, frozen_As4d) whose per_component_verdict is COMPONENT_CONTRIBUTES.",
+      "ALL_COMPONENTS_CONTRIBUTE": "all 3 component arms are COMPONENT_CONTRIBUTES.",
+      "PARTIAL_COMPONENTS_CONTRIBUTE": "1 or 2 component arms are COMPONENT_CONTRIBUTES (the overall verdict names exactly which).",
+      "NO_COMPONENTS_SHOWN_TO_CONTRIBUTE": "0 component arms are COMPONENT_CONTRIBUTES (all 3 are COMPONENT_NOT_SHOWN_TO_CONTRIBUTE or INCONCLUSIVE).",
+      "OVERALL_INCONCLUSIVE": "any component arm's per_component_verdict is INCONCLUSIVE (data-insufficiency at the per-component level propagates to the overall verdict rather than being silently dropped from the count)."
+    },
+    "context_only_not_decisive": "For each component arm X, Delta(X - s4d) per condition is reported for context (does the ablated arm still retain an edge over the never-selective floor baseline) but does NOT enter any per_component_verdict or the overall_verdict, which are scoped strictly to the bm3_frozen-vs-X causal-contribution question. Mirrors frozensel_prereg_20260702-1826.json's context_only_not_decisive treatment of bm3_kin-vs-s4d/bm3_frozen-vs-s4d."
+  },
+  "artifacts_to_produce": [
+    "results/secondary_20260703-1034/cells.jsonl (raw, already present, chmod 444, NOT touched by this task)",
+    "a NEW timestamped results/secondary_analysis_<TS>/ directory (additive-only guardrail) containing: tuple_enum_report.json, fairness_report.json (eval_sha256 full-hash cross-check), q_secondary.csv and .json (per condition x arm mean+/-std, all 5 arms), secondary_curve_table.csv, secondary_curve.png (macro_F1 vs SNR, all 5 arms, mean+/-std error bars), secondary_component_deltas.csv/json (Delta(frozen-X) and Delta(X-s4d) pointwise per component arm), secondary_paired_significance.csv/json (paired t-test + Wilcoxon, reporting only), secondary_decision.json (mechanical application of decision_rule above, citing this prereg_id and .orchestrate/0703-085303/r2_review.json) -- all chmod 444 immediately after write."
+  ],
+  "status": "PREREGISTERED (post-hoc-timing-disclosed, pre-aggregation) -- see prereg_timing_disclosure above. Grid data already existed at write time; aggregate numbers were not viewed before this rule was fixed."
+}

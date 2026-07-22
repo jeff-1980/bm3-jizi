@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+s4d_plus_gate,clean,OR,17327,193,17520
+s4d_plus_gate,clean,IR,4969,3751,8720

@@ -1,0 +1,55 @@
+{
+  "prereg_id": "secondary_deltapp_prereg_20260704-0719",
+  "written_at": "2026-07-04T07:19",
+  "status": "DRAFT_PENDING_REVIEWER_APPROVAL -- becomes usable only once a reviewer records a PASS verdict against the .orchestrate round containing this file.",
+  "purpose": "Locks a mechanical Δpp-threshold decision rule for a FUTURE rerun of the single-component-ablation design (arch_map.md §5, arms: bm3_frozen / frozen_noconv / frozen_nogate / frozen_As4d / s4d), so that a future secondary_decision.json can be produced by mechanically applying an already-registered Δpp threshold -- resolving the critical §E3 gap identified in .orchestrate/0704-070402/r1_review.json against results/secondary_analysis_20260704-0708/secondary_decision.json (see results/secondary_e3adjudication_20260704-0719/e3_adjudication.json for the full adjudication).",
+  "disclosure_of_prior_exposure": "The author of this file has, in this same session, already viewed the aggregate mean_macro_f1/std_macro_f1/delta_pp numbers for results/secondary_20260703-1034/ (they are quoted verbatim in .orchestrate/0704-070402/r1_review.json and stored in results/secondary_analysis_20260704-0708/secondary_decision.json and secondary_component_deltas.json). This is disclosed explicitly per this project's established rigor-deviation-disclosure norm (see secondary_prereg_20260704-0708.json's own prereg_timing_disclosure for precedent). Consequence: (a) the Δpp threshold value fixed below is derived ONLY from an external, pre-existing project convention (the frozensel study's own +10pp deep-noise rule, see rationale below) and NOT from any curve-fitting or reverse-engineering against results/secondary_20260703-1034's specific per-condition deltas -- no per-condition delta from that run was used to pick the number; (b) this prereg is scoped to apply ONLY to a run_dir whose cells.jsonl does not exist yet at write time, per critical_restriction below, so the anti-rationalization property (rule fixed before the specific dataset it adjudicates is observed) still holds for whatever future run this is applied to, even though the author is not naive about the project's general effect sizes.",
+  "critical_restriction": {
+    "rule": "This prereg's decision_rule below may be mechanically applied ONLY to a run_dir that (a) does not exist yet as of this file's write_at timestamp (2026-07-04T07:19), and (b) uses the same 5-arm design (bm3_frozen, frozen_noconv, frozen_nogate, frozen_As4d, s4d) x 7 AWGN conditions x >=5 seeds as results/secondary_20260703-1034/, launched via a fresh invocation of launch_secondary.sh or equivalent.",
+    "explicit_prohibition": "MUST NOT be applied retroactively to results/secondary_20260703-1034/cells.jsonl. That grid's data already existed and was already aggregated/viewed (results/secondary_analysis_20260704-0708/) before this file was authored -- applying a new rule to already-viewed data would repeat exactly the post-hoc-rationalization problem this file exists to avoid. The existing results/secondary_analysis_20260704-0708/secondary_decision.json remains labeled post-hoc/exploratory per results/secondary_e3adjudication_20260704-0719/e3_adjudication.json and is not superseded in substance by this file.",
+    "pre_launch_verification_required": "Before launching the future grid this prereg is meant for, the executor must confirm (and record in the future run's own artifacts) that no results/<new_run_dir>/cells.jsonl existed at the time this file was chmod 444, by comparing this file's write timestamp against the new run_dir's first-cell-written timestamp."
+  },
+  "design": {
+    "arms": ["bm3_frozen", "frozen_noconv", "frozen_nogate", "frozen_As4d", "s4d"],
+    "component_arms": ["frozen_noconv", "frozen_nogate", "frozen_As4d"],
+    "full_baseline_arm": "bm3_frozen",
+    "floor_baseline_arm": "s4d",
+    "conditions": ["clean", "awgn@+10dB", "awgn@+6dB", "awgn@+0dB", "awgn@-2dB", "awgn@-6dB", "awgn@-10dB"],
+    "n_conditions": 7,
+    "seeds": [0, 1, 2, 3, 4],
+    "n_seeds": 5,
+    "min_acceptable_seeds": 3,
+    "metric": "best_macro_f1",
+    "note": "Identical arm/condition/seed structure to secondary_prereg_20260704-0708.json's design block, reused for comparability. Only the decisive rule differs (Δpp threshold instead of mean±std bands)."
+  },
+  "chance_floor": {
+    "threshold_macro_f1": 0.55,
+    "rationale": "Same convention as results/fullgrid_20260627-1731/decision.json, results/frozensel_prereg_20260702-1826/frozensel_prereg.json, and secondary_prereg_20260704-0708.json -- unchanged for cross-study consistency.",
+    "application": "Identical to secondary_prereg_20260704-0708.json:chance_floor.application -- a condition is 'meaningful' for a bm3_frozen-vs-X comparison only if both arms' condition-means exceed 0.55."
+  },
+  "decisive_rule_delta_pp_threshold": {
+    "DELTA_PP_THRESHOLD": 10.0,
+    "rationale_for_threshold_value": "Matches the order of magnitude of the only Δpp threshold previously used anywhere in this project (frozensel's +10pp deep-noise Δ(kin-frozen) rule, results/frozensel_20260702-1827/frozensel_decision_scoped.json -- itself formally post-hoc/exploratory per results/frozensel_e3adjudication_20260703-0847/e3_adjudication.json, but its numeric convention is reused here for cross-study consistency, chosen BEFORE inspecting any per-condition delta of the future run this prereg targets). This is a fixed constant, not tuned to any observed effect size in results/secondary_20260703-1034 or any other already-computed grid.",
+    "rule": "For a given component arm X and condition, let delta_frozen_minus_X_pp = (mean_macro_f1(bm3_frozen) - mean_macro_f1(X)) * 100 computed over that condition's completed seeds. bm3_frozen SIGNIFICANTLY beats X in that condition iff delta_frozen_minus_X_pp >= DELTA_PP_THRESHOLD (10.0). X SIGNIFICANTLY beats bm3_frozen iff delta_frozen_minus_X_pp <= -DELTA_PP_THRESHOLD. Otherwise the condition is a TIE (no significant difference), regardless of which mean is nominally higher. This replaces secondary_prereg_20260704-0708.json's non-overlapping mean±std band heuristic as the SOLE decisive rule for any run this prereg is validly applied to.",
+    "meaningful_condition_gate": "A condition only enters the win/tie tally if it is 'meaningful' per chance_floor.application above (both bm3_frozen's and X's condition-means > 0.55); otherwise excluded_at_chance, recorded but not tallied -- unchanged from secondary_prereg_20260704-0708.json."
+  },
+  "per_component_verdicts": {
+    "COMPONENT_CONTRIBUTES": "bm3_frozen significantly beats X (delta_frozen_minus_X_pp >= 10.0) in a STRICT MAJORITY of meaningful conditions, AND bm3_frozen does not lose significantly to X (delta_frozen_minus_X_pp <= -10.0) in any meaningful condition. Interpreted as: removing this component causally hurts bm3_frozen's performance by a magnitude, not just a direction, judged decisive.",
+    "COMPONENT_NOT_SHOWN_TO_CONTRIBUTE": "Default/null outcome -- bm3_frozen does not significantly beat X (per the Δpp rule) in a strict majority of meaningful conditions.",
+    "INCONCLUSIVE": "Fewer than 2 meaningful conditions exist for this component's bm3_frozen-vs-X comparison, OR completed cells for {bm3_frozen, X} across all conditions x seeds < min_acceptable_seeds x n_conditions x 2 = 70.",
+    "tie_break": "'strict majority' = more than half of meaningful conditions; an exact half-split is NOT a strict majority and falls through to COMPONENT_NOT_SHOWN_TO_CONTRIBUTE. Identical tie_break convention to secondary_prereg_20260704-0708.json and frozensel_prereg_20260702-1826.json."
+  },
+  "overall_verdict": {
+    "unit": "count of the 3 component arms (frozen_noconv, frozen_nogate, frozen_As4d) whose per_component_verdict is COMPONENT_CONTRIBUTES.",
+    "ALL_COMPONENTS_CONTRIBUTE": "all 3 are COMPONENT_CONTRIBUTES.",
+    "PARTIAL_COMPONENTS_CONTRIBUTE": "1 or 2 are COMPONENT_CONTRIBUTES (names which).",
+    "NO_COMPONENTS_SHOWN_TO_CONTRIBUTE": "0 are COMPONENT_CONTRIBUTES.",
+    "OVERALL_INCONCLUSIVE": "any component arm's per_component_verdict is INCONCLUSIVE."
+  },
+  "context_only_not_decisive": "Delta(X - s4d) per condition remains reported for context only and does not enter any verdict, unchanged from secondary_prereg_20260704-0708.json.",
+  "paired_significance_reporting_only": "A paired t-test / Wilcoxon signed-rank test (matched by seed) remains reporting-only and MUST NOT feed into any verdict, unchanged from secondary_prereg_20260704-0708.json.",
+  "artifacts_to_produce_for_the_future_run": [
+    "A NEW timestamped results/secondary_<future_run_TS>/ grid directory (launched only after this file is chmod 444)",
+    "A NEW timestamped results/secondary_deltapp_analysis_<TS>/ directory containing: tuple_enum_report.json, fairness_report.json, q_secondary.csv/.json, secondary_curve_table.csv/.png, secondary_component_deltas.csv/.json, secondary_paired_significance.csv/.json (reporting only), and secondary_decision.json computed by mechanically applying decisive_rule_delta_pp_threshold above -- citing this prereg_id, chmod 444 immediately after write, decision dict to include preregistered=true and adjudicates_E3=true fields so it is unambiguously distinguishable from the post-hoc results/secondary_analysis_20260704-0708/secondary_decision.json."
+  ]
+}

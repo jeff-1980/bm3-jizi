@@ -1,0 +1,208 @@
+{
+  "device": "cuda",
+  "checks": {
+    "forward_pass": {
+      "built_via": "xjtu_noisy_harness.build_model('bm3_frozen', device)",
+      "output_shape": [
+        4,
+        2
+      ],
+      "expected_shape": [
+        4,
+        2
+      ],
+      "shape_ok": true,
+      "has_nan": false,
+      "passed": true
+    },
+    "selectivity_removed": {
+      "ref_unfrozen_in_proj_out_features": 550,
+      "frozen_in_proj_out_features": 290,
+      "expected_selective_slice_width(B+C+dd_dt+dd_A)": 260,
+      "actual_shrink": 260,
+      "in_proj_shrunk_correctly": true,
+      "has_A_const_B_const_C_const": true,
+      "passed": true
+    },
+    "backward_grads": {
+      "A_const.grad is not None": true,
+      "B_const.grad is not None": true,
+      "C_const.grad is not None": true,
+      "dt_bias.grad is not None": true,
+      "passed": true
+    },
+    "state_dict_diff": {
+      "description": "bm3_frozen (FrozenSelectivityMamba3) vs bm3_nokin (Mamba3, both built via THIS dir's xjtu_noisy_harness.build_model()) must be the SAME layer family: every state_dict key outside SELECTIVE_ALLOWED_DIFF_KEYS matches name+shape exactly (zero diff on non-selective keys), and the full-model param delta equals the arch_map.md \u00a74 arithmetic exactly.",
+      "selective_allowed_diff_keys": {
+        "in_proj.weight": "arch_map.md \u00a72 \u2014 in_proj rebuilt smaller: [z,x,trap,angle] only, B/C/dd_dt/dd_A slices removed",
+        "A_const": "arch_map.md \u00a72 \u2014 new constant replacing dd_A (Mamba3's A has no static analogue to inherit)",
+        "B_const": "arch_map.md \u00a72 \u2014 new constant replacing the removed B in_proj slice",
+        "C_const": "arch_map.md \u00a72 \u2014 new constant replacing the removed C in_proj slice"
+      },
+      "per_layer_key_diff": [
+        {
+          "key": "A_const",
+          "bm3_nokin_shape": null,
+          "bm3_frozen_shape": [
+            2
+          ],
+          "status": "selective_diff (expected)",
+          "reason": "arch_map.md \u00a72 \u2014 new constant replacing dd_A (Mamba3's A has no static analogue to inherit)"
+        },
+        {
+          "key": "B_bias",
+          "bm3_nokin_shape": [
+            2,
+            1,
+            128
+          ],
+          "bm3_frozen_shape": [
+            2,
+            1,
+            128
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "B_const",
+          "bm3_nokin_shape": null,
+          "bm3_frozen_shape": [
+            1,
+            1,
+            128
+          ],
+          "status": "selective_diff (expected)",
+          "reason": "arch_map.md \u00a72 \u2014 new constant replacing the removed B in_proj slice"
+        },
+        {
+          "key": "B_norm.weight",
+          "bm3_nokin_shape": [
+            128
+          ],
+          "bm3_frozen_shape": [
+            128
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "C_bias",
+          "bm3_nokin_shape": [
+            2,
+            1,
+            128
+          ],
+          "bm3_frozen_shape": [
+            2,
+            1,
+            128
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "C_const",
+          "bm3_nokin_shape": null,
+          "bm3_frozen_shape": [
+            1,
+            1,
+            128
+          ],
+          "status": "selective_diff (expected)",
+          "reason": "arch_map.md \u00a72 \u2014 new constant replacing the removed C in_proj slice"
+        },
+        {
+          "key": "C_norm.weight",
+          "bm3_nokin_shape": [
+            128
+          ],
+          "bm3_frozen_shape": [
+            128
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "D",
+          "bm3_nokin_shape": [
+            2
+          ],
+          "bm3_frozen_shape": [
+            2
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "dt_bias",
+          "bm3_nokin_shape": [
+            2
+          ],
+          "bm3_frozen_shape": [
+            2
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        },
+        {
+          "key": "in_proj.weight",
+          "bm3_nokin_shape": [
+            550,
+            64
+          ],
+          "bm3_frozen_shape": [
+            290,
+            64
+          ],
+          "status": "selective_diff (expected)",
+          "reason": "arch_map.md \u00a72 \u2014 in_proj rebuilt smaller: [z,x,trap,angle] only, B/C/dd_dt/dd_A slices removed"
+        },
+        {
+          "key": "out_proj.weight",
+          "bm3_nokin_shape": [
+            64,
+            128
+          ],
+          "bm3_frozen_shape": [
+            64,
+            128
+          ],
+          "status": "identical",
+          "reason": "arch_map.md \u00a73 S4 \u2014 non-selective, must match"
+        }
+      ],
+      "non_selective_keys_checked": [
+        "B_bias",
+        "B_norm.weight",
+        "C_bias",
+        "C_norm.weight",
+        "D",
+        "dt_bias",
+        "out_proj.weight"
+      ],
+      "non_selective_zero_diff": true,
+      "unexpected_missing_keys": [],
+      "unexpected_added_keys": [],
+      "full_model_param_delta": -65528,
+      "expected_param_delta(arch_map_section4)": -65528,
+      "delta_explained": true,
+      "frozen_has_fewer_params": true,
+      "passed": true
+    },
+    "param_table": {
+      "params": {
+        "bm3_kin": 177938,
+        "bm3_frozen": 112410,
+        "cnn1d": 100546,
+        "tcn": 100546,
+        "cnnlstm": 117186,
+        "s4d": 100162,
+        "s4d_wide": 178498,
+        "bm3_nokin (== bm3_kin architecture)": 177938
+      },
+      "passed": true
+    }
+  },
+  "ALL_PASS": true
+}

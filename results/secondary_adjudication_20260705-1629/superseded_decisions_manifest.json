@@ -1,0 +1,67 @@
+{
+  "note": "This manifest records supersession by REFERENCE only. None of the files listed below were modified, overwritten, or deleted -- guardrail: never touch existing results/** artifacts. Each entry states why it no longer speaks for the E3 question, without altering the original file.",
+  "superseded_by": "results/secondary_adjudication_20260705-1629/secondary_decision.json",
+  "scope_note": "This round's fix (.orchestrate/0705-160159/r2_review.json) is narrowly scoped to the per-arm fallback verdict enum (UNCLASSIFIED_BY_PREREG -> OUT_OF_PREREG_BINS) in apply_secondary_vault_prereg.py. results/secondary_adjudication_20260705-1619/e3_human_ruling.json and results/secondary_adjudication_20260705-1619/cited_reviewer_verdicts_verbatim.json are NOT superseded by this round -- r2_review.json raised no issue with either file, so they remain the effective human-ruling and verbatim-citation artifacts for this E3 question; only that directory's secondary_decision.json (and the manifest below it, which this manifest now itself supersedes) are superseded, because the arm-verdict enum they recorded was not rubric-legal.",
+  "entries": [
+    {
+      "path": "results/secondary_analysis_20260704-0708/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Used the mean+/-std band heuristic from results/secondary_prereg_20260704-0708/secondary_prereg.json, which prereg_provenance.md declares void (post-dates grid, not the card's rule)."
+    },
+    {
+      "path": "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json",
+      "kept_in_place": true,
+      "reason_superseded": "Explicitly self-labeled no valid preregistered Delta-pp adjudication exists for this run; correct at the time given repo-only search scope. Superseded now that the vault card registration is on record."
+    },
+    {
+      "path": "results/secondary_e3ruling_20260704-2206/secondary_decision_corrected.json",
+      "kept_in_place": true,
+      "reason_superseded": "Replayed the same void mean+/-std band heuristic as a 'corrected' decision (flagged by .orchestrate/0704-215713/r2_review.json as still not a mechanical Delta-pp adjudication)."
+    },
+    {
+      "path": "results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "A no-decision marker for the void band prereg; superseded by an actual decision now that the valid card rule is applied."
+    },
+    {
+      "path": "results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Correctly set preregistered=false/adjudicates_E3=false because it (rightly, at the time) treated results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json (DRAFT, wrong thresholds, self-prohibited retroactive use) as the only candidate prereg. Its per-component aggregate deltas (secondary_component_deltas.json, q_secondary.json) are NOT superseded -- they are the unmodified, frozen source data this ruling's mechanical decision reads from."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Per .orchestrate/0705-160159/r1_review.json critical issue #1: classified frozen_noconv (deltas {-6.56,-2.66,7.91}) and frozen_As4d (deltas {-2.41,-2.21,-4.15}) as NOT_DRIVER using an unregistered '|mean of three deep-noise bins| < 3pp' fallback, instead of the card's actual per-bin '深噪三档 |Δ| < +3pp' condition. Fixed in results/secondary_adjudication_20260705-1619/secondary_decision.json."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/e3_human_ruling.json",
+      "kept_in_place": true,
+      "reason_superseded": "Per .orchestrate/0705-160159/r1_review.json critical issues #2 and #3 (stale reviewer-verdict citation; ellipsis-truncated quote). Fixed in results/secondary_adjudication_20260705-1619/e3_human_ruling.json."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/superseded_decisions_manifest.json",
+      "kept_in_place": true,
+      "reason_superseded": "Superseded by results/secondary_adjudication_20260705-1619/superseded_decisions_manifest.json, which was itself superseded by this manifest."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1619/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Per .orchestrate/0705-160159/r2_review.json critical issue #1 (§G2/§G3 enum mismatch): correctly identified frozen_nogate as PRIMARY_DRIVER from 13.05/21.10/23.53pp plus collapse toward s4d, and correctly determined frozen_noconv (deltas {-6.56,-2.66,7.91}) and frozen_As4d (deltas {-2.41,-2.21,-4.15}) meet none of the three named per-arm conditions -- but reported that outcome as `UNCLASSIFIED_BY_PREREG`, which is not the rubric-legal enum. The rubric's expected mechanical outcome for that fallback case is `OUT_OF_PREREG_BINS`. Fixed in this directory's secondary_decision.json (classify_arm()'s fallback branch and ALLOWED_ARM_VERDICTS renamed in apply_secondary_vault_prereg.py); the underlying Delta evidence, per-arm reasoning, and overall_verdict (SINGLE_PRIMARY_DRIVER, frozen_nogate sole primary) are unchanged by this rename."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1619/superseded_decisions_manifest.json",
+      "kept_in_place": true,
+      "reason_superseded": "Superseded by this manifest, which adds an entry for that directory's secondary_decision.json and updates 'superseded_by' to point at this directory's secondary_decision.json."
+    }
+  ],
+  "not_superseded": [
+    {
+      "path": "results/secondary_adjudication_20260705-1619/e3_human_ruling.json",
+      "reason": "No issue raised against it by .orchestrate/0705-160159/r2_review.json; remains the effective human-ruling artifact for this E3 question. See 'scope_note' above."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1619/cited_reviewer_verdicts_verbatim.json",
+      "reason": "No issue raised against it by .orchestrate/0705-160159/r2_review.json; remains the effective verbatim reviewer-citation artifact for this E3 question. See 'scope_note' above."
+    }
+  ]
+}

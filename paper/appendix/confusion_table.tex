@@ -1,0 +1,28 @@
+\begin{longtable}{@{}llrrrr@{}}
+\caption{Full confusion-matrix set (summed over 5 seeds; support OR=17{,}520, IR=8{,}720 per cell). Columns give true$\to$predicted counts.}\label{tab:confmat}\\
+\toprule
+Arm & Condition & OR$\to$OR & OR$\to$IR & IR$\to$OR & IR$\to$IR \\
+\midrule
+\endfirsthead
+\toprule
+Arm & Condition & OR$\to$OR & OR$\to$IR & IR$\to$OR & IR$\to$IR \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+BM3 & clean & 17{,}500 & 20 & 3{,}948 & 4{,}772 \\
+ & 0\,dB & 17{,}395 & 125 & 1{,}364 & 7{,}356 \\
+ & $-6$\,dB & 16{,}613 & 907 & 1{,}664 & 7{,}056 \\
+BM3-frozen & clean & 17{,}303 & 217 & 3{,}917 & 4{,}803 \\
+ & 0\,dB & 17{,}089 & 431 & 2{,}060 & 6{,}660 \\
+ & $-6$\,dB & 15{,}634 & 1{,}886 & 2{,}543 & 6{,}177 \\
+S4D+gate & clean & 17{,}327 & 193 & 4{,}969 & 3{,}751 \\
+ & 0\,dB & 16{,}303 & 1{,}217 & 3{,}322 & 5{,}398 \\
+ & $-6$\,dB & 13{,}267 & 4{,}253 & 3{,}244 & 5{,}476 \\
+frozen$-$gate & clean & 16{,}935 & 585 & 5{,}139 & 3{,}581 \\
+ & 0\,dB & 16{,}092 & 1{,}428 & 5{,}406 & 3{,}314 \\
+ & $-6$\,dB & 13{,}200 & 4{,}320 & 5{,}469 & 3{,}251 \\
+S4D & clean & 16{,}828 & 692 & 3{,}354 & 5{,}366 \\
+ & 0\,dB & 14{,}945 & 2{,}575 & 2{,}897 & 5{,}823 \\
+ & $-6$\,dB & 12{,}477 & 5{,}043 & 3{,}810 & 4{,}910 \\
+\end{longtable}

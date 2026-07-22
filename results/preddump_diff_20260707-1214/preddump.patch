@@ -1,0 +1,228 @@
+--- xjtu_noisy_harness.PREEDIT_reconstructed.py	2026-07-07 12:16:03.305931396 +0800
++++ xjtu_noisy_harness.CURRENT_COPY.py	2026-07-07 12:14:24.736670336 +0800
+@@ -304,12 +304,25 @@
+ 
+ def eval_macro_f1(model: nn.Module,
+                   loader: torch.utils.data.DataLoader,
+-                  device: torch.device):
++                  device: torch.device,
++                  collect_predictions: bool = False):
++    """
++    Default (collect_predictions=False) return value and computation are
++    UNCHANGED from before --dump_predictions existed: (per_f1, macro_f1).
++    When collect_predictions=True, additionally accumulates and returns the
++    concatenated (in loader iteration order — loader is shuffle=False, so
++    this order is the fixed sample_id order) y_true/y_pred/logits arrays,
++    computed via the exact same tp/fn/fp pass used for per_f1/macro_f1 (same
++    source, per task's "旁路与指标同源" requirement).
++    """
+     model.eval()
+     param_dtype = next(model.parameters()).dtype
+     tp = np.zeros(N_CLASSES, dtype=np.int64)
+     fn = np.zeros(N_CLASSES, dtype=np.int64)
+     fp = np.zeros(N_CLASSES, dtype=np.int64)
++    labels_chunks = [] if collect_predictions else None
++    preds_chunks  = [] if collect_predictions else None
++    logits_chunks = [] if collect_predictions else None
+     with torch.no_grad():
+         for x, labels, _rpm in loader:
+             x      = x.to(device, dtype=param_dtype)
+@@ -322,13 +335,21 @@
+                 tp[c] += int(((preds == c) & (labels == c)).sum())
+                 fn[c] += int(((preds != c) & (labels == c)).sum())
+                 fp[c] += int(((preds == c) & (labels != c)).sum())
++            if collect_predictions:
++                labels_chunks.append(labels.cpu().numpy())
++                preds_chunks.append(preds.cpu().numpy())
++                logits_chunks.append(logits_f.cpu().numpy())
+     per_f1 = []
+     for c in range(N_CLASSES):
+         prec = tp[c] / max(tp[c] + fp[c], 1)
+         rec  = tp[c] / max(tp[c] + fn[c], 1)
+         f1   = 2 * prec * rec / max(prec + rec, 1e-8)
+         per_f1.append(float(f1))
+-    return np.array(per_f1), float(np.mean(per_f1))
++    if not collect_predictions:
++        return np.array(per_f1), float(np.mean(per_f1))
++    return (np.array(per_f1), float(np.mean(per_f1)),
++            np.concatenate(labels_chunks), np.concatenate(preds_chunks),
++            np.concatenate(logits_chunks, axis=0))
+ 
+ 
+ # ── Single cell training ───────────────────────────────────────────────────────
+@@ -349,7 +370,7 @@
+ 
+ def train_cell(arm: str, train_ds: XJTUDatasetNoisy, test_ds: XJTUDatasetNoisy,
+                seed: int, n_epochs: int, device: torch.device,
+-               verbose: bool = False) -> dict:
++               verbose: bool = False, dump_predictions: bool = False) -> dict:
+     t0 = time.time()
+     set_seed(seed)
+     model = build_model(arm, device)
+@@ -377,6 +398,8 @@
+     is_bm3 = (arm == "bm3_kin")
+     param_dtype = next(model.parameters()).dtype
+     best_f1 = 0.0
++    best_epoch = None
++    best_y_true = best_y_pred = best_logits = None
+ 
+     for epoch in range(1, n_epochs + 1):
+         model.train()
+@@ -403,16 +426,34 @@
+             optimizer.step()
+ 
+         scheduler.step()
+-        _, macro_f1 = eval_macro_f1(model, test_loader, device)
+-        best_f1 = max(best_f1, macro_f1)
++        if dump_predictions:
++            _, macro_f1, y_true, y_pred, logits = eval_macro_f1(
++                model, test_loader, device, collect_predictions=True)
++        else:
++            _, macro_f1 = eval_macro_f1(model, test_loader, device)
++        if macro_f1 > best_f1:
++            best_f1 = macro_f1
++            if dump_predictions:
++                best_epoch = epoch
++                best_y_true, best_y_pred, best_logits = y_true, y_pred, logits
+ 
+         if verbose and (epoch <= 3 or epoch % 10 == 0 or epoch == n_epochs):
+             print(f"    ep={epoch:3d}/{n_epochs}  macro_f1={macro_f1:.4f}  best={best_f1:.4f}")
+ 
++    predictions = None
++    if dump_predictions and best_epoch is not None:
++        predictions = {
++            "epoch": best_epoch,
++            "y_true": best_y_true,
++            "y_pred": best_y_pred,
++            "logits": best_logits,
++        }
++
+     return {
+         "best_macro_f1": best_f1,
+         "elapsed_s": round(time.time() - t0, 1),
+         "n_params": sum(p.numel() for p in model.parameters()),
++        "predictions": predictions,
+     }
+ 
+ 
+@@ -432,9 +473,36 @@
+     os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
+ 
+ 
++def _write_predictions_jsonl(cell_dir: Path, predictions: dict):
++    """
++    Writes predictions.jsonl (sample_id / y_true / y_pred / logits, one JSON
++    object per line, sample_id == the fixed test_loader iteration index —
++    test_loader is shuffle=False so this order is deterministic and shared
++    across arms/seeds for a given condition) then chmod 444. Called only
++    when --dump_predictions is on; off-path (run_grid's default) never
++    calls this function or creates cell_dir.
++    """
++    cell_dir.mkdir(parents=True, exist_ok=True)
++    path = cell_dir / "predictions.jsonl"
++    y_true = predictions["y_true"]
++    y_pred = predictions["y_pred"]
++    logits = predictions["logits"]
++    with open(path, "w") as f:
++        for i in range(len(y_true)):
++            row = {
++                "sample_id": i,
++                "y_true": int(y_true[i]),
++                "y_pred": int(y_pred[i]),
++                "logits": [float(v) for v in logits[i]],
++            }
++            f.write(json.dumps(row, ensure_ascii=False) + "\n")
++    os.chmod(path, stat.S_IRUSR | stat.S_IRGRP | stat.S_IROTH)
++    return path
++
++
+ def run_grid(run_dir: Path, conditions: list[dict], arms: list[str],
+              seeds: list[int], n_epochs: int, device: torch.device,
+-             verbose: bool = False):
++             verbose: bool = False, dump_predictions: bool = False):
+     run_dir.mkdir(parents=True, exist_ok=True)
+     cells_path = run_dir / "cells.jsonl"
+ 
+@@ -516,7 +584,8 @@
+                           f"({done+1}/{total})", flush=True)
+ 
+                     result = train_cell(arm, train_ds, test_ds, seed, n_epochs,
+-                                        device, verbose=verbose)
++                                        device, verbose=verbose,
++                                        dump_predictions=dump_predictions)
+ 
+                     cell = {
+                         "condition": label,
+@@ -533,6 +602,11 @@
+                             "noise_sha256": noise_sha[:16] if noise_sha != "clean" else "clean",
+                         },
+                     }
++                    if dump_predictions and result["predictions"] is not None:
++                        cell_dir = run_dir / f"{arm}__{label}__seed{seed}"
++                        pred_path = _write_predictions_jsonl(cell_dir, result["predictions"])
++                        cell["predictions_file"] = str(pred_path.relative_to(run_dir))
++                        cell["predictions_epoch"] = result["predictions"]["epoch"]
+                     fout.write(json.dumps(cell, ensure_ascii=False) + "\n")
+                     fout.flush()
+                     done += 1
+@@ -689,11 +763,21 @@
+                     help="secondary single-variable ablations: clean+awgn × bm3_frozen/frozen_noconv/frozen_nogate/frozen_As4d/s4d × 5 seeds × 50 epochs (175 cells)")
+     ap.add_argument("--graft", action="store_true",
+                     help="constructive graft: clean+awgn × s4d_plus_gate × 5 seeds × 50 epochs (35 cells)")
++    ap.add_argument("--perclass", action="store_true",
++                    help="per-class confusion/precision-recall prep grid: {clean,awgn@+0dB,"
++                         "awgn@-6dB} × bm3_kin/bm3_frozen/s4d/frozen_nogate/s4d_plus_gate × "
++                         "5 seeds × 20 epochs (75 cells) — intended for use with "
++                         "--dump_predictions")
+     ap.add_argument("--analyze-only", action="store_true",
+                     help="Skip training, only run analyze_results on existing cells.jsonl")
+     ap.add_argument("--run-dir", type=str, default=None,
+                     help="Output directory (default: auto-timestamped)")
+     ap.add_argument("--verbose", action="store_true")
++    ap.add_argument("--dump_predictions", action="store_true",
++                    help="Per cell, write predictions.jsonl (sample_id/y_true/y_pred/logits) "
++                         "into a <arm>__<condition>__seed<seed>/ subdir of run-dir. Off by "
++                         "default; when off, training/eval/cells.jsonl are byte-for-byte "
++                         "identical to before this flag existed.")
+     args = ap.parse_args()
+ 
+     ts = datetime.datetime.now().strftime("%Y%m%d-%H%M")
+@@ -711,6 +795,8 @@
+         run_dir = HARNESS_DIR / "results" / f"secondary_{ts}"
+     elif args.graft:
+         run_dir = HARNESS_DIR / "results" / f"graft_{ts}"
++    elif args.perclass:
++        run_dir = HARNESS_DIR / "results" / f"perclass_{ts}"
+     else:
+         run_dir = HARNESS_DIR / "results" / f"fullgrid_{ts}"
+ 
+@@ -773,13 +859,27 @@
+         arms       = ["s4d_plus_gate"]
+         seeds      = FULL_SEEDS
+         n_epochs   = FULL_EPOCHS
++    elif args.perclass:
++        # Per-class confusion-matrix / precision-recall prep grid
++        # (perclass_needs_human_20260707-1150, predproc_needs_human_20260706-0934):
++        # reduced condition set (clean + 2 AWGN SNRs, not the full 6-SNR AWGN
++        # column used by --secondary/--frozensel/--graft) and reduced epoch
++        # budget (20, not FULL_EPOCHS=50) — 5 arms x 3 conditions x 5 seeds =
++        # 75 cells. Meant to be launched with --dump_predictions so each cell
++        # writes predictions.jsonl for downstream confusion-matrix/per-class
++        # reporting; this branch alone (without --dump_predictions) would
++        # reproduce the same predictions-not-saved gap the prior audits hit.
++        conditions = build_conditions(["awgn"], [0.0, -6.0])
++        arms       = ["bm3_kin", "bm3_frozen", "s4d", "frozen_nogate", "s4d_plus_gate"]
++        seeds      = FULL_SEEDS
++        n_epochs   = 20
+     else:
+         ap.print_help()
+         return
+ 
+     run_grid(run_dir, conditions, arms, seeds, n_epochs, device,
+-             verbose=args.verbose)
+-    if not (args.ablation or args.capctrl or args.frozensel or args.secondary or args.graft):
++             verbose=args.verbose, dump_predictions=args.dump_predictions)
++    if not (args.ablation or args.capctrl or args.frozensel or args.secondary or args.graft or args.perclass):
+         # analyze_results() assumes FULL_ARMS (cnn1d/tcn/cnnlstm) baselines and
+         # writes a claim-bearing decision.json (CLAIM_SURVIVES/FALSIFIED) — not
+         # meaningful for --ablation/--capctrl/--frozensel's own arm sets, and

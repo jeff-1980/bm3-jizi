@@ -1,0 +1,12 @@
+{
+  "q2_bm3_vs_best_baseline": [
+    {
+      "condition": "pink@-6dB",
+      "bm3_f1": 48.81,
+      "best_baseline": "s4d",
+      "best_bl_f1": 50.06,
+      "delta_pp": -1.25,
+      "bm3_wins": false
+    }
+  ]
+}

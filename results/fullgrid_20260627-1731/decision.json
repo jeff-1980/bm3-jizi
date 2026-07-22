@@ -1,0 +1,292 @@
+{
+  "verdict": "c",
+  "verdict_label": "CLAIM_FALSIFIED",
+  "run_dir": "results/fullgrid_20260627-1731",
+  "total_cells": 325,
+  "reasoning": "BM3 wins 0/13 conditions vs best baseline (S4D). On clean cross-condition, BM3=80.04% < S4D=80.98% (Δ=-0.94pp). On AWGN deep OOD (the +38.4pp claim axis): BM3=47.72–49.03% vs S4D=49.67–49.78% (Δ=-0.71 to -1.95pp). All noisy conditions: all models collapse to near-chance (42–50%). S4D is also at chance on noisy conditions per floor check (≤55%), so noisy-condition comparisons are both-at-chance and excluded from win/loss per protocol — but this does NOT rescue BM3 because BM3 loses even on clean where both models are working. The +38.4pp claim is completely falsified: actual delta is NEGATIVE across all AWGN SNRs.",
+  "claim_plus38pp": {
+    "original_claim": "+38.4pp BM3 vs baseline on AWGN deep OOD",
+    "actual_results": {
+      "awgn@-2dB": {
+        "bm3_f1": 49.03,
+        "best_bl": "s4d",
+        "best_bl_f1": 49.75,
+        "delta_pp": -0.71,
+        "note": "both at chance (≤55%), noise destroys all models"
+      },
+      "awgn@-6dB": {
+        "bm3_f1": 48.89,
+        "best_bl": "s4d",
+        "best_bl_f1": 49.78,
+        "delta_pp": -0.89,
+        "note": "both at chance (≤55%), noise destroys all models"
+      },
+      "awgn@-10dB": {
+        "bm3_f1": 47.72,
+        "best_bl": "s4d",
+        "best_bl_f1": 49.67,
+        "delta_pp": -1.95,
+        "note": "both at chance (≤55%), noise destroys all models"
+      }
+    },
+    "verdict": "FALSIFIED — actual delta is NEGATIVE (-0.71 to -1.95pp vs S4D)"
+  },
+  "clean_condition": {
+    "bm3_f1": 80.04,
+    "best_bl": "s4d",
+    "best_bl_f1": 80.98,
+    "delta_pp": -0.94,
+    "all_arms": {
+      "bm3_kin": 80.04,
+      "cnn1d": 41.93,
+      "tcn": 47.08,
+      "cnnlstm": 56.15,
+      "s4d": 80.98
+    },
+    "note": "BM3 loses to S4D by -0.94pp on clean cross-condition too"
+  },
+  "bm3_wins_vs_best_bl": "0/13",
+  "bm3_wins_vs_tcn": "10/13",
+  "floor_note": "S4D (and all other models) collapse to 49–50% on all 12 noisy conditions. Both BM3 and best-BL are at chance on noisy conditions per protocol — these 12 conditions are excluded from meaningful win/loss assessment. The 1 meaningful comparison (clean) shows BM3 < S4D.",
+  "losing_cells_meaningful": [
+    "clean"
+  ],
+  "winning_cells_meaningful": [],
+  "at_chance_conditions": [
+    "awgn@+0dB",
+    "awgn@-2dB",
+    "awgn@-6dB",
+    "awgn@-10dB",
+    "pink@+0dB",
+    "pink@-2dB",
+    "pink@-6dB",
+    "pink@-10dB",
+    "impulsive@+0dB",
+    "impulsive@-2dB",
+    "impulsive@-6dB",
+    "impulsive@-10dB"
+  ],
+  "per_condition": {
+    "clean": {
+      "bm3_f1": 80.04,
+      "bm3_std": 9.64,
+      "best_bl": "s4d",
+      "best_bl_f1": 80.98,
+      "delta_pp": -0.94,
+      "bm3_wins": false,
+      "bm3_at_chance": false,
+      "bl_at_chance": false,
+      "all_arms": {
+        "bm3_kin": 80.04,
+        "cnn1d": 41.93,
+        "tcn": 47.08,
+        "cnnlstm": 56.15,
+        "s4d": 80.98
+      }
+    },
+    "awgn@+0dB": {
+      "bm3_f1": 48.95,
+      "bm3_std": 0.4,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.7,
+      "delta_pp": -0.74,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.95,
+        "cnn1d": 42.98,
+        "tcn": 45.71,
+        "cnnlstm": 45.5,
+        "s4d": 49.7
+      }
+    },
+    "awgn@-2dB": {
+      "bm3_f1": 49.03,
+      "bm3_std": 0.33,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.75,
+      "delta_pp": -0.71,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 49.03,
+        "cnn1d": 42.57,
+        "tcn": 46.87,
+        "cnnlstm": 45.67,
+        "s4d": 49.75
+      }
+    },
+    "awgn@-6dB": {
+      "bm3_f1": 48.89,
+      "bm3_std": 0.51,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.78,
+      "delta_pp": -0.89,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.89,
+        "cnn1d": 43.2,
+        "tcn": 45.17,
+        "cnnlstm": 45.7,
+        "s4d": 49.78
+      }
+    },
+    "awgn@-10dB": {
+      "bm3_f1": 47.72,
+      "bm3_std": 1.28,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.67,
+      "delta_pp": -1.95,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 47.72,
+        "cnn1d": 42.99,
+        "tcn": 47.37,
+        "cnnlstm": 45.75,
+        "s4d": 49.67
+      }
+    },
+    "pink@+0dB": {
+      "bm3_f1": 48.84,
+      "bm3_std": 0.83,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.91,
+      "delta_pp": -1.08,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.84,
+        "cnn1d": 42.44,
+        "tcn": 47.59,
+        "cnnlstm": 46.16,
+        "s4d": 49.91
+      }
+    },
+    "pink@-2dB": {
+      "bm3_f1": 48.93,
+      "bm3_std": 0.83,
+      "best_bl": "s4d",
+      "best_bl_f1": 50.06,
+      "delta_pp": -1.12,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.93,
+        "cnn1d": 44.33,
+        "tcn": 47.0,
+        "cnnlstm": 46.49,
+        "s4d": 50.06
+      }
+    },
+    "pink@-6dB": {
+      "bm3_f1": 48.56,
+      "bm3_std": 0.83,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.98,
+      "delta_pp": -1.42,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.56,
+        "cnn1d": 43.22,
+        "tcn": 47.28,
+        "cnnlstm": 46.28,
+        "s4d": 49.98
+      }
+    },
+    "pink@-10dB": {
+      "bm3_f1": 48.52,
+      "bm3_std": 0.68,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.96,
+      "delta_pp": -1.45,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.52,
+        "cnn1d": 44.28,
+        "tcn": 47.64,
+        "cnnlstm": 46.31,
+        "s4d": 49.96
+      }
+    },
+    "impulsive@+0dB": {
+      "bm3_f1": 48.97,
+      "bm3_std": 0.65,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.58,
+      "delta_pp": -0.61,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 48.97,
+        "cnn1d": 47.24,
+        "tcn": 49.36,
+        "cnnlstm": 47.53,
+        "s4d": 49.58
+      }
+    },
+    "impulsive@-2dB": {
+      "bm3_f1": 49.27,
+      "bm3_std": 0.5,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.63,
+      "delta_pp": -0.35,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 49.27,
+        "cnn1d": 47.71,
+        "tcn": 49.16,
+        "cnnlstm": 47.16,
+        "s4d": 49.63
+      }
+    },
+    "impulsive@-6dB": {
+      "bm3_f1": 49.27,
+      "bm3_std": 0.34,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.6,
+      "delta_pp": -0.33,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 49.27,
+        "cnn1d": 47.33,
+        "tcn": 49.39,
+        "cnnlstm": 47.5,
+        "s4d": 49.6
+      }
+    },
+    "impulsive@-10dB": {
+      "bm3_f1": 49.13,
+      "bm3_std": 1.05,
+      "best_bl": "s4d",
+      "best_bl_f1": 49.64,
+      "delta_pp": -0.51,
+      "bm3_wins": false,
+      "bm3_at_chance": true,
+      "bl_at_chance": true,
+      "all_arms": {
+        "bm3_kin": 49.13,
+        "cnn1d": 47.82,
+        "tcn": 49.4,
+        "cnnlstm": 47.95,
+        "s4d": 49.64
+      }
+    }
+  }
+}

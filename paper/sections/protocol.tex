@@ -1,0 +1,42 @@
+\section{Experimental Protocol}
+\label{sec:protocol}
+
+\subsection{Testbed, arms, and budget}
+\label{sec:protocol:testbed}
+
+Vibration windows from the XJTU-SY run-to-failure dataset~\cite{wang2020xjtusy} are split by operating condition: models train on one speed condition and evaluate on another (cross-speed), with additive white Gaussian noise applied at matched SNR to training and evaluation ($\{$clean, $+10$, $+6$, $0$, $-2$, $-6$, $-10\,\mathrm{dB}\}$). The task is binary fault classification (inner-race vs.\ outer-race dominant classes; class imbalance makes IR the hard class, Section~\ref{sec:results:perclass}). All arms share an identical training budget (20 epochs, 5 seeds), identical splits, and identical evaluation data verified by a byte-level fingerprint: every reported cell carries $\mathtt{eval\_sha} = \mathtt{6c20b367\ldots}$ (Appendix~\ref{app:fairness}), recomputed independently during adjudication. In total the study comprises 865 cells across five preregistered grids (baseline grid 475; frozen-selectivity 105; component ablation 175; graft 35; per-class 75).
+
+The principal arms are summarised in Table~\ref{tab:arms}.
+
+\begin{table}[htbp]
+\centering
+\caption{Principal experimental arms and parameter counts.}
+\label{tab:arms}
+\begin{tabular}{@{}lp{8.6cm}r@{}}
+\toprule
+Arm & Description & Params \\
+\midrule
+BM3 & Mamba-style block stack (conv stem $k{=}7$ $\rightarrow$ selective scan $\rightarrow$ SiLU gate $\rightarrow$ projection), with and without an auxiliary physics loss (Section~\ref{sec:protocol:confounds}) & 177{,}938 \\
+BM3-frozen & BM3 with $\Delta$, $B$, $C$ replaced by learned constants (selectivity off); all other components unchanged & 112{,}410 \\
+S4D & Parameter-matched diagonal time-invariant SSM (LayerNorm; no BatchNorm anywhere in either SSM arm) & 100{,}162 \\
+S4D-wide & S4D widened to $1.75\times$ parameters (capacity control) & 178{,}498 \\
+frozen$-$conv & Single-component removal on the frozen base: conv stem (Section~\ref{sec:results:localise}) & 112{,}026 \\
+frozen$-$gate & Single-component removal on the frozen base: SiLU gate (Section~\ref{sec:results:localise}) & 79{,}642 \\
+frozen$-$A & Single-component removal on the frozen base: heavy-tailed $A$ parameterisation (Section~\ref{sec:results:localise}) & 112{,}410 \\
+S4D+gate & Plain S4D plus the SiLU gate branch only (graft, Section~\ref{sec:results:graft}) & 116{,}802 \\
+CNN/TCN baselines & Conventional baselines for context & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The frozen-selectivity construction requires no kernel modification: the selective-scan interface accepts $\Delta$, $B$, $C$ tensors regardless of their origin, so input-dependent projections are replaced at the module level by learned constants broadcast over time; the removed projections are deleted from the module so no parameter or gradient can leak. Single-variable discipline is enforced by key-level state-dictionary diffs: for every ablation arm, all keys outside the targeted component are verified byte-identical, and every differing key is mapped to an explicit entry in an architecture map.
+
+\subsection{Confound elimination}
+\label{sec:protocol:confounds}
+
+Before component attribution, three confounds were eliminated on the same grid. \textbf{Capacity:} S4D-wide ($1.75\times$ parameters) tracks S4D pointwise (mean $-0.5\pp$)---parameters do not buy robustness at this scale; note also the gateless arm (79{,}642 params) has \emph{fewer} parameters than S4D yet the gate question is decided in the opposite direction (Section~\ref{sec:results:localise}). \textbf{Normalisation:} both SSM arms use LayerNorm and contain no BatchNorm; the arm that degrades under noise is the one \emph{without} any batch statistics, ruling out the BatchNorm-failure narrative as the mechanism. \textbf{Auxiliary physics loss:} an exploratory kinematics-alignment regulariser carried by the original model contributes $-0.1\pp$ pointwise (curves coincide); all attribution arms are therefore built on the pure cross-entropy variant.
+
+\subsection{Preregistration and adjudication}
+\label{sec:protocol:prereg}
+
+Every adjudicated question in this study had numeric decision thresholds fixed and written to disk before the corresponding grid was launched (file timestamps precede run-directory timestamps and are released, Appendix~\ref{app:fairness}). Adjudication was mechanical: an analysis pass applies the thresholds and emits a decision artifact; an independent reviewer pass re-computes aggregates, verifies fingerprints row-by-row, and must cite file paths and modification times for every check. The preregistered thresholds were binding in practice: two attempted post-hoc criterion substitutions and one stale-artifact false verification were caught and re-adjudicated under the original rules --- this is the one place where preregistration actually bit. Appendix~\ref{app:incidents} details the incidents, the automated executor/reviewer implementation, and the human adjudication gates; all scientific decisions --- thresholds, rulings, and interpretations --- were made by the authors and are timestamped. Statistical tests (paired, per-condition) are reported throughout but were never adjudication criteria. Process-level reproducibility has a measurable floor: identical configurations re-run in separate processes differ by $\sim\!0.7\pp$ macro-F1 (non-deterministic kernel reductions), an order of magnitude below seed-level variability (2--9$\pp$); all within-grid comparisons share batch and process conditions (Appendix~\ref{app:confusion}).

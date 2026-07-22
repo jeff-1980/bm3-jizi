@@ -1,0 +1,85 @@
+{
+  "device": "cuda",
+  "condition": "clean",
+  "regime": "cross_condition (TRAIN_COND=37.5Hz11kN -> TEST_COND=40Hz10kN, this dir's only regime)",
+  "seed": 0,
+  "n_epochs": 2,
+  "eval_sha256_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_prefix12": "6c20b367522c",
+  "eval_sha256_expected_prefix12": "6c20b367522c",
+  "eval_sha256_prefix_match": true,
+  "eval_sha256_expected_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_full_match": true,
+  "arms": {
+    "frozen_noconv": {
+      "n_params": 112026,
+      "epochs": [
+        {
+          "epoch": 1,
+          "mean_train_loss": 0.4584984701217675,
+          "has_nan_loss": false,
+          "macro_f1": 0.9199691962526438,
+          "epoch_time_s": 34.42,
+          "n_batches": 82
+        },
+        {
+          "epoch": 2,
+          "mean_train_loss": 0.2101460011085359,
+          "has_nan_loss": false,
+          "macro_f1": 0.9417085721777136,
+          "epoch_time_s": 5.79,
+          "n_batches": 82
+        }
+      ],
+      "loss_decreased_ep1_to_ep_last": true,
+      "any_nan": false
+    },
+    "frozen_nogate": {
+      "n_params": 79642,
+      "epochs": [
+        {
+          "epoch": 1,
+          "mean_train_loss": 0.35160893020106526,
+          "has_nan_loss": false,
+          "macro_f1": 0.6303838037598882,
+          "epoch_time_s": 9.26,
+          "n_batches": 82
+        },
+        {
+          "epoch": 2,
+          "mean_train_loss": 0.04670810734671427,
+          "has_nan_loss": false,
+          "macro_f1": 0.6989240441673421,
+          "epoch_time_s": 5.33,
+          "n_batches": 82
+        }
+      ],
+      "loss_decreased_ep1_to_ep_last": true,
+      "any_nan": false
+    },
+    "frozen_As4d": {
+      "n_params": 112410,
+      "epochs": [
+        {
+          "epoch": 1,
+          "mean_train_loss": 0.13735979365003181,
+          "has_nan_loss": false,
+          "macro_f1": 0.7692547902062784,
+          "epoch_time_s": 5.91,
+          "n_batches": 82
+        },
+        {
+          "epoch": 2,
+          "mean_train_loss": 0.011340197388696053,
+          "has_nan_loss": false,
+          "macro_f1": 0.7262879666558768,
+          "epoch_time_s": 6.58,
+          "n_batches": 82
+        }
+      ],
+      "loss_decreased_ep1_to_ep_last": true,
+      "any_nan": false
+    }
+  },
+  "all_pass": true
+}

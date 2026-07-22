@@ -1,0 +1,43 @@
+{
+  "purpose": "Terminal, honest gate verdict for the preddump card, closing out r2_review.json (.orchestrate/0707-115614, verdict=REVISE) by accepting its explicit fallback instructions instead of attempting a third substitute-evidence round.",
+  "supersedes_evidence_status_of": [
+    "REPORT_preddump_20260707-1207.md",
+    "REPORT_preddump_fix_20260707-1214.md",
+    "results/preddump_diff_20260707-1214/preddump_review_manifest.json"
+  ],
+  "note_on_supersession": "只增不覆盖: none of the files above were modified or deleted. This JSON only changes which gates their evidence is *credited toward*, per 只增不覆盖 and per the reviewer's own suggestion text.",
+  "gates": {
+    "E1": {
+      "status": "FAILED",
+      "rubric": "Reviewer must be able to read a diff against the true pre-edit harness bytes and verify dump_predictions=False preserves original eval/train math and cells.jsonl schema.",
+      "why_failed": "No byte-exact pre-edit snapshot of xjtu_noisy_harness.py exists anywhere recoverable in this sandbox: (1) .git is present but empty (no HEAD/objects/refs, confirmed both by `git status` failing and `find .git -type f` returning nothing); (2) no .orchestrate/*/protected_snapshot/ across all 15 orchestrate run directories contains a harness file (grep for '*harness*' under protected_snapshot/ returns 0 hits, checked this round); (3) no manual backup of the file was made before the original --dump_predictions edit landed. results/preddump_diff_20260707-1214/xjtu_noisy_harness.PREEDIT_reconstructed.py is a reconstruction authored by mechanically reverting the known additions back out of the current file, not a captured historical artifact, and the manifest that shipped it already said so in its own text.",
+      "reviewer_instruction_applied": "r2_review.json's suggestion for E1 says verbatim: 'If no byte-exact original can be recovered, mark §E1 as failed instead of substituting a reconstructed baseline.' That is what this record does. No new reconstructed-baseline artifact was produced this round.",
+      "disposition_of_prior_artifacts": "results/preddump_diff_20260707-1214/{xjtu_noisy_harness.CURRENT_COPY.py, xjtu_noisy_harness.PREEDIT_reconstructed.py, preddump.patch, eval_macro_f1_equivalence_check.py, eval_macro_f1_equivalence_check.json} remain on disk, unmodified, chmod 444. They are retained as best-effort supporting evidence of code-review-level equivalence, but are explicitly NOT sufficient to close E1 and must not be cited as doing so.",
+      "what_would_actually_close_this_gate": "A real VCS history with a commit taken before the --dump_predictions edit (e.g. `git init && git add -A && git commit` executed prior to any harness edit in a future card), or a filesystem-level immutable snapshot/backup taken at that same pre-edit moment. Neither can be retroactively created now because the edit already happened before any such capture existed in this sandbox."
+    },
+    "F2": {
+      "status": "FAILED",
+      "rubric": "launch_perclass.sh and status_perclass.sh must be present AND unexecuted; evidence for this gate must not itself be a script execution transcript.",
+      "why_failed": "REPORT_preddump_20260707-1207.md (an existing, untouched report) already contains a dry-run execution transcript of status_perclass.sh under its 'Dry-run output' heading. That execution is a historical fact and cannot be undone or retroactively converted into a non-execution by producing different (static-only) evidence in a later round. results/preddump_diff_20260707-1214/launch_status_static_checks.txt's bash -n / grep evidence is valid and is kept, but per the reviewer's own r2_review.json wording, later static evidence 'only supersedes [the dry run] as evidence; it cannot make the script unexecuted for the card.'",
+      "reviewer_instruction_applied": "r2_review.json's suggestion for F2 says verbatim: 'Treat F2 as failed for this card, or obtain an explicit rubric clarification that bash -n or status dry-runs do not count as execution.' No such clarification was obtained, so this record takes the first branch and marks F2 failed.",
+      "unaffected_facts": "The 75-cell grid itself was never launched (no results/perclass_2* directory exists, reconfirmed this round via `ls results/ | grep perclass`, which only matches the unrelated results/perclass_needs_human_20260707-1150/ audit directory). Only the lightweight status probe was dry-run once, in the 1207 report, against an already-empty run dir.",
+      "what_would_actually_close_this_gate": "For this card: nothing — the dry-run already happened and the rubric's 未执行 wording is strict. For future cards: do not execute status/launch scripts, even as a dry run against an empty run dir, before the reviewer has seen a report; use `bash -n` plus a static grep survey (as demonstrated in launch_status_static_checks.txt) as the only pre-review evidence."
+    },
+    "E2": {
+      "status": "PASS (unchanged, does not rescue E1/F2)",
+      "evidence": "results/preddump_unitcheck_20260707-1204/preddump_unitcheck.json, untouched, chmod 444, all_pass=true, eval_sha256_full_match, predictions_rowcount_eq_support=5248, macro_f1_bitexact_match."
+    },
+    "F1": {
+      "status": "PASS (unchanged, does not rescue E1/F2)",
+      "evidence": "Same artifact as E2 (results/preddump_unitcheck_20260707-1204/preddump_unitcheck.json); predictions.jsonl schema (sample_id/y_true/y_pred/logits) and chmod 444 verified there."
+    }
+  },
+  "card_level_verdict": "FAIL",
+  "card_level_rationale": "Two of four gates (E1, F2) are terminally failed under the strict rubric wording and cannot be cured within this sandbox's constraints (no recoverable pre-edit VCS/snapshot; a script execution already happened and is immutable history). Per the reviewer's own explicit fallback instructions, this is recorded as a failure rather than resolved with substitute evidence. E2/F1 remain valid but were never in question and do not offset E1/F2.",
+  "code_change_declaration": "No line of xjtu_noisy_harness.py, launch_perclass.sh, or status_perclass.sh was changed to produce this verdict record. sha256 of the live xjtu_noisy_harness.py at verdict time: dd7eb09548d4be2cedfd47383d7522b1af76c4115f7cd9a1512e1c4a7fdb3462 (identical to every prior round). This round is pure documentation/bookkeeping: it corrects which gates are credited, and adds no new implementation code.",
+  "guardrail_compliance": {
+    "append_only": "No file under results/ was modified or deleted. This is a new timestamped directory: results/preddump_verdict_20260707-1223/. All files in it are chmod 444.",
+    "training_cap": "Zero cells trained this round; only filesystem reads (find/grep/ls/sha256sum), an AST parse, a module import, and two bash -n syntax checks were run.",
+    "existing_code_edits": "None. See code_change_declaration above."
+  }
+}

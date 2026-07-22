@@ -1,0 +1,2362 @@
+{
+  "device": "cuda",
+  "arms": {
+    "frozen_noconv": {
+      "checks": {
+        "forward_pass": {
+          "built_via": "xjtu_noisy_harness.build_model('frozen_noconv', device)",
+          "output_shape": [
+            4,
+            2
+          ],
+          "expected_shape": [
+            4,
+            2
+          ],
+          "shape_ok": true,
+          "has_nan": false,
+          "passed": true
+        },
+        "backward_grads": {
+          "n_params_checked": 58,
+          "params_with_none_grad": [],
+          "passed": true
+        },
+        "state_dict_diff": {
+          "description": "bm3_frozen vs frozen_noconv (both built via THIS dir's xjtu_noisy_harness.build_model()): every state_dict key outside ARM_ALLOWED_DIFFS[arm] must match name+shape exactly (zero diff on non-target keys) \u2014 single-variable proof that only the documented part (arch_map.md \u00a75) differs.",
+          "allowed_diff_keys": {
+            "conv_embed.weight": "arch_map.md \u00a75a \u2014 conv_embed kernel_size 7->1 (padding 3->0): shape (64,1,7)->(64,1,1)",
+            "conv_embed.bias": "arch_map.md \u00a75a \u2014 conv_embed re-instantiated (same shape (64,), new Conv1d object)"
+          },
+          "all_allowed_keys_accounted_for": true,
+          "per_key_diff": [
+            {
+              "key": "classifier.bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "classifier.weight",
+              "bm3_frozen_shape": [
+                2,
+                64
+              ],
+              "frozen_noconv_shape": [
+                2,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.weight",
+              "bm3_frozen_shape": [
+                64,
+                1,
+                7
+              ],
+              "frozen_noconv_shape": [
+                64,
+                1,
+                1
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75a \u2014 conv_embed kernel_size 7->1 (padding 3->0): shape (64,1,7)->(64,1,1)"
+            },
+            {
+              "key": "layer_norms.0.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.0.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_noconv_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_noconv_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_noconv_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_noconv_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_noconv_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_noconv_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_noconv_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_noconv_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_noconv_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_noconv_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_noconv_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_noconv_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            }
+          ],
+          "unexpected_missing_keys": [],
+          "unexpected_added_keys": [],
+          "unexpected_shape_diff_keys": [],
+          "diff_is_single_variable": true,
+          "passed": true
+        }
+      },
+      "n_params": 112026,
+      "n_params_bm3_frozen": 112410,
+      "param_delta_vs_bm3_frozen": -384,
+      "expected_param_delta(arch_map_section5d)": -384,
+      "delta_explained": true,
+      "ALL_PASS": true
+    },
+    "frozen_nogate": {
+      "checks": {
+        "forward_pass": {
+          "built_via": "xjtu_noisy_harness.build_model('frozen_nogate', device)",
+          "output_shape": [
+            4,
+            2
+          ],
+          "expected_shape": [
+            4,
+            2
+          ],
+          "shape_ok": true,
+          "has_nan": false,
+          "passed": true
+        },
+        "backward_grads": {
+          "n_params_checked": 58,
+          "params_with_none_grad": [],
+          "passed": true
+        },
+        "state_dict_diff": {
+          "description": "bm3_frozen vs frozen_nogate (both built via THIS dir's xjtu_noisy_harness.build_model()): every state_dict key outside ARM_ALLOWED_DIFFS[arm] must match name+shape exactly (zero diff on non-target keys) \u2014 single-variable proof that only the documented part (arch_map.md \u00a75) differs.",
+          "allowed_diff_keys": {
+            "mamba_layers.0.in_proj.weight": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only",
+            "mamba_layers.1.in_proj.weight": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only",
+            "mamba_layers.2.in_proj.weight": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only",
+            "mamba_layers.3.in_proj.weight": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only"
+          },
+          "all_allowed_keys_accounted_for": true,
+          "per_key_diff": [
+            {
+              "key": "classifier.bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "classifier.weight",
+              "bm3_frozen_shape": [
+                2,
+                64
+              ],
+              "frozen_nogate_shape": [
+                2,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.weight",
+              "bm3_frozen_shape": [
+                64,
+                1,
+                7
+              ],
+              "frozen_nogate_shape": [
+                64,
+                1,
+                7
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.0.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.0.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_nogate_shape": [
+                162,
+                64
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only"
+            },
+            {
+              "key": "mamba_layers.0.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_nogate_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_nogate_shape": [
+                162,
+                64
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only"
+            },
+            {
+              "key": "mamba_layers.1.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_nogate_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_nogate_shape": [
+                162,
+                64
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only"
+            },
+            {
+              "key": "mamba_layers.2.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_nogate_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_nogate_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_nogate_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_nogate_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_nogate_shape": [
+                162,
+                64
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75b \u2014 in_proj rebuilt smaller: z's d_inner-wide slice dropped, [x,trap,angle] only"
+            },
+            {
+              "key": "mamba_layers.3.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_nogate_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_nogate_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            }
+          ],
+          "unexpected_missing_keys": [],
+          "unexpected_added_keys": [],
+          "unexpected_shape_diff_keys": [],
+          "diff_is_single_variable": true,
+          "passed": true
+        }
+      },
+      "n_params": 79642,
+      "n_params_bm3_frozen": 112410,
+      "param_delta_vs_bm3_frozen": -32768,
+      "expected_param_delta(arch_map_section5d)": -32768,
+      "delta_explained": true,
+      "ALL_PASS": true
+    },
+    "frozen_As4d": {
+      "checks": {
+        "forward_pass": {
+          "built_via": "xjtu_noisy_harness.build_model('frozen_As4d', device)",
+          "output_shape": [
+            4,
+            2
+          ],
+          "expected_shape": [
+            4,
+            2
+          ],
+          "shape_ok": true,
+          "has_nan": false,
+          "passed": true
+        },
+        "backward_grads": {
+          "n_params_checked": 58,
+          "params_with_none_grad": [],
+          "passed": true
+        },
+        "state_dict_diff": {
+          "description": "bm3_frozen vs frozen_As4d (both built via THIS dir's xjtu_noisy_harness.build_model()): every state_dict key outside ARM_ALLOWED_DIFFS[arm] must match name+shape exactly (zero diff on non-target keys) \u2014 single-variable proof that only the documented part (arch_map.md \u00a75) differs.",
+          "allowed_diff_keys": {
+            "mamba_layers.0.A_const": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)",
+            "mamba_layers.1.A_const": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)",
+            "mamba_layers.2.A_const": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)",
+            "mamba_layers.3.A_const": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)",
+            "mamba_layers.0.A_log": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)",
+            "mamba_layers.1.A_log": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)",
+            "mamba_layers.2.A_log": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)",
+            "mamba_layers.3.A_log": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)"
+          },
+          "all_allowed_keys_accounted_for": true,
+          "per_key_diff": [
+            {
+              "key": "classifier.bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "classifier.weight",
+              "bm3_frozen_shape": [
+                2,
+                64
+              ],
+              "frozen_As4d_shape": [
+                2,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "conv_embed.weight",
+              "bm3_frozen_shape": [
+                64,
+                1,
+                7
+              ],
+              "frozen_As4d_shape": [
+                64,
+                1,
+                7
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.0.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.0.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.1.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.2.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "layer_norms.3.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": null,
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)"
+            },
+            {
+              "key": "mamba_layers.0.A_log",
+              "bm3_frozen_shape": null,
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)"
+            },
+            {
+              "key": "mamba_layers.0.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_As4d_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.0.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_As4d_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": null,
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)"
+            },
+            {
+              "key": "mamba_layers.1.A_log",
+              "bm3_frozen_shape": null,
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)"
+            },
+            {
+              "key": "mamba_layers.1.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_As4d_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.1.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_As4d_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": null,
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)"
+            },
+            {
+              "key": "mamba_layers.2.A_log",
+              "bm3_frozen_shape": null,
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)"
+            },
+            {
+              "key": "mamba_layers.2.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_As4d_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.2.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_As4d_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.A_const",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": null,
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 A_const removed, replaced by A_log (S4D-style reparameterization)"
+            },
+            {
+              "key": "mamba_layers.3.A_log",
+              "bm3_frozen_shape": null,
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "allowed_diff (expected)",
+              "reason": "arch_map.md \u00a75c \u2014 new parameter: A_head = -exp(A_log) replaces -heavy_tail_activation(A_const)"
+            },
+            {
+              "key": "mamba_layers.3.B_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.B_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_bias",
+              "bm3_frozen_shape": [
+                2,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                2,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_const",
+              "bm3_frozen_shape": [
+                1,
+                1,
+                128
+              ],
+              "frozen_As4d_shape": [
+                1,
+                1,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.C_norm.weight",
+              "bm3_frozen_shape": [
+                128
+              ],
+              "frozen_As4d_shape": [
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.D",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.dt_bias",
+              "bm3_frozen_shape": [
+                2
+              ],
+              "frozen_As4d_shape": [
+                2
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.in_proj.weight",
+              "bm3_frozen_shape": [
+                290,
+                64
+              ],
+              "frozen_As4d_shape": [
+                290,
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "mamba_layers.3.out_proj.weight",
+              "bm3_frozen_shape": [
+                64,
+                128
+              ],
+              "frozen_As4d_shape": [
+                64,
+                128
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.bias",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            },
+            {
+              "key": "norm.weight",
+              "bm3_frozen_shape": [
+                64
+              ],
+              "frozen_As4d_shape": [
+                64
+              ],
+              "status": "identical",
+              "reason": null
+            }
+          ],
+          "unexpected_missing_keys": [],
+          "unexpected_added_keys": [],
+          "unexpected_shape_diff_keys": [],
+          "diff_is_single_variable": true,
+          "passed": true
+        }
+      },
+      "n_params": 112410,
+      "n_params_bm3_frozen": 112410,
+      "param_delta_vs_bm3_frozen": 0,
+      "expected_param_delta(arch_map_section5d)": 0,
+      "delta_explained": true,
+      "ALL_PASS": true
+    }
+  },
+  "param_table": {
+    "params": {
+      "bm3_kin": 177938,
+      "bm3_frozen": 112410,
+      "frozen_noconv": 112026,
+      "frozen_nogate": 79642,
+      "frozen_As4d": 112410,
+      "cnn1d": 100546,
+      "tcn": 100546,
+      "cnnlstm": 117186,
+      "s4d": 100162,
+      "s4d_wide": 178498,
+      "bm3_nokin (== bm3_kin architecture)": 177938
+    },
+    "passed": true
+  },
+  "ALL_PASS": true
+}

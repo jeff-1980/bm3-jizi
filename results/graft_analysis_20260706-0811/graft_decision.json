@@ -1,0 +1,126 @@
+{
+  "decision_kind": "mechanical_prereg_application",
+  "preregistered": true,
+  "prereg_source": "graft_prereg_provenance.md (materialized pre-grid)",
+  "prereg_path": "graft_prereg_provenance.md",
+  "prereg_predates_grid": true,
+  "prereg_materialized_note": "graft_prereg_provenance.md (397 bytes, mtime 2026-07-05 21:20) predates the grid's start (results/graft_20260705-224137/, grid start 2026-07-05 22:41 per graft_20260705-224137.log's [START] line), and predates this analysis run.",
+  "reviewer_verdict_file": ".orchestrate/0705-213350/r1_review.json",
+  "reviewer_verdict": "PASS",
+  "reviewer_verdict_note": "Latest closed-round reviewer verdict for the graft build/smoke session (harness dispatch, graft_unitcheck, smoke test, launch/status scripts) — the full 35-cell grid was launched and completed after this review, using the exact reviewed code path.",
+  "run_dir": "results/graft_20260705-224137",
+  "tuple_enum_report": {
+    "n_expected": 35,
+    "n_observed": 35,
+    "all_pass": true
+  },
+  "fairness_report_all_pass": true,
+  "decisive_rule": "graft_prereg_provenance.md verbatim: R = mean over {awgn@+0dB, awgn@-2dB, awgn@-6dB} of (s4d_plus_gate - s4d) / (bm3_frozen - s4d). R >= 0.7 => CONSTRUCTIVE_CONFIRMED; 0.3 <= R < 0.7 => PARTIAL_RECOVERY; R < 0.3 => GRAFT_INSUFFICIENT. Baselines bm3_frozen/s4d taken from the same batch (results/secondary_20260703-1034/). No non-preregistered criterion (e.g. the paired-significance results in graft_paired_significance.json) is used to gate this verdict.",
+  "deep_noise_conditions": [
+    "awgn@+0dB",
+    "awgn@-2dB",
+    "awgn@-6dB"
+  ],
+  "mean_R": 0.1742,
+  "verdict": "GRAFT_INSUFFICIENT",
+  "reason": "R = mean over {awgn@+0dB, awgn@-2dB, awgn@-6dB} of (s4d_plus_gate - s4d) / (bm3_frozen - s4d) = 0.1742 (< 0.3) => GRAFT_INSUFFICIENT, per graft_prereg_provenance.md's predeclared 3-branch rule. Per-bin R: awgn@+0dB=0.2487, awgn@-2dB=0.2392, awgn@-6dB=0.0348",
+  "deep_noise_evidence": {
+    "awgn@+0dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.7982268078031681,
+      "bm3_frozen_mean_macro_f1": 0.9064205876063728,
+      "s4d_mean_macro_f1": 0.7624087568951109,
+      "delta_gate_minus_s4d_pp": 3.58,
+      "delta_frozen_minus_s4d_pp": 14.4,
+      "R": 0.2487,
+      "R_undefined_reason": null
+    },
+    "awgn@-2dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.7940828293058637,
+      "bm3_frozen_mean_macro_f1": 0.9283133502027292,
+      "s4d_mean_macro_f1": 0.7518870839867308,
+      "delta_gate_minus_s4d_pp": 4.22,
+      "delta_frozen_minus_s4d_pp": 17.64,
+      "R": 0.2392,
+      "R_undefined_reason": null
+    },
+    "awgn@-6dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.6916908863312241,
+      "bm3_frozen_mean_macro_f1": 0.8599154309620903,
+      "s4d_mean_macro_f1": 0.6856281128195365,
+      "delta_gate_minus_s4d_pp": 0.61,
+      "delta_frozen_minus_s4d_pp": 17.43,
+      "R": 0.0348,
+      "R_undefined_reason": null
+    }
+  },
+  "per_level_evidence": {
+    "clean": {
+      "s4d_plus_gate_mean_macro_f1": 0.7251695180331168,
+      "bm3_frozen_mean_macro_f1": 0.7782226068730947,
+      "s4d_mean_macro_f1": 0.8119701622736294,
+      "delta_gate_minus_s4d_pp": -8.68,
+      "delta_frozen_minus_s4d_pp": -3.37,
+      "R": 2.5721,
+      "R_undefined_reason": null
+    },
+    "awgn@+10dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.770708942303078,
+      "bm3_frozen_mean_macro_f1": 0.7996313517101333,
+      "s4d_mean_macro_f1": 0.8146929197021473,
+      "delta_gate_minus_s4d_pp": -4.4,
+      "delta_frozen_minus_s4d_pp": -1.51,
+      "R": 2.9203,
+      "R_undefined_reason": null
+    },
+    "awgn@+6dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.7991297223106301,
+      "bm3_frozen_mean_macro_f1": 0.8365555566571219,
+      "s4d_mean_macro_f1": 0.8175380450824813,
+      "delta_gate_minus_s4d_pp": -1.84,
+      "delta_frozen_minus_s4d_pp": 1.9,
+      "R": -0.968,
+      "R_undefined_reason": null
+    },
+    "awgn@+0dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.7982268078031681,
+      "bm3_frozen_mean_macro_f1": 0.9064205876063728,
+      "s4d_mean_macro_f1": 0.7624087568951109,
+      "delta_gate_minus_s4d_pp": 3.58,
+      "delta_frozen_minus_s4d_pp": 14.4,
+      "R": 0.2487,
+      "R_undefined_reason": null
+    },
+    "awgn@-2dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.7940828293058637,
+      "bm3_frozen_mean_macro_f1": 0.9283133502027292,
+      "s4d_mean_macro_f1": 0.7518870839867308,
+      "delta_gate_minus_s4d_pp": 4.22,
+      "delta_frozen_minus_s4d_pp": 17.64,
+      "R": 0.2392,
+      "R_undefined_reason": null
+    },
+    "awgn@-6dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.6916908863312241,
+      "bm3_frozen_mean_macro_f1": 0.8599154309620903,
+      "s4d_mean_macro_f1": 0.6856281128195365,
+      "delta_gate_minus_s4d_pp": 0.61,
+      "delta_frozen_minus_s4d_pp": 17.43,
+      "R": 0.0348,
+      "R_undefined_reason": null
+    },
+    "awgn@-10dB": {
+      "s4d_plus_gate_mean_macro_f1": 0.5914303146897973,
+      "bm3_frozen_mean_macro_f1": 0.6463042171250878,
+      "s4d_mean_macro_f1": 0.5233467823335552,
+      "delta_gate_minus_s4d_pp": 6.81,
+      "delta_frozen_minus_s4d_pp": 12.3,
+      "R": 0.5537,
+      "R_undefined_reason": null
+    }
+  },
+  "paired_significance_report_only": {
+    "file": "results/graft_analysis_20260706-0811/graft_paired_significance.json",
+    "note": "Supplementary, non-decisive per the prereg's explicit ban on non-preregistered criteria (\"禁未预注册判据\")."
+  },
+  "source_data": "q_graft.json in this out_dir (mean_macro_f1 per condition x arm), built from results/graft_20260705-224137/cells.jsonl (s4d_plus_gate) and results/secondary_20260703-1034/cells.jsonl (bm3_frozen/s4d/frozen_nogate)."
+}

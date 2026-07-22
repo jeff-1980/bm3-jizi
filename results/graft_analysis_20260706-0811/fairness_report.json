@@ -1,0 +1,41 @@
+{
+  "run_dir": "results/graft_20260705-224137",
+  "expected_eval_sha256_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "expected_eval_sha256_len": 64,
+  "task_literal_prefix_match": true,
+  "n_cells_checked": 35,
+  "n_cells_full_hash_present": 35,
+  "hash_lengths_all_64": true,
+  "n_mismatches": 0,
+  "mismatches": [],
+  "all_pass": true,
+  "sampled_cells_full_hash": [
+    {
+      "condition": "clean",
+      "arm": "s4d_plus_gate",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "s4d_plus_gate",
+      "seed": 1,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "s4d_plus_gate",
+      "seed": 2,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    }
+  ],
+  "baseline_cross_check": {
+    "note": "Supplementary, non-gating (task scopes the '35 行' fairness requirement to the graft grid): same byte-for-byte check applied to the 105 bm3_frozen/s4d/frozen_nogate baseline cells reused from results/secondary_20260703-1034/, confirming the R-statistic's two operands share the same fairness invariant as the graft arm.",
+    "n_cells_checked": 105,
+    "hash_lengths_all_64": true,
+    "n_mismatches": 0,
+    "mismatches": [],
+    "all_pass": true
+  },
+  "rule": "byte-for-byte equality against an independently recomputed eval_sha256 (SHA256 of the cross-condition test-split labels), per graft_prereg_provenance.md's implied fairness invariant (same eval split as every other arm in this project)."
+}

@@ -1,0 +1,70 @@
+\documentclass[preprint,12pt]{elsarticle}
+
+\usepackage{lineno}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue}
+
+\journal{Neurocomputing}
+
+% ---- convenience macros ----
+\newcommand{\pp}{\,\mathrm{pp}}
+\newcommand{\VERIFY}[1]{\textbf{\textcolor{red}{[VERIFY: #1]}}}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{Necessary but Not Transplantable: Deep-Noise Robustness of Mamba-Style Blocks Is a Component-Interaction Effect}
+
+\author{Yi Wang\corref{cor1}}
+\ead{jefflsxy@lsu.edu.cn}
+\address{College of Engineering, Lishui University, Lishui 323000, Zhejiang, China}
+\cortext[cor1]{Corresponding author}
+
+\begin{abstract}
+The robustness of Mamba-style selective state-space models (SSMs) is widely attributed to their defining feature: input-dependent selectivity. We falsify this attribution through a three-step preregistered ablation chain on a controlled distribution-shift $\times$ noise testbed (bearing vibration signals under operating-condition drift). First, freezing selectivity---replacing input-dependent $\Delta$, $B$, $C$ with learned constants while keeping the block otherwise intact---costs only 2--5$\pp$ under deep noise, yet the frozen block still outperforms a parameter-matched time-invariant S4D by 14--18$\pp$. Second, component-wise ablation localises the necessary ingredient: removing the multiplicative SiLU gate collapses performance below plain S4D. Third, however, grafting the gate onto S4D recovers merely 17\% of the robustness gap---the gate is necessary within its native block but not transplantable. We conclude that deep-noise robustness is a component-interaction effect of the block composition, not a property of any single mechanism. Per-class analysis further shows the effect concentrates on the hard minority class, whose recall under noise is governed by gate presence. Our results caution against crediting input-selectivity for the matched-noise robustness of Mamba-style blocks, and against expecting any single transplanted component to confer that robustness on another backbone under a matched training budget.
+\end{abstract}
+
+\begin{keyword}
+state-space models \sep Mamba \sep input selectivity \sep gating \sep robustness \sep ablation \sep distribution shift \sep component interaction
+\end{keyword}
+
+\end{frontmatter}
+
+\linenumbers
+
+\input{sections/intro}
+\input{sections/background}
+\input{sections/protocol}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/boundaries}
+\input{sections/conclusion}
+
+\section*{CRediT authorship contribution statement}
+Yi Wang: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing -- original draft, Writing -- review \& editing, Visualization, Supervision, Project administration.
+
+\section*{Declaration of competing interest}
+The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
+
+\section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
+During the preparation of this work the authors used LLM-based agents to execute and cross-check preregistered analysis and adjudication passes as described in Appendix~C, and to assist with manuscript drafting and figure generation. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article. All numeric thresholds, adjudication rulings, and scientific interpretations reported in this paper were fixed and made by the human authors, as detailed in Appendix~C.
+
+\section*{Data availability}
+The code, preregistration artifacts, and adjudication trail for this study are available at \url{https://github.com/jeff-1980/bm3-jizi}.
+
+\appendix
+\input{appendix/appendixA}
+\input{appendix/appendixB}
+\input{appendix/appendixC}
+
+\bibliographystyle{elsarticle-num}
+\bibliography{references}
+
+\end{document}

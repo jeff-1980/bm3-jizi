@@ -1,0 +1,108 @@
+{
+  "q2_bm3_vs_best_baseline": [
+    {
+      "condition": "awgn@+0dB",
+      "bm3_f1": 48.95,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.7,
+      "delta_pp": -0.74,
+      "bm3_wins": false
+    },
+    {
+      "condition": "awgn@-10dB",
+      "bm3_f1": 47.72,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.67,
+      "delta_pp": -1.95,
+      "bm3_wins": false
+    },
+    {
+      "condition": "awgn@-2dB",
+      "bm3_f1": 49.03,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.75,
+      "delta_pp": -0.71,
+      "bm3_wins": false
+    },
+    {
+      "condition": "awgn@-6dB",
+      "bm3_f1": 48.89,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.78,
+      "delta_pp": -0.89,
+      "bm3_wins": false
+    },
+    {
+      "condition": "clean",
+      "bm3_f1": 80.04,
+      "best_baseline": "s4d",
+      "best_bl_f1": 80.98,
+      "delta_pp": -0.94,
+      "bm3_wins": false
+    },
+    {
+      "condition": "impulsive@+0dB",
+      "bm3_f1": 48.97,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.58,
+      "delta_pp": -0.61,
+      "bm3_wins": false
+    },
+    {
+      "condition": "impulsive@-10dB",
+      "bm3_f1": 49.13,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.64,
+      "delta_pp": -0.51,
+      "bm3_wins": false
+    },
+    {
+      "condition": "impulsive@-2dB",
+      "bm3_f1": 49.27,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.63,
+      "delta_pp": -0.35,
+      "bm3_wins": false
+    },
+    {
+      "condition": "impulsive@-6dB",
+      "bm3_f1": 49.27,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.6,
+      "delta_pp": -0.33,
+      "bm3_wins": false
+    },
+    {
+      "condition": "pink@+0dB",
+      "bm3_f1": 48.84,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.91,
+      "delta_pp": -1.08,
+      "bm3_wins": false
+    },
+    {
+      "condition": "pink@-10dB",
+      "bm3_f1": 48.52,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.96,
+      "delta_pp": -1.45,
+      "bm3_wins": false
+    },
+    {
+      "condition": "pink@-2dB",
+      "bm3_f1": 48.93,
+      "best_baseline": "s4d",
+      "best_bl_f1": 50.06,
+      "delta_pp": -1.12,
+      "bm3_wins": false
+    },
+    {
+      "condition": "pink@-6dB",
+      "bm3_f1": 48.56,
+      "best_baseline": "s4d",
+      "best_bl_f1": 49.98,
+      "delta_pp": -1.42,
+      "bm3_wins": false
+    }
+  ]
+}

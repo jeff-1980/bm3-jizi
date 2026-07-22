@@ -1,0 +1,26 @@
+{
+  "purpose": "isolate the --dump_predictions code delta from cross-process GPU/Triton training nondeterminism: same trained weights, same eval loader, real eval_macro_f1() called with collect_predictions=False then True",
+  "arm": "bm3_frozen",
+  "condition": "clean",
+  "seed": 0,
+  "n_epochs": 2,
+  "device": "cuda",
+  "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "macro_f1_off": 0.6693895084340447,
+  "macro_f1_on": 0.6693895084340447,
+  "macro_f1_abs_diff": 0.0,
+  "per_f1_off": [
+    0.8543499511241448,
+    0.4844290657439446
+  ],
+  "per_f1_on": [
+    0.8543499511241448,
+    0.4844290657439446
+  ],
+  "checks": {
+    "macro_f1_bitexact_match": true,
+    "per_f1_bitexact_match": true,
+    "predictions_rowcount_eq_test_loader_len": true
+  },
+  "all_pass": true
+}

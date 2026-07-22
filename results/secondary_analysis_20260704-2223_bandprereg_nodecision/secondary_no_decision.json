@@ -1,0 +1,13 @@
+{
+  "decision_kind": "no_decision_non_deltapp_prereg",
+  "prereg_id": "secondary_prereg_20260704-0708",
+  "prereg_path": "results/secondary_prereg_20260704-0708/secondary_prereg.json",
+  "run_dir": "results/secondary_20260703-1034",
+  "out_dir": "results/secondary_analysis_20260704-2223_bandprereg_nodecision",
+  "preregistered": false,
+  "adjudicates_E3": false,
+  "prereg_source": null,
+  "per_component_verdicts": null,
+  "overall_verdict": null,
+  "reason": "results/secondary_prereg_20260704-0708/secondary_prereg.json does not define 'decisive_rule_delta_pp_threshold'. The mean+/-std band heuristic that used to fill this gap has been removed from secondary_aggregate.py; no decision-emitting rule exists for this prereg schema. No E3 adjudication was attempted or performed for this run. To obtain a decision for this run_dir, supply a prereg that defines decisive_rule_delta_pp_threshold (apply_deltapp_decision_rule() will then run and will independently determine whether it can also set adjudicates_E3=True, based on provenance-chain and reviewer-approval status)."
+}

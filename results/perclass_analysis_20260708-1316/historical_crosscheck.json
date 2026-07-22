@@ -1,0 +1,416 @@
+{
+  "status": "SANITY_ONLY_NOT_A_GATE",
+  "rule": "Per task spec item 2: compare each arm x condition mean against the historical frozensel/secondary/graft grids for the same arm x same condition. Deviation within +/-1 historical std is reported for information only; it is NOT a pass/fail gate here. Cross-process noise floor of ~0.7pp between independent runs is a known baseline per REPORT_preddump_equivalence_20260707-1933.md adjudication 1.",
+  "historical_sources": {
+    "frozensel": "results/frozensel_20260702-1827/q_frozensel.json",
+    "secondary": "results/secondary_analysis_20260704-0708/q_secondary.json",
+    "graft": "results/graft_analysis_20260706-0811/q_graft.json"
+  },
+  "comparisons": [
+    {
+      "arm": "bm3_frozen",
+      "condition": "clean",
+      "our_mean_macro_f1": 0.7907190828635724,
+      "our_std_macro_f1": 0.07901266255133411,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.7891426801761589,
+          "historical_std_macro_f1": 0.0910078971002831,
+          "diff_our_minus_historical": 0.0015764026874135473,
+          "diff_in_historical_std_units": 0.01732160326346716,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.7782226068730947,
+          "historical_std_macro_f1": 0.08127227883370043,
+          "diff_our_minus_historical": 0.012496475990477651,
+          "diff_in_historical_std_units": 0.15376062010083383,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.7782226068730947,
+          "historical_std_macro_f1": 0.08127227883370043,
+          "diff_our_minus_historical": 0.012496475990477651,
+          "diff_in_historical_std_units": 0.15376062010083383,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "bm3_frozen",
+      "condition": "awgn@+0dB",
+      "our_mean_macro_f1": 0.8831424106534694,
+      "our_std_macro_f1": 0.08633461734007386,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.8990054026992957,
+          "historical_std_macro_f1": 0.07745149091806086,
+          "diff_our_minus_historical": -0.015862992045826307,
+          "diff_in_historical_std_units": -0.20481196498345555,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.9064205876063728,
+          "historical_std_macro_f1": 0.06637527735211927,
+          "diff_our_minus_historical": -0.02327817695290335,
+          "diff_in_historical_std_units": -0.35070553196204624,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.9064205876063728,
+          "historical_std_macro_f1": 0.06637527735211927,
+          "diff_our_minus_historical": -0.02327817695290335,
+          "diff_in_historical_std_units": -0.35070553196204624,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "bm3_frozen",
+      "condition": "awgn@-6dB",
+      "our_mean_macro_f1": 0.8031167678291402,
+      "our_std_macro_f1": 0.12309029807631124,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.8629140543469986,
+          "historical_std_macro_f1": 0.08185958333733193,
+          "diff_our_minus_historical": -0.05979728651785843,
+          "diff_in_historical_std_units": -0.7304860845851383,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.8599154309620903,
+          "historical_std_macro_f1": 0.0935382072912062,
+          "diff_our_minus_historical": -0.05679866313295012,
+          "diff_in_historical_std_units": -0.6072242004395345,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.8599154309620903,
+          "historical_std_macro_f1": 0.0935382072912062,
+          "diff_our_minus_historical": -0.05679866313295012,
+          "diff_in_historical_std_units": -0.6072242004395345,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "bm3_kin",
+      "condition": "clean",
+      "our_mean_macro_f1": 0.7942466650491792,
+      "our_std_macro_f1": 0.0928535689085953,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.7889113668435864,
+          "historical_std_macro_f1": 0.09190080513892597,
+          "diff_our_minus_historical": 0.005335298205592753,
+          "diff_in_historical_std_units": 0.05805496695624604,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "bm3_kin",
+      "condition": "awgn@+0dB",
+      "our_mean_macro_f1": 0.9331592467152369,
+      "our_std_macro_f1": 0.025881770228886977,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.9504527354120729,
+          "historical_std_macro_f1": 0.02120035091958066,
+          "diff_our_minus_historical": -0.017293488696836,
+          "diff_in_historical_std_units": -0.8157170964969133,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "bm3_kin",
+      "condition": "awgn@-6dB",
+      "our_mean_macro_f1": 0.886931710317068,
+      "our_std_macro_f1": 0.024752457754422204,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.8848135024579923,
+          "historical_std_macro_f1": 0.02490679521780343,
+          "diff_our_minus_historical": 0.0021182078590756825,
+          "diff_in_historical_std_units": 0.0850453798070971,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "frozen_nogate",
+      "condition": "clean",
+      "our_mean_macro_f1": 0.6947899804140681,
+      "our_std_macro_f1": 0.09760987674545138,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.7103859264633032,
+          "historical_std_macro_f1": 0.07380995851804117,
+          "diff_our_minus_historical": -0.015595946049235088,
+          "diff_in_historical_std_units": -0.21129866975095252,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.7103859264633032,
+          "historical_std_macro_f1": 0.07380995851804117,
+          "diff_our_minus_historical": -0.015595946049235088,
+          "diff_in_historical_std_units": -0.21129866975095252,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "frozen_nogate",
+      "condition": "awgn@+0dB",
+      "our_mean_macro_f1": 0.6542430002119332,
+      "our_std_macro_f1": 0.08635796771533542,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.775960811058401,
+          "historical_std_macro_f1": 0.08257775766974187,
+          "diff_our_minus_historical": -0.12171781084646782,
+          "diff_in_historical_std_units": -1.473978154423387,
+          "within_1_historical_std": false
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.775960811058401,
+          "historical_std_macro_f1": 0.08257775766974187,
+          "diff_our_minus_historical": -0.12171781084646782,
+          "diff_in_historical_std_units": -1.473978154423387,
+          "within_1_historical_std": false
+        }
+      ]
+    },
+    {
+      "arm": "frozen_nogate",
+      "condition": "awgn@-6dB",
+      "our_mean_macro_f1": 0.5635030409904849,
+      "our_std_macro_f1": 0.030837953948543474,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.6246293335557078,
+          "historical_std_macro_f1": 0.11559060610808235,
+          "diff_our_minus_historical": -0.06112629256522295,
+          "diff_in_historical_std_units": -0.5288171298977977,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.6246293335557078,
+          "historical_std_macro_f1": 0.11559060610808235,
+          "diff_our_minus_historical": -0.06112629256522295,
+          "diff_in_historical_std_units": -0.5288171298977977,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "s4d",
+      "condition": "clean",
+      "our_mean_macro_f1": 0.8073406083464137,
+      "our_std_macro_f1": 0.05049346753797492,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.8099293828610985,
+          "historical_std_macro_f1": 0.05272090684320872,
+          "diff_our_minus_historical": -0.002588774514684755,
+          "diff_in_historical_std_units": -0.049103376055038964,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.8119701622736294,
+          "historical_std_macro_f1": 0.05325762981870527,
+          "diff_our_minus_historical": -0.004629553927215646,
+          "diff_in_historical_std_units": -0.08692752461901042,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.8119701622736294,
+          "historical_std_macro_f1": 0.05325762981870527,
+          "diff_our_minus_historical": -0.004629553927215646,
+          "diff_in_historical_std_units": -0.08692752461901042,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "s4d",
+      "condition": "awgn@+0dB",
+      "our_mean_macro_f1": 0.7626393735036356,
+      "our_std_macro_f1": 0.04895483822887309,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.7611639300843871,
+          "historical_std_macro_f1": 0.045871321246132274,
+          "diff_our_minus_historical": 0.0014754434192485455,
+          "diff_in_historical_std_units": 0.03216483369492982,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.7624087568951109,
+          "historical_std_macro_f1": 0.045193124276846235,
+          "diff_our_minus_historical": 0.0002306166085247474,
+          "diff_in_historical_std_units": 0.00510291360057395,
+          "within_1_historical_std": true
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.7624087568951109,
+          "historical_std_macro_f1": 0.045193124276846235,
+          "diff_our_minus_historical": 0.0002306166085247474,
+          "diff_in_historical_std_units": 0.00510291360057395,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "s4d",
+      "condition": "awgn@-6dB",
+      "our_mean_macro_f1": 0.6316760942041799,
+      "our_std_macro_f1": 0.06817060703452674,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "frozensel",
+          "source_path": "results/frozensel_20260702-1827/q_frozensel.json",
+          "historical_mean_macro_f1": 0.6854515902728129,
+          "historical_std_macro_f1": 0.01674066000465632,
+          "diff_our_minus_historical": -0.053775496068632966,
+          "diff_in_historical_std_units": -3.2122685756520717,
+          "within_1_historical_std": false
+        },
+        {
+          "source": "secondary",
+          "source_path": "results/secondary_analysis_20260704-0708/q_secondary.json",
+          "historical_mean_macro_f1": 0.6856281128195365,
+          "historical_std_macro_f1": 0.01639345706672035,
+          "diff_our_minus_historical": -0.05395201861535659,
+          "diff_in_historical_std_units": -3.291070235873692,
+          "within_1_historical_std": false
+        },
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.6856281128195365,
+          "historical_std_macro_f1": 0.01639345706672035,
+          "diff_our_minus_historical": -0.05395201861535659,
+          "diff_in_historical_std_units": -3.291070235873692,
+          "within_1_historical_std": false
+        }
+      ]
+    },
+    {
+      "arm": "s4d_plus_gate",
+      "condition": "clean",
+      "our_mean_macro_f1": 0.7243986479498286,
+      "our_std_macro_f1": 0.08114885459559548,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.7251695180331168,
+          "historical_std_macro_f1": 0.08104834416096424,
+          "diff_our_minus_historical": -0.0007708700832882442,
+          "diff_in_historical_std_units": -0.009511237907060446,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "s4d_plus_gate",
+      "condition": "awgn@+0dB",
+      "our_mean_macro_f1": 0.7908087662402435,
+      "our_std_macro_f1": 0.023434680216394527,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.7982268078031681,
+          "historical_std_macro_f1": 0.017669315165155318,
+          "diff_our_minus_historical": -0.007418041562924582,
+          "diff_in_historical_std_units": -0.4198262068217162,
+          "within_1_historical_std": true
+        }
+      ]
+    },
+    {
+      "arm": "s4d_plus_gate",
+      "condition": "awgn@-6dB",
+      "our_mean_macro_f1": 0.6865675568874423,
+      "our_std_macro_f1": 0.013061647070898009,
+      "our_n_seeds": 5,
+      "historical_matches": [
+        {
+          "source": "graft",
+          "source_path": "results/graft_analysis_20260706-0811/q_graft.json",
+          "historical_mean_macro_f1": 0.6916908863312241,
+          "historical_std_macro_f1": 0.01484844815409059,
+          "diff_our_minus_historical": -0.005123329443781799,
+          "diff_in_historical_std_units": -0.3450414070624866,
+          "within_1_historical_std": true
+        }
+      ]
+    }
+  ]
+}

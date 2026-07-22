@@ -1,0 +1,46 @@
+{
+  "note": "This manifest records supersession by REFERENCE only. None of the files listed below were modified, overwritten, or deleted -- guardrail: never touch existing results/** artifacts. Each entry states why it no longer speaks for the E3 question, without altering the original file.",
+  "superseded_by": "results/secondary_adjudication_20260705-1619/secondary_decision.json",
+  "entries": [
+    {
+      "path": "results/secondary_analysis_20260704-0708/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Used the mean+/-std band heuristic from results/secondary_prereg_20260704-0708/secondary_prereg.json, which prereg_provenance.md declares void (post-dates grid, not the card's rule)."
+    },
+    {
+      "path": "results/secondary_e3adjudication_20260704-0719/e3_adjudication.json",
+      "kept_in_place": true,
+      "reason_superseded": "Explicitly self-labeled no valid preregistered Delta-pp adjudication exists for this run; correct at the time given repo-only search scope. Superseded now that the vault card registration is on record."
+    },
+    {
+      "path": "results/secondary_e3ruling_20260704-2206/secondary_decision_corrected.json",
+      "kept_in_place": true,
+      "reason_superseded": "Replayed the same void mean+/-std band heuristic as a 'corrected' decision (flagged by .orchestrate/0704-215713/r2_review.json as still not a mechanical Delta-pp adjudication)."
+    },
+    {
+      "path": "results/secondary_analysis_20260704-2223_bandprereg_nodecision/secondary_no_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "A no-decision marker for the void band prereg; superseded by an actual decision now that the valid card rule is applied."
+    },
+    {
+      "path": "results/secondary_deltapp_analysis_20260704-2224/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Correctly set preregistered=false/adjudicates_E3=false because it (rightly, at the time) treated results/secondary_deltapp_prereg_20260704-0719/secondary_deltapp_prereg.json (DRAFT, wrong thresholds, self-prohibited retroactive use) as the only candidate prereg. Its per-component aggregate deltas (secondary_component_deltas.json, q_secondary.json) are NOT superseded -- they are the unmodified, frozen source data this ruling's mechanical decision reads from."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/secondary_decision.json",
+      "kept_in_place": true,
+      "reason_superseded": "Per .orchestrate/0705-160159/r1_review.json critical issue #1: classified frozen_noconv (deltas {-6.56,-2.66,7.91}) and frozen_As4d (deltas {-2.41,-2.21,-4.15}) as NOT_DRIVER using an unregistered '|mean of three deep-noise bins| < 3pp' fallback, instead of the card's actual per-bin '深噪三档 |Δ| < +3pp' condition. Neither arm's three bins individually satisfy |Δ| < 3pp, so under the corrected per-bin rule both are UNCLASSIFIED_BY_PREREG, not NOT_DRIVER. overall_verdict is unchanged (SINGLE_PRIMARY_DRIVER, frozen_nogate sole primary) since the classification error did not affect frozen_nogate or the primary/contributor counts. Fixed in apply_secondary_vault_prereg.py's classify_arm()."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/e3_human_ruling.json",
+      "kept_in_place": true,
+      "reason_superseded": "Per .orchestrate/0705-160159/r1_review.json critical issues #2 and #3: (2) cited .orchestrate/0704-070402/r2_review.json as last_effective_reviewer_verdict_file instead of the later .orchestrate/0704-215713/r3_review.json; (3) quoted the cited reviewer's issue text with an ellipsis instead of the complete original. This directory's e3_human_ruling.json fixes both: primary_cited_reviewer_verdict_file now points to .orchestrate/0704-215713/r3_review.json, and full verbatim text (read byte-for-byte from source, not hand-transcribed) is embedded for every cited reviewer verdict, cross-checked against cited_reviewer_verdicts_verbatim.json in this same directory."
+    },
+    {
+      "path": "results/secondary_adjudication_20260705-1610/superseded_decisions_manifest.json",
+      "kept_in_place": true,
+      "reason_superseded": "Superseded by this manifest, which adds entries for the three files in this same prior directory and updates 'superseded_by' to point at this directory's secondary_decision.json."
+    }
+  ]
+}

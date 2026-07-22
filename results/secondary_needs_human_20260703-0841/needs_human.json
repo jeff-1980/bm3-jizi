@@ -1,0 +1,34 @@
+{
+  "gate": "STOP-IF-NO-GRID",
+  "verdict": "STOPPED_NEEDS_HUMAN",
+  "checked_at": "2026-07-03T08:41",
+  "checked_by": "automated-task-run (bm3-stage2, xjtu_noisy_defense_20260627)",
+  "task_spec_required_grid": {
+    "glob_checked": "results/secondary_*/cells.jsonl",
+    "arms": "(3~4), including a reused baseline (复用基线)",
+    "n_conditions_required": 7,
+    "n_seeds_required": 5,
+    "cells_required_full_design_range": "105 (3 arms x 7 x 5) to 140 (4 arms x 7 x 5)",
+    "duplicate_policy": "reject any duplicate tuple",
+    "missing_policy": "reject any missing tuple"
+  },
+  "actual_state_found": {
+    "results_dirs_matching_glob_results_secondary_star": [],
+    "cells_jsonl_present_anywhere_named_secondary": false,
+    "n_completed_cells_found": 0,
+    "harness_cli_flags_present": ["--smoke", "--full", "--ablation", "--capctrl", "--frozensel", "--analyze-only", "--run-dir", "--verbose"],
+    "harness_flag_named_secondary_present": false,
+    "grep_for_string_secondary_in_repo": "0 matches across all tracked files (*.py, *.json, *.md, *.log) in xjtu_noisy_defense_20260627/ and its parent bm3-defense/",
+    "closest_existing_grid_by_shape": {
+      "dir": "results/frozensel_20260702-1827/",
+      "shape": "3 arms (bm3_kin, bm3_frozen, s4d) x 7 AWGN conditions x 5 seeds = 105 cells, complete and already analyzed (frozensel_decision.json, frozensel_decision_scoped.json)",
+      "why_not_treated_as_a_match": "This task's Guardrail 0 names the glob 'results/secondary_*/cells.jsonl' explicitly, distinct from 'frozensel_*'. No file, directory, code path, launch script, or memory record anywhere in the repo uses the name 'secondary' for any grid, arm set, or run. Silently substituting the frozensel run here would mean re-labeling existing evidence under a name the task did not assign to it, which is indistinguishable from fabricating the requested artifact. Per the hard guardrail's own text ('不足 ⇒ 停、needs_human、不得 loop 内启训'), an unresolvable naming/data gap must halt, not be papered over by inference."
+    }
+  },
+  "conclusion": "Grid is ABSENT: 0 of the required cells exist under the name/glob the task specifies (results/secondary_*/cells.jsonl). No harness flag, launch script, or prior artifact anywhere in this repo or its parent directory produces a grid called 'secondary'. Per guardrail 0 (STOP-IF-NO-GRID), this task run stops here without launching any training and without producing fairness_report.json / q_secondary.csv/json / secondary_curve.png / secondary_decision.json from data that does not exist.",
+  "action_taken": "None beyond this audit. No training was started, no existing results/ file was modified or deleted, no code was changed.",
+  "action_required_from_human": [
+    "Clarify whether 'secondary_*' refers to (a) a new grid to be designed and launched (specify exact arms among {bm3_kin, bm3_frozen, s4d, tcn, cnn_lstm, ...} and which one is the 'reused baseline'), or (b) an existing run that should be treated as 'secondary' under a different name (e.g. results/frozensel_20260702-1827/, which already matches the stated 3-arm x 7-condition x 5-seed shape) -- if (b), re-issue the task pointing explicitly at that directory so this run does not have to guess a name-to-data mapping.",
+    "If (a): once results/secondary_<TS>/cells.jsonl reaches the full tuple set (3~4 arms x 7 conditions x 5 seeds, no dupes/no gaps), re-invoke this task's steps 1-3 (fairness_report.json, q_secondary.csv/json + secondary_curve.png, secondary_decision.json) pointing at that run-dir."
+  ]
+}

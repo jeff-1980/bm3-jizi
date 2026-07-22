@@ -1,0 +1,23 @@
+{
+  "run_dir": "results/frozensel_20260702-1827",
+  "superseded_files": [
+    "frozensel_curve_table.csv",
+    "frozensel_curve.png"
+  ],
+  "defect": "snr_for_plot_map() in frozensel_aggregate.py (pre-fix) let build_conditions()'s own leading {'label': 'clean', 'snr_db': None} entry overwrite the hardcoded clean->15.0 plot x-value, so every 'clean' row got snr_db_for_plot='' and the clean point was silently omitted from frozensel_curve.png. Fixed in snr_for_plot_map() (added an explicit skip for the build_conditions() 'clean' entry) after these two files were already written and chmod 444.",
+  "authoritative_dir": "results/frozensel_curvefix_20260703-0748",
+  "authoritative_files": {
+    "frozensel_curve_table.csv": "results/frozensel_curvefix_20260703-0748/frozensel_curve_table.csv",
+    "frozensel_curve.png": "results/frozensel_curvefix_20260703-0748/frozensel_curve.png"
+  },
+  "authoritative_files_exist": true,
+  "non_superseded_files_in_this_run_dir": [
+    "q_frozensel.json",
+    "q_frozensel.csv",
+    "frozensel_decision.json",
+    "fairness_report.json",
+    "tuple_enum_report.json",
+    "(these do not depend on snr_for_plot_map() and are unaffected by this defect)"
+  ],
+  "report": "REPORT_frozensel_20260703-0748.md"
+}

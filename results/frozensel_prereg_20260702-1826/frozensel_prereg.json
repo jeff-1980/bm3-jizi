@@ -1,0 +1,65 @@
+{
+  "prereg_id": "frozensel_prereg_20260702-1826",
+  "written_at": "2026-07-02T18:26",
+  "written_before_any_frozensel_grid_cell_exists": true,
+  "purpose": "Lock the frozen-selectivity ablation's decision rule BEFORE launching results/frozensel_<TS>/, so frozensel_decision.json is a mechanical application of a rule fixed in advance, not a post-hoc rationalization of observed numbers.",
+  "responds_to_reviewer": ".orchestrate/0702-181858/codex_last_message.txt (verdict=REVISE, issues E1/F1/E3/F2)",
+  "question": "Does Mamba-3's input-dependent selectivity mechanism ({dt,A,B,C} sliced from in_proj(u), per arch_map.md §1) causally contribute to BM3's classification performance under the AWGN noise column, and does its removal change the fullgrid CLAIM_FALSIFIED verdict (results/fullgrid_20260627-1731/decision.json: BM3 loses to S4D on 0/13 conditions)?",
+  "design": {
+    "arms": ["bm3_kin", "bm3_frozen", "s4d"],
+    "arm_semantics": {
+      "bm3_kin": "full Mamba-3, selective dt/A/B/C (arch_map.md §1)",
+      "bm3_frozen": "BearMamba3Frozen (bm3_frozen.py): same Mamba-3 layer family, dt/A/B/C replaced by A_const/B_const/C_const (arch_map.md §2-§4, unitcheck-verified same-family via state_dict diff whitelist)",
+      "s4d": "never-selective S4D baseline, same arm used as fullgrid's best_bl"
+    },
+    "conditions": ["clean", "awgn@10dB", "awgn@6dB", "awgn@0dB", "awgn@-2dB", "awgn@-6dB", "awgn@-10dB"],
+    "n_conditions": 7,
+    "seeds": [0, 1, 2, 3, 4],
+    "n_seeds": 5,
+    "min_acceptable_seeds": 3,
+    "n_epochs": 50,
+    "metric": "best_macro_f1",
+    "cells_expected_full": 105,
+    "cells_expected_min": 63,
+    "source": "xjtu_noisy_harness.py --frozensel branch (unmodified grid parameters; the only code change made pre-launch is the F2 fix below)"
+  },
+  "code_change_declared": {
+    "file": "xjtu_noisy_harness.py",
+    "line": 502,
+    "before": "\"eval_sha256\": eval_sha[:16],",
+    "after": "\"eval_sha256\": eval_sha,",
+    "why": "Reviewer finding F2 (.orchestrate/0702-181858): cells stored only a 16-char eval_sha256 prefix, which cannot be byte-for-byte verified. This stores the full 64-hex-char SHA256 in every future cell written by run_grid(). Scope: only the eval_sha256 field; train_order_sha256/noise_sha256 were not flagged by the reviewer and are left as truncated prefixes (16 chars, unchanged) to keep the diff minimal. This does not touch any already-written results/*/cells.jsonl file (append-only, guardrail 'grid runs once' -- no existing grid is rerun); it only changes what NEW cells (frozensel, not yet run) will contain."
+  },
+  "fairness_verification_required": {
+    "rule": "Before any aggregation, recompute eval_sha256 independently for the grid's test split (same base_test / XJTUDatasetNoisy('clean',None,0) construction the harness itself uses at run_grid() start) and assert every cell's fairness.eval_sha256 equals this recomputed full hash byte-for-byte. If any cell's eval_sha256 differs from the recomputed value, or from any other cell's value, aggregation MUST be rejected and a fairness_report.json with all_pass=false written instead of q_frozensel.*/frozensel_decision.json.",
+    "min_cells_gate": "If completed cells < 63, do not aggregate; write a needs_human.json exactly as done in results/frozensel_needs_human_20260702-1819/."
+  },
+  "chance_floor": {
+    "threshold_macro_f1": 0.55,
+    "rationale": "N_CLASSES=2 (binary cross-condition fault classification, per xjtu_noisy_harness.py N_CLASSES=2 and unitcheck output_shape [.,2]); chance=50%. Matches the exact threshold already used in results/fullgrid_20260627-1731/decision.json's at_chance_conditions logic, for consistency across this project's grids.",
+    "application": "A (condition, arm) cell-mean is 'at_chance' if mean_macro_f1 <= 0.55. A condition is 'meaningful' for the bm3_kin-vs-bm3_frozen comparison only if BOTH arms' condition-means are > 0.55 in that condition; otherwise it is excluded from the win/loss tally below (recorded, not discarded)."
+  },
+  "per_condition_aggregation": {
+    "unit": "for each (condition, arm): mean_macro_f1 and std_macro_f1 across all completed seeds for that (condition, arm), n_seeds_used reported alongside.",
+    "significance_rule": "non-overlapping mean±std bands: bm3_kin SIGNIFICANTLY beats bm3_frozen in a condition iff (mean_kin - std_kin) > (mean_frozen + std_frozen). Symmetric definition for bm3_frozen beating bm3_kin. If bands overlap, the condition is a TIE (no significant difference) regardless of which mean is nominally higher.",
+    "linkage": "every per_condition entry in frozensel_decision.json must carry n_cells_kin/n_cells_frozen/n_cells_s4d and the exact list of seeds contributing, so each aggregate number traces back to specific cells.jsonl rows."
+  },
+  "decision_rule": {
+    "verdicts": {
+      "SELECTIVITY_CLAIM_SURVIVES": "bm3_kin significantly beats bm3_frozen (per significance_rule) in a STRICT MAJORITY of meaningful conditions, AND bm3_kin does not lose significantly to bm3_frozen in any meaningful condition.",
+      "SELECTIVITY_CLAIM_FALSIFIED": "bm3_kin does NOT significantly beat bm3_frozen in a strict majority of meaningful conditions -- i.e., ties and/or bm3_frozen-wins dominate or are tied with kin-wins. This is the default/null outcome and is consistent with (not contradicted by) the existing fullgrid CLAIM_FALSIFIED verdict if reached.",
+      "INCONCLUSIVE": "fewer than 2 meaningful conditions exist (everything at-chance for one or both arms), OR completed cells < min_acceptable_seeds x n_conditions x n_arms = 63."
+    },
+    "tie_break": "'strict majority' = more than half of meaningful conditions; if the count of meaningful conditions is even and exactly half are kin-wins, that is NOT a strict majority -> falls through to SELECTIVITY_CLAIM_FALSIFIED (ties favor the null/default outcome, not the claim).",
+    "context_only_not_decisive": "bm3_kin vs s4d and bm3_frozen vs s4d deltas are reported per condition for context (do the arms track results/fullgrid_20260627-1731/decision.json's clean/AWGN numbers for bm3_kin and s4d) but do NOT enter the SURVIVES/FALSIFIED/INCONCLUSIVE verdict, which is scoped strictly to the kin-vs-frozen selectivity question."
+  },
+  "artifacts_to_produce_after_grid_completes": [
+    "results/frozensel_<TS>/cells.jsonl (raw, written by the harness itself, chmod 444 by run_grid())",
+    "results/frozensel_<TS>/fairness_report.json (eval_sha256 full-hash cross-check, chmod 444)",
+    "results/frozensel_<TS>/q_frozensel.csv and .json (per condition x arm mean±std, chmod 444)",
+    "results/frozensel_<TS>/frozensel_curve_table.csv (macro_F1 vs SNR per arm, chmod 444)",
+    "results/frozensel_<TS>/frozensel_curve.png (macro_F1 vs SNR line plot, mean±std error bars, 3 arms)",
+    "results/frozensel_<TS>/frozensel_decision.json (mechanical application of decision_rule above, chmod 444, cites this prereg_id and the reviewer verdict in .orchestrate/0702-181858)"
+  ],
+  "status": "PREREGISTERED -- grid not yet launched at write time. See results/frozensel_<TS>/ once bash launch_frozensel.sh is run."
+}

@@ -1,0 +1,35 @@
+=== bash -n launch_perclass.sh ===
+OK: syntax valid
+
+=== bash -n status_perclass.sh ===
+OK: syntax valid
+
+=== grep: positional args ($1 $2 ... $@ $*) in launch_perclass.sh ===
+NONE FOUND
+
+=== grep: positional args ($1 $2 ... $@ $*) in status_perclass.sh ===
+NONE FOUND
+
+=== grep: caller-controlled env var reads (${VAR:-...} / $VAR not locally assigned) survey in launch_perclass.sh ===
+20:#   - RUNDIR: results/perclass_${TS} instead of results/secondary_${TS}
+21:#   - LOG basename: perclass_${TS}.log instead of secondary_${TS}.log
+30:RUNDIR=results/perclass_${TS}
+31:LOG=perclass_${TS}.log
+33:tmux new-session -d -s xjtu_perclass "$VENV xjtu_noisy_harness.py --perclass --dump_predictions --run-dir $RUNDIR 2>&1 | tee $LOG"
+34:echo "launched session=xjtu_perclass run-dir=$RUNDIR log=$LOG"
+
+=== grep: caller-controlled env var reads survey in status_perclass.sh ===
+16:cd "$WORKDIR"
+18:RUNDIR=$(ls -dt "$WORKDIR"/results/perclass_2*/ 2>/dev/null | head -1)
+19:RUNDIR=${RUNDIR%/}
+20:if [ -n "$RUNDIR" ]; then
+21:  TS=$(basename "$RUNDIR" | sed 's/^perclass_//')
+25:LOG=$WORKDIR/perclass_${TS}.log
+28:echo "${RUNDIR:-none found (no results/perclass_2* directory yet)}"
+34:if [ -n "$RUNDIR" ] && [ -f "$RUNDIR/cells.jsonl" ]; then
+35:  wc -l < "$RUNDIR/cells.jsonl"
+41:if [ -n "$RUNDIR" ]; then
+42:  find "$RUNDIR" -mindepth 2 -name predictions.jsonl 2>/dev/null | wc -l
+48:if [ -n "$RUNDIR" ] && [ -f "$RUNDIR/noise_verification.json" ]; then
+49:  grep -E "actual_snr_db|target_snr_db|all_pass|snr_check" "$RUNDIR/noise_verification.json"
+58:tail -8 "$LOG" 2>/dev/null || echo "log empty"

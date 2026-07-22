@@ -1,0 +1,62 @@
+{
+  "gate": "PREDPROC-AVAILABILITY-BRANCH-B",
+  "verdict": "STOPPED_NEEDS_HUMAN",
+  "checked_at": "2026-07-06T09:34",
+  "checked_by": "automated-task-run (xjtu_noisy_defense_20260627, predproc_availability step 0)",
+  "task_requested": "Per-sample confusion matrices + per-class precision/recall/F1 for 5 core arms (bm3_kin, bm3_frozen, s4d, frozen_nogate, s4d_plus_gate) x 3 conditions (clean, awgn@0dB, awgn@-6dB), aggregated across seeds.",
+  "runs_checked": [
+    "results/fullgrid_fixed_20260628-2248/cells.jsonl",
+    "results/frozensel_20260702-1827/cells.jsonl",
+    "results/secondary_20260703-1034/cells.jsonl",
+    "results/graft_20260705-224137/cells.jsonl"
+  ],
+  "actual_state_found": {
+    "cells_jsonl_fields_all_four_runs": ["condition", "noise_type", "snr_db", "arm", "seed", "best_macro_f1", "n_params", "elapsed_s", "fairness"],
+    "per_sample_predictions_saved": false,
+    "logits_or_probabilities_saved": false,
+    "confusion_matrix_or_per_class_counts_saved": false,
+    "checkpoints_saved_anywhere": false,
+    "grep_evidence": "repo-wide grep for 'confusion', 'y_pred', 'y_true', 'per_sample', 'logits_cache', 'torch.save', 'state_dict()' (as a persistence call), '*.pt', '*.pth', '*checkpoint*', '*ckpt*' in *.py returns no hits relevant to prediction/checkpoint persistence",
+    "eval_function": "xjtu_noisy_harness.py:305-330 eval_macro_f1() computes per-class tp/fn/fp in-memory, returns only (per_f1 array, macro_f1 scalar); train_cell() (:349-415) only propagates the macro_f1 scalar into best_f1 and the returned dict — per-class arrays are discarded every epoch, never written to disk or returned",
+    "determinism_check": {
+      "seeding_present": "set_seed() (:335-339) covers random/numpy/torch/cuda; WeightedRandomSampler uses an independently-seeded generator (:359-364)",
+      "cudnn_deterministic_or_use_deterministic_algorithms_set": false,
+      "custom_nondeterministic_kernels_in_model_path": "mamba_ssm.ops.triton.mamba3.mamba3_siso_combined (Triton selective-scan kernel, imported in bm3_frozen.py:25 and bm3_models.py:28) — backward pass of this class of kernel typically uses atomic-add reductions on GPU, not bit-exact reproducible run-to-run even with fixed seeds",
+      "conclusion": "same-seed rerun is a fresh stochastic retrain, not a deterministic replay of the original best_macro_f1"
+    },
+    "eval_sha256_consistency": {
+      "fullgrid_fixed": "6c20b367522ce5db (16-char truncated form stored)",
+      "frozensel_secondary_graft": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de (full 64-char sha256, shares the same 16-char prefix)",
+      "conclusion": "all four runs share the same eval set/order; a retrain CAN preserve eval_sha256, it just cannot preserve the exact original best_macro_f1 value bit-for-bit"
+    }
+  },
+  "conclusion": "Branch B: no per-sample predictions on disk and no checkpoints exist for any of the 4 runs, for any arm. Confusion matrices / per-class precision-recall-F1 cannot be produced from existing artifacts without retraining. Per the hard guardrail (no training inside this loop), this task run stops here without launching any training and without producing confusion_matrices/, per_class_report.csv/json, or perclass_summary.md from data that does not exist.",
+  "action_taken": "Read-only audit of results/{fullgrid_fixed_20260628-2248,frozensel_20260702-1827,secondary_20260703-1034,graft_20260705-224137}/cells.jsonl and xjtu_noisy_harness.py. No file under results/ was modified or deleted. No training was started. No code was changed.",
+  "minimal_cost_estimate_for_human_decision": {
+    "what_must_be_rerun": "5 arms x 3 conditions x 5 seeds = 75 (arm,condition,seed) training cells; this is the minimum needed to build cross-seed-summed confusion matrices for exactly the requested 5 arms x 3 conditions grid (clean / awgn@0dB / awgn@-6dB), reusing the existing seed convention (0..4) from all 4 runs",
+    "per_arm_mean_elapsed_s_observed_across_existing_cells": {
+      "bm3_kin": 450.6,
+      "bm3_frozen": 341.4,
+      "s4d": 243.3,
+      "frozen_nogate": 346.4,
+      "s4d_plus_gate": 292.3
+    },
+    "estimated_sequential_wallclock_single_gpu": "~25,110 s (~6h58m) on the RTX A5000 Laptop GPU seen in this environment (sum of per-arm mean elapsed_s x 3 conditions x 5 seeds)",
+    "eval_sha256_preservable": "yes — reruns can be pointed at the same eval split/order (eval_sha256 prefix 6c20b367522ce5db... is shared by all 4 existing runs) as long as the same data pipeline / noise_utils config is reused",
+    "best_macro_f1_bit_exact_reproducibility": "no — see determinism_check above; expect small run-to-run variance vs the numbers already recorded in cells.jsonl",
+    "code_change_required_before_any_rerun": {
+      "why_a_code_change_is_unavoidable": "eval_macro_f1 (xjtu_noisy_harness.py:305-330) only ever materializes per-class TP/FN/FP counts (diagonal-adjacent aggregates), not the full CxC pairwise confusion matrix, and neither train_cell (:349-415) nor the grid runner persists any per-class array to results/*/cells.jsonl today. Simply re-running train_cell as-is would reproduce only another best_macro_f1 scalar, not a confusion matrix.",
+      "lines_that_would_need_to_change_if_a_human_authorizes_a_rerun": [
+        "xjtu_noisy_harness.py:305-330 (eval_macro_f1): add a full CxC confusion accumulation, e.g. via np.bincount(labels*N_CLASSES + preds, minlength=N_CLASSES**2).reshape(N_CLASSES, N_CLASSES), and return it alongside per_f1/macro_f1",
+        "xjtu_noisy_harness.py:380-415 (train_cell): capture the confusion matrix from the epoch that sets a new best_f1 (not just the scalar), and include it in the returned dict",
+        "xjtu_noisy_harness.py grid runner (writes cells.jsonl, ~:500-530 per earlier grep of 'arm':) would need a new sibling artifact path (e.g. cells_confusion.jsonl or a per-cell .npy) since cells.jsonl rows are currently one-scalar-per-cell and chmod 444 once written — this task's own guardrail (append-only, never overwrite existing artifacts) means the new confusion output must land in a new file/dir, not be spliced into the existing read-only cells.jsonl files"
+      ],
+      "not_applied": "This task run did NOT make any of the above edits. They are listed only as the minimal patch a human would need to approve before authorizing the 75-cell rerun."
+    }
+  },
+  "action_required_from_human": [
+    "Decide whether the ~7h single-GPU cost (75 retrains) to obtain confusion matrices is worth it, or whether a cheaper partial scope is acceptable (e.g. fewer seeds, or clean + one noisy condition only, or a subset of the 5 arms).",
+    "If yes: authorize the minimal eval_macro_f1/train_cell patch described above (exact lines listed) in a follow-up task/PR, then re-run the grid under a NEW timestamped results/ directory (never overwriting the existing 4 runs' cells.jsonl) so cells_confusion.jsonl (or equivalent) is produced alongside the existing scalar cells.jsonl.",
+    "If no: this task's steps 1-3 (confusion_matrices/, per_class_report.csv/json, perclass_summary.md) remain undeliverable from current artifacts; close this request as won't-do or defer."
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "run_dir": "results/secondary_20260703-1034",
+  "expected_eval_sha256_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "expected_eval_sha256_len": 64,
+  "n_cells_checked": 175,
+  "n_cells_full_hash_present": 175,
+  "hash_lengths_all_64": true,
+  "n_mismatches": 0,
+  "mismatches": [],
+  "all_pass": true,
+  "sampled_cells_full_hash": [
+    {
+      "condition": "clean",
+      "arm": "bm3_frozen",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "frozen_noconv",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "frozen_nogate",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "frozen_As4d",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    },
+    {
+      "condition": "clean",
+      "arm": "s4d",
+      "seed": 0,
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de"
+    }
+  ],
+  "rule": "byte-for-byte equality of ALL 175 cells' eval_sha256 (full 64-hex-char hash) against an independently recomputed eval_sha256 (SHA256 of the cross-condition test-split labels via xjtu_noisy_harness.make_cross_condition_split()/XJTUDataset()/eval_fingerprint() — the exact construction run_grid() uses), per secondary_prereg_20260704-0708.json:fairness_verification_required."
+}

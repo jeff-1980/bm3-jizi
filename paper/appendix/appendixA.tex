@@ -1,0 +1,61 @@
+\section{Fairness protocol}
+\label{app:fairness}
+
+\subsection{Evaluation-set fingerprint}
+\label{app:fairness:fingerprint}
+
+Every reported cell in this study is tagged with $\mathtt{eval\_sha256}$, a SHA-256 hash of the raw held-out test-label byte array, computed once per run and asserted identical across every arm/condition/seed cell within a grid. It fingerprints \emph{that the same held-out label vector was scored every time}, not model weights or predictions. The full value shared by all 865 cells across all five grids is:
+\begin{quote}
+\texttt{\small 6c20b367\allowbreak 522ce5db\allowbreak 59720120\allowbreak f8a7cd12\allowbreak 792c7e07\allowbreak 0c6ae84b\allowbreak d1985511\allowbreak 998727de}
+\end{quote}
+This value is recomputed independently at adjudication time (not merely copied from the run log) and cross-checked row-by-row against every grid's fairness report before any comparison across arms is treated as valid.
+
+\subsection{Per-arm parameter counts}
+\label{app:fairness:params}
+
+Table~\ref{tab:appendixA-params} lists every arm's parameter count, each obtained directly via \texttt{sum(p.numel() for p in model.parameters())} on the instantiated model (not estimated), cross-verified against an independently maintained architecture map.
+
+\begin{table}[htbp]
+\centering
+\caption{Per-arm parameter counts (verified against \texttt{arch\_map.md} and harness source).}
+\label{tab:appendixA-params}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Arm & Parameters \\
+\midrule
+BM3 (\texttt{bm3\_kin} / \texttt{bm3\_nokin}) & 177{,}938 \\
+BM3-frozen (\texttt{bm3\_frozen}) & 112{,}410 \\
+S4D (\texttt{s4d}) & 100{,}162 \\
+S4D-wide (\texttt{s4d\_wide}, capacity control, $1.75\times$) & 178{,}498 \\
+frozen$-$conv (\texttt{frozen\_noconv}) & 112{,}026 \\
+frozen$-$gate (\texttt{frozen\_nogate}) & 79{,}642 \\
+frozen$-$A (\texttt{frozen\_As4d}) & 112{,}410 \\
+S4D+gate (\texttt{s4d\_plus\_gate}) & 116{,}802 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Five-batch preregistration timeline}
+\label{app:fairness:prereg}
+
+Table~\ref{tab:appendixA-prereg} lists, for each of the five preregistered grids, the artifact that fixed its adjudication thresholds, that artifact's creation/modification date, and the corresponding grid's run-directory start time. In every case the prereg artifact predates the grid it governs.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Preregistration predates data collection for all five grids.}
+\label{tab:appendixA-prereg}
+\begin{tabular}{@{}p{2.6cm}p{5.0cm}p{2.0cm}p{2.0cm}@{}}
+\toprule
+Grid (cells) & Canonical prereg artifact & Prereg date & Grid start \\
+\midrule
+Baseline (475) & Task-tracking-system card (\texttt{created: 2026-06-27}, mtime 15:02) & 2026-06-27 & 2026-06-27 17:31 \\
+Frozen-selectivity (105) & \texttt{frozensel\_prereg.json} (mtime 18:26:54) & 2026-07-02 & 2026-07-02 18:27 \\
+Component ablation (175) & Task-tracking-system card (\texttt{created: 2026-07-03}), materialised in \texttt{prereg\_provenance.md} & 2026-07-03 & 2026-07-03 10:34 \\
+Graft (35) & \texttt{graft\_prereg\_provenance.md} (mtime 21:20:36) & 2026-07-05 & 2026-07-05 22:41 \\
+Per-class (75) & Task-tracking-system card (\texttt{created: 2026-07-06}) & 2026-07-06 & 2026-07-07 21:21 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Two honest caveats. First, the baseline batch predates the orchestration infrastructure used for the other four batches by five days; its prereg trail rests on the task card's creation timestamp alone, not on the same automated executor/reviewer machinery documented in Appendix~\ref{app:incidents}, and we state this rather than implying a uniform process across all five batches. Second, for the component-ablation grid, two additional JSON files bearing ``prereg'' in their name exist on disk (\texttt{secondary\_prereg\_20260704-0708} and \texttt{secondary\_deltapp\_prereg\_20260704-0719}) that \emph{post-date} the grid's start time; both are explicitly marked void in the corresponding decision artifact's \texttt{void\_preregs} field, and neither was used to adjudicate any result in this paper. They are the on-disk residue of the first post-hoc criterion substitution described in Appendix~\ref{app:incidents}, retained here (rather than deleted) as part of the released adjudication trail.

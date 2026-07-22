@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+bm3_kin,clean,OR,17500,20,17520
+bm3_kin,clean,IR,3948,4772,8720

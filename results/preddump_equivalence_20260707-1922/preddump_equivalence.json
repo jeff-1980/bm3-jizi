@@ -1,0 +1,71 @@
+{
+  "task": "ON/OFF preddump equivalence smoke",
+  "arm": "bm3_frozen",
+  "condition": "clean",
+  "seed": 0,
+  "n_epochs": 2,
+  "device_forced": "cpu",
+  "device_forced_reason": "bm3_frozen uses nn.Conv1d; cuDNN conv backward can be non-deterministic across runs on CUDA even with the same torch.manual_seed(), which would confound an ON-vs-OFF comparison. CPU removes that second source of variation.",
+  "on_run_dir": "results/preddump_equiv_on_20260707-1922",
+  "off_run_dir": "results/preddump_equiv_off_20260707-1922",
+  "eval_sha256_expected_full": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "cell_on": {
+    "condition": "clean",
+    "noise_type": "clean",
+    "snr_db": null,
+    "arm": "bm3_frozen",
+    "seed": 0,
+    "best_macro_f1": 0.6799057332017383,
+    "n_params": 112410,
+    "elapsed_s": 42.1,
+    "fairness": {
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+      "train_order_sha256": "217f342536b1763d",
+      "noise_sha256": "clean"
+    },
+    "predictions_file": "bm3_frozen__clean__seed0/predictions.jsonl",
+    "predictions_epoch": 1
+  },
+  "cell_off": {
+    "condition": "clean",
+    "noise_type": "clean",
+    "snr_db": null,
+    "arm": "bm3_frozen",
+    "seed": 0,
+    "best_macro_f1": 0.6819760298484192,
+    "n_params": 112410,
+    "elapsed_s": 41.1,
+    "fairness": {
+      "eval_sha256": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+      "train_order_sha256": "217f342536b1763d",
+      "noise_sha256": "clean"
+    }
+  },
+  "best_macro_f1_on": 0.6799057332017383,
+  "best_macro_f1_off": 0.6819760298484192,
+  "best_macro_f1_abs_diff": 0.0020702966466809025,
+  "eval_sha256_on": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "eval_sha256_off": "6c20b367522ce5db59720120f8a7cd12792c7e070c6ae84bd1985511998727de",
+  "loss_trajectory_note": "train_cell()/run_grid() do not write any per-epoch training-loss value to disk in either mode (verified by grepping every file written under both run dirs for the substring 'loss'); the task's conditional clause therefore has nothing to compare and is satisfied vacuously.",
+  "loss_trajectory_files_containing_loss_on": [],
+  "loss_trajectory_files_containing_loss_off": [],
+  "only_schema_diff_keys_on_vs_off": [
+    "predictions_epoch",
+    "predictions_file"
+  ],
+  "checks": {
+    "best_macro_f1_bitexact_match": false,
+    "eval_sha256_on_matches_expected": true,
+    "eval_sha256_off_matches_expected": true,
+    "eval_sha256_on_off_identical": true,
+    "train_order_sha256_identical": true,
+    "noise_sha256_identical": true,
+    "n_params_identical": true,
+    "on_has_predictions_file_field": true,
+    "off_lacks_predictions_file_field": true,
+    "only_schema_diff_is_predictions_fields": true,
+    "no_loss_trajectory_persisted_on": true,
+    "no_loss_trajectory_persisted_off": true
+  },
+  "all_pass": false
+}

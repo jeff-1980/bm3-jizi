@@ -1,0 +1,3 @@
+arm,condition,true_class,pred_OR,pred_IR,row_sum_support
+bm3_frozen,awgn@+0dB,OR,17089,431,17520
+bm3_frozen,awgn@+0dB,IR,2060,6660,8720
