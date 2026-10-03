@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyArrowPatch, FancyBboxPatch, Rectangle
 from matplotlib.lines import Line2D
 
-ROOT = "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627"
-OUT = os.path.join(ROOT, "paper", "figures")
+ROOT = os.environ.get("P9_RESULTS_ROOT",
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+OUT = os.environ.get("P9_FIG_OUT", os.path.dirname(os.path.abspath(__file__)))
 
 BLUE = "#2a78d6"
 ORANGE = "#eb6834"
@@ -37,7 +38,7 @@ COMP_COLORS = {
     "gate": RED,
     "proj": MUTED,
 }
-COMP_LABELS = {"conv": "conv\nstem", "scan": "scan\n(Δ,B,C)", "gate": "SiLU\ngate", "proj": "proj"}
+COMP_LABELS = {"conv": "conv\nstem", "scan": "scan\n(Δ,A,B,C)", "gate": "SiLU\ngate", "proj": "proj"}
 
 
 def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatch_removed=False):
@@ -79,7 +80,7 @@ def verdict_box(ax, x, y, w, text, color):
     ax.add_patch(box)
     ax.add_patch(FancyBboxPatch((x, y), w, 0.52, boxstyle="round,pad=0.02,rounding_size=0.05",
                                   facecolor="none", edgecolor=color, linewidth=1.3, zorder=3))
-    ax.text(x + w / 2, y + 0.26, text, ha="center", va="center", fontsize=8.2,
+    ax.text(x + w / 2, y + 0.26, text, ha="center", va="center", fontsize=8.4,
              color=INK, zorder=4, linespacing=1.25, wrap=True)
 
 
@@ -92,7 +93,7 @@ def main():
     bw, bh = 2.6, 0.85
     y_block = 3.15
     stage_x = [0.35, 4.25, 8.15]
-    titles = ["Step 1 -- Freeze\n(necessity test)", "Step 2 -- Remove\n(localise)", "Step 3 -- Graft\n(sufficiency test)"]
+    titles = ["Step 1 -- Freeze Δ,A,B,C\n(necessity test)", "Step 2 -- Remove gate\n(localise)", "Step 3 -- Add gate to S4D\n(sufficiency test)"]
 
     # Step 1: freeze selectivity (scan slot dimmed = constants instead of input-dependent)
     block(ax, stage_x[0], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"})
@@ -125,14 +126,14 @@ def main():
     # verdict boxes
     vy = 1.55
     verdict_box(ax, stage_x[0] - 0.15, vy, bw + 0.3,
-                 "Δ(BM3−frozen) ≤ 5pp;\nfrozen ≫ S4D (+14–18pp)\n→ selectivity REJECTED", CRITICAL)
+                 "Δ(BM3−frozen) ≤ 5pp (CI incl. 0);\nfrozen ≫ S4D (+14–20pp)\n→ Δ,A,B,C not primary", CRITICAL)
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
-                 "gate removal: −13 to −24pp,\nfalls below S4D\n→ gate = PRIMARY DRIVER", GOOD)
+                 "gate removal: −9 to −24pp,\nto ≈ S4D level or below\n→ gate is necessary here", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "recovery ratio R = 0.174\n(< 0.3 floor)\n→ NOT TRANSPLANTABLE", CRITICAL)
+                 "recovery ratio R = 0.17–0.20\n(< 0.3 'insufficient' bin)\n→ this graft recovers little", CRITICAL)
 
     # bottom takeaway
-    ax.text(5.75, 0.55, "Deep-noise robustness is a component-interaction effect of the block composition, not of any single mechanism.",
+    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate's benefit depends strongly on the host.",
              ha="center", va="center", fontsize=9.8, color=INK, style="italic")
 
     # legend for component colors

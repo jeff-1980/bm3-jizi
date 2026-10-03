@@ -1,21 +1,21 @@
 \section{Results}
 \label{sec:results}
 
-Throughout, ``deep noise'' denotes the preregistered adjudication band $\{0, -2, -6\,\mathrm{dB}\}$; $-10\,\mathrm{dB}$ is reported but excluded from adjudication (the time-invariant baseline is at chance there). All values are macro-F1 (\%), mean over 5 seeds. Figure~\ref{fig:chain} summarises the three-step falsification chain that structures this section.
+Throughout, ``deep noise'' denotes the pre-specified adjudication band $\{0, -2, -6\,\mathrm{dB}\}$; $-10\,\mathrm{dB}$ is reported but excluded from adjudication (the time-invariant baseline is near chance there: a constant majority-class predictor scores $40.0\%$ and a uniformly random predictor $48.6\%$ macro-F1 on this evaluation set, against $52.3\%$ for S4D). All values are macro-F1 (\%), mean over 5 seeds, best-epoch on the evaluation condition (Section~\ref{sec:protocol:report}) unless stated otherwise. Figure~\ref{fig:chain} summarises the three-step ablation chain that structures this section.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\linewidth]{figures/fig1_chain}
-\caption{The three-step preregistered falsification chain: freeze selectivity (Section~\ref{sec:results:falsify}), remove one component at a time on the frozen base to localise the necessary ingredient (Section~\ref{sec:results:localise}), and graft that ingredient onto S4D to test sufficiency (Section~\ref{sec:results:graft}).}
+\caption{The three-step ablation chain with pre-specified thresholds: freeze the input-dependent $\Delta,A,B,C$ projections (Section~\ref{sec:results:falsify}), remove one component at a time on the frozen base to localise the necessary ingredient (Section~\ref{sec:results:localise}), and graft that ingredient onto S4D to test sufficiency (Section~\ref{sec:results:graft}).}
 \label{fig:chain}
 \end{figure}
 
-\subsection{Selectivity is not the mechanism}
+\subsection{Freezing the input-dependent $\Delta$, $A$, $B$, $C$ projections}
 \label{sec:results:falsify}
 
 \begin{table}[htbp]
 \centering
-\caption{BM3 vs.\ BM3-frozen vs.\ S4D, macro-F1 (\%) by SNR. $\Delta$(BM3$-$frozen) and $\Delta$(frozen$-$S4D) in percentage points.}
+\caption{BM3 vs.\ BM3-frozen vs.\ S4D, macro-F1 (\%) by SNR (frozen-selectivity grid). $\Delta$(BM3$-$frozen) and $\Delta$(frozen$-$S4D) in percentage points.}
 \label{tab:falsify}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -33,26 +33,26 @@ $-10$\,dB\rlap{$^{*}$} & 68.1 & 64.3 & 52.3 & $+3.8$ & $+12.0$ \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\linewidth]{figures/fig2_snr_curves}
-\caption{Macro-F1 vs.\ SNR for BM3, BM3-frozen, and S4D across the full noise grid. The frozen arm tracks BM3 closely and stays well above S4D throughout the adjudication band, falsifying the selectivity attribution.}
+\caption{Macro-F1 vs.\ SNR for BM3, BM3-frozen, and S4D across the full noise grid. The frozen arm tracks BM3 closely and stays well above S4D throughout the adjudication band.}
 \label{fig:snr_curves}
 \end{figure}
 
-Freezing selectivity costs at most $5.1\pp$ anywhere in the adjudication band, while the frozen block retains a $13.8$--$17.7\pp$ advantage over S4D (Table~\ref{tab:falsify}, Figure~\ref{fig:snr_curves}). Under the preregistered rule (attribution confirmed only if $\Delta$(BM3$-$frozen) $\geq 10\pp$ in deep noise with the frozen arm collapsing toward S4D), the selectivity attribution is \textbf{rejected}. On clean data S4D matches or slightly exceeds both Mamba-style arms---consistent with the systematic clean-TSC comparison~\cite{saadatmand2026s4d}---so the literature's conflict is a regime effect, and within the noisy regime the credit must lie elsewhere in the block.
+Freezing the input-dependent $\Delta$, $A$, $B$, $C$ projections (Section~\ref{sec:protocol:freeze}) costs at most $5.1\pp$ anywhere in the adjudication band on the point estimates, while the frozen block retains a $13.8$--$17.7\pp$ advantage over S4D (Table~\ref{tab:falsify}, Figure~\ref{fig:snr_curves}). Five seeds bound these quantities loosely: paired 95\% intervals for $\Delta$(BM3$-$frozen) are $[-4.7, 15.0]$, $[-3.1, 9.8]$ and $[-7.5, 11.8]\pp$ at $0$, $-2$ and $-6$\,dB (BM3 ahead in 3/5, 4/5 and 2/5 seeds), and for $\Delta$(frozen$-$S4D) $[-0.5, 28.0]$, $[5.5, 28.4]$ and $[5.8, 29.7]\pp$ (5/5, 5/5, 5/5 seeds). The pre-specified rule attributed robustness to selectivity only if $\Delta$(BM3$-$frozen) $\geq 10\pp$ in deep noise with the frozen arm collapsing toward S4D. Neither condition holds on the point estimates, so the pre-specified verdict is that these projections are \emph{not the primary mechanism}. This is a failure to meet a confirmation criterion, not a demonstration that freezing is cheap: the intervals above are compatible with differences larger than $10\pp$, and no equivalence margin was pre-specified or tested. Two further limits apply. The frozen arm still contains input-dependent trapezoidal weights and rotation angles, so the result concerns $\Delta, A, B, C$ only. And BM3 was not re-run under the last-epoch rule (Section~\ref{sec:results:sensitivity}), so $\Delta$(BM3$-$frozen) rests on best-epoch values. On clean data S4D matches or slightly exceeds both Mamba-style arms---consistent with the systematic clean-TSC comparison~\cite{saadatmand2026s4d}. In the noisy regime, the block's advantage over S4D is not removed by freezing these four terms, so it must be carried by other parts of the block or by the remaining input-dependent scan terms.
 
-\subsection{The gate is the necessary component---and the only one}
+\subsection{Removing the gate is the only ablation with a large, one-signed effect}
 \label{sec:results:localise}
 
 \begin{table}[htbp]
 \centering
-\caption{Single-component removal on the frozen base, $\Delta$(frozen $-$ arm) in percentage points.}
+\caption{Single-component removal on the frozen base (component-ablation grid, trained separately from Table~\ref{tab:falsify}), $\Delta$(frozen $-$ arm) in percentage points.}
 \label{tab:localise}
 \begin{tabular}{@{}lrrrp{4.0cm}@{}}
 \toprule
 Component removed & 0\,dB & $-2$\,dB & $-6$\,dB & Adjudication \\
 \midrule
-SiLU gate & $\mathbf{+13.1}$ & $\mathbf{+21.1}$ & $\mathbf{+23.5}$ & PRIMARY (all $\geq 8\pp$; arm falls to/below S4D) \\
-conv stem ($k{=}7$) & $-6.6$ & $-2.7$ & $+7.9$ & outside preregistered bins (regime trade-off) \\
-heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside bins (removal beneficial) \\
+SiLU gate & $\mathbf{+13.1}$ & $\mathbf{+21.1}$ & $\mathbf{+23.5}$ & PRIMARY (all $\geq 8\pp$) \\
+conv stem ($k{=}7$) & $-6.6$ & $-2.7$ & $+7.9$ & outside pre-specified bins (regime trade-off) \\
+heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside bins (removal numerically beneficial; intervals include 0) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -64,9 +64,9 @@ heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside 
 \label{fig:ablation_bars}
 \end{figure}
 
-The gate result is unambiguous and monotone in noise depth; critically, the gateless arm does not merely lose the Mamba advantage---it falls \textbf{below plain S4D} at $-2$\,dB (71.7 vs.\ 75.2) and $-6$\,dB (62.5 vs.\ 68.6). A conv-plus-constant-SSM composition without gating is worse than the simpler time-invariant model, a first hint that components interact rather than add. The other two components tell regime stories rather than robustness stories: the convolutional stem pays $+7.9\pp$ at $-6$\,dB but \emph{costs} $21.0\pp$ on clean cross-speed data (removal yields 98.8 vs.\ 77.8, with seed-std collapsing from $8.1$ to $0.6\pp$)---consistent either with speed-specific local temporal patterns mistransferring across conditions, or with optimisation friction under the matched budget; we report both readings. The heavy-tailed state parameterisation is mildly harmful throughout (its S4D-style replacement is the best deep-noise cell in the whole component grid, 90.1 at $-6$\,dB).
+``Necessary'' is used here in the operational sense of this ablation: removing the gate from the frozen block, with the other components and the budget unchanged, removes most of the block's advantage. The gate result is large, one-signed and monotone in noise depth: removal costs $13.1$, $21.1$ and $23.5\pp$ at $0$, $-2$ and $-6$\,dB (paired 95\% intervals $[6.5, 19.6]$, $[3.8, 38.5]$, $[8.5, 38.6]\pp$; 5/5 seeds at every level). The gateless arm also gives up most of the Mamba advantage: it sits \textbf{below plain S4D} at $-2$\,dB (71.7 vs.\ 75.2) and $-6$\,dB (62.5 vs.\ 68.6), though not at $0$\,dB (77.6 vs.\ 76.2), and the gateless--S4D gap itself is not resolved by five seeds (Section~\ref{sec:results:sensitivity}: under last-epoch reporting the gateless arm is below S4D at $-6$\,dB only). We read this as ``at best on par with S4D, and worse at the deepest noise level'', which suggests, but does not establish, that components interact rather than add. The other two components tell regime stories rather than robustness stories: the convolutional stem helps by $7.9\pp$ at $-6$\,dB (removal gives 78.1 vs.\ 86.0; paired 95\% interval of the difference $[-2.1, 17.9]\pp$, 4/5 seeds) but \emph{costs} $21.0\pp$ on clean cross-speed data (removal yields 98.8 vs.\ 77.8, with seed-std collapsing from $8.1$ to $0.6\pp$)---consistent either with speed-specific local temporal patterns mistransferring across conditions, or with optimisation friction under the matched budget; we report both readings. Replacing the heavy-tailed state parameterisation by an S4D-style one is numerically beneficial at all three deep-noise levels ($+2.4$, $+2.2$, $+4.2\pp$), but every paired interval includes zero (e.g., $[-15.4, 7.1]\pp$ at $-6$\,dB), so we draw no directional conclusion from it (numerically, the S4D-style variant is the best deep-noise cell in the component grid, 90.1 at $-6$\,dB).
 
-\subsection{Necessary but not sufficient: the graft fails}
+\subsection{Adding a gate branch to S4D: limited recovery}
 \label{sec:results:graft}
 
 \begin{table}[htbp]
@@ -87,11 +87,59 @@ $-6$\,dB & 69.2 & 68.6 & 86.0 & $\mathbf{0.035}$ \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\linewidth]{figures/fig4_graft}
-\caption{Graft outcome: S4D+gate, plain S4D, and BM3-frozen across the adjudication band, with the per-condition recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery collapses to near zero at the deepest adjudicated noise level.}
+\caption{Graft outcome: S4D+gate, plain S4D, and BM3-frozen across the adjudication band, with the per-condition recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery is near zero at the deepest adjudicated noise level.}
 \label{fig:graft}
 \end{figure}
 
-Preregistered recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D}) = \mathbf{0.174}$, far below the 0.7 confirmation threshold; at the deepest adjudicated level the graft recovers essentially nothing. Together with Section~\ref{sec:results:localise} this closes a symmetric argument: \emph{removal collapses below the baseline; addition barely moves it}. If the gate were a self-contained robustness mechanism, both directions would move by comparable amounts. Instead the gate functions only inside its native composition. Two readings are compatible with the graft failure and we report both: genuine interaction dependence (the gate needs the conv stem / constant-scan context it co-trained with), and transplant friction (the grafted branch may be harder to optimise in a foreign host under the matched budget; training converges normally, but convergence is not robustness). Under either reading, the practical conclusion stands: single-component transplants should not be expected to confer the donor block's robustness.
+Pre-specified recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D}) = \mathbf{0.174}$. The pre-specified bins were $R \geq 0.7$ (confirmed), $0.3 \leq R < 0.7$ (partial recovery) and $R < 0.3$ (insufficient); $R = 0.174$ falls in the last. Resampling seeds within each arm gives a 95\% interval of $[0.04, 0.29]$ for $R$, and the per-level paired gains of S4D+gate over S4D are $+3.6$ ($[-2.2, 9.3]$), $+4.2$ ($[1.1, 7.3]$) and $+0.6\pp$ ($[-2.2, 3.4]$). At the deepest adjudicated level the graft recovers essentially nothing. Removal and addition are not mirror-image interventions. In BM3 the gate has its own $64 \rightarrow 128$ projection and multiplies the scan output at the inner width of 128 before the output projection; removing it deletes $32{,}768$ parameters. In the S4D host the grafted gate is a $64 \rightarrow 64$ linear branch (with bias) computed from the layer input and multiplying the SSM output before the residual addition; it adds $16{,}640$ parameters over four layers. The two share the multiplicative SiLU form but not width, projection structure or parameter count. Removal costs $13$--$24\pp$ in the frozen block whereas this graft adds $0.6$--$4.2\pp$ to S4D. What this shows is that \emph{this gate branch, in this host and under this budget, recovers little}. Three readings fit the data and cannot be separated here: (i) host dependence, i.e.\ the gate needs the stem or scan context it co-trained with; (ii) implementation differences in width, projection and placement; (iii) transplant friction, i.e.\ the grafted branch is harder to optimise in a foreign host under the matched budget (training converges normally, but convergence is not robustness). Separating them would need a width-matched graft, an equal-capacity non-multiplicative branch as control, and a tuning or longer-budget comparison selected on a source-domain validation set; none was run.
+
+The four arms do allow a coarse host-by-gate contrast, $I = [F(\text{frozen}) - F(\text{frozen}{-}\text{gate})] - [F(\text{S4D+gate}) - F(\text{S4D})]$, where $F$ is macro-F1. Under last-epoch reporting $I = 5.2$ $[2.3, 8.1]$, $8.9$ $[-6.2, 23.9]$ and $22.6$ $[2.9, 42.4]\pp$ at $0$, $-2$ and $-6$\,dB (seed-matched 95\% $t$-intervals; positive in 5/5, 4/5 and 5/5 seeds); under best-epoch reporting in the re-run it is $7.8$ $[1.4, 14.2]$, $14.4$ $[-1.4, 30.3]$ and $23.1$ $[8.7, 37.4]\pp$. A positive $I$ means the gate adds more on the frozen host than on S4D. Because the host differs in several respects at once and the two gates are not aligned, $I$ cannot be assigned to a specific component or interaction term, and the seed pairing across arms is nominal (arms share seed indices, not initialisations).
+
+\subsection{Sensitivity to the reporting rule}
+\label{sec:results:sensitivity}
+
+The tables above use best-epoch macro-F1 on the evaluation condition (Section~\ref{sec:protocol:report}). To measure how much this rule shapes the conclusions, we re-ran the four arms that carry the chain (BM3-frozen, S4D, frozen$-$gate, S4D+gate) over the adjudication band: 60 cells, 5 seeds, 50 epochs, the original training code and the same evaluation fingerprint, recording macro-F1 at every epoch and reporting it at the final epoch, where the cosine learning-rate schedule has annealed to zero. This rule uses no evaluation data to pick a model. The re-run used a different PyTorch/Triton build from the original grids; its best-epoch values reproduce the original arm-by-condition means to within $-0.6$ to $+1.4\pp$ (the largest deviation is in the high-variance frozen$-$gate arm at $-2$\,dB). The original BM3 arm, the S4D-wide capacity control and the conv-stem and $A$-parameterisation ablations were not re-run, so $\Delta$(BM3$-$frozen) of Section~\ref{sec:results:falsify} is not re-assessed here.
+
+\begin{table}[htbp]
+\centering
+\caption{Macro-F1 (\%), mean over 5 seeds, under best-epoch reporting (re-run) and final-epoch reporting.}
+\label{tab:sensitivity_means}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{0\,dB} & \multicolumn{2}{c}{$-2$\,dB} & \multicolumn{2}{c}{$-6$\,dB} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Arm & best & final & best & final & best & final \\
+\midrule
+BM3-frozen & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+S4D & 75.9 & 67.6 & 75.1 & 67.5 & 68.6 & 66.7 \\
+frozen$-$gate & 77.7 & 74.0 & 73.1 & 71.7 & 61.9 & 60.5 \\
+S4D+gate & 80.9 & 71.5 & 79.9 & 74.3 & 69.2 & 66.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Final-epoch values are lower than best-epoch values by $1.4$--$9.5\pp$ across the twelve arm-by-level means, so the absolute levels in Tables~\ref{tab:falsify}--\ref{tab:graft} are optimistic. The reduction is of similar size for the arms being contrasted (e.g., BM3-frozen $-7.4$, $-5.0$, $-2.6\pp$ and S4D $-8.3$, $-7.6$, $-1.9\pp$ at $0$, $-2$, $-6$\,dB), and the contrasts that carry the argument are correspondingly stable (Table~\ref{tab:sensitivity_contrasts}).
+
+\begin{table}[htbp]
+\centering
+\caption{Paired differences under final-epoch reporting, in percentage points: mean, 95\% $t$-interval over seeds, and number of seeds (of 5) with a positive difference.}
+\label{tab:sensitivity_contrasts}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Contrast & 0\,dB & $-2$\,dB & $-6$\,dB \\
+\midrule
+BM3-frozen $-$ S4D & \shortstack{$+15.5$\\ {[}4.3, 26.8{]} (5/5)} & \shortstack{$+19.8$\\ {[}12.0, 27.7{]} (5/5)} & \shortstack{$+16.4$\\ {[}4.1, 28.7{]} (4/5)} \\[3pt]
+BM3-frozen $-$ frozen$-$gate & \shortstack{$+9.1$\\ {[}2.9, 15.3{]} (5/5)} & \shortstack{$+15.6$\\ {[}$-$0.8, 32.0{]} (4/5)} & \shortstack{$+22.6$\\ {[}5.8, 39.4{]} (5/5)} \\[3pt]
+frozen$-$gate $-$ S4D & \shortstack{$+6.4$\\ {[}$-$2.9, 15.8{]} (4/5)} & \shortstack{$+4.2$\\ {[}$-$14.5, 22.9{]} (3/5)} & \shortstack{$-6.2$\\ {[}$-$23.5, 11.2{]} (1/5)} \\[3pt]
+S4D+gate $-$ S4D & \shortstack{$+3.9$\\ {[}$-$0.8, 8.6{]} (4/5)} & \shortstack{$+6.8$\\ {[}2.4, 11.1{]} (5/5)} & \shortstack{$-0.1$\\ {[}$-$4.0, 3.9{]} (2/5)} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Selectivity.} The frozen block's advantage over S4D is $+15.5$, $+19.8$ and $+16.4\pp$, versus $+14.6$, $+17.2$ and $+17.1\pp$ under best-epoch reporting in the re-run. It remains positive in 5/5, 5/5 and 4/5 seeds, with intervals excluding zero at every level. \emph{Gate.} Removing the gate costs $9.1$, $15.6$ and $22.6\pp$ ($12.8$ to $23.8\pp$ under best-epoch reporting in the re-run), above the $8\pp$ pre-specified threshold at every level; the interval at $-2$\,dB includes zero ($[-0.8, 32.0]\pp$, 4/5 seeds) because of the large seed variance of the gateless arm (standard deviation $14.6\pp$ at $-2$\,dB). \emph{Gateless versus S4D.} Under final-epoch reporting the gateless arm is not below S4D at $0$ and $-2$\,dB (point estimates $+6.4$ and $+4.2\pp$) and is below it at $-6$\,dB ($-6.2\pp$); all three intervals include zero. The statement that gate removal ``falls below S4D'' is therefore supported only as a point-estimate observation at the deepest level, and we phrase it as ``to or below'' elsewhere. \emph{Graft.} The recovery ratio is $0.249$, $0.341$ and $-0.003$ per level and $R = 0.196$ on average (best-epoch re-run: $0.220$), again in the pre-specified ``insufficient'' bin on the point estimate. The seed-resampled 95\% interval is $[0.09, 0.31]$ and so reaches the $0.3$ boundary: with five seeds the data support ``far below confirmation ($0.7$) and probably below $0.3$'', not a precise value of $R$. The graft gain over S4D is resolved at $-2$\,dB only ($+6.8\pp$, $[2.4, 11.1]$) and is indistinguishable from zero at $-6$\,dB.
+
+Because the final epoch of the same evaluation condition has been inspected repeatedly during this study, last-epoch values are also not a fresh confirmatory test. The reporting rule therefore changes absolute levels and the strength of the gateless-versus-S4D statement, but not the ordering BM3-frozen $>$ \{S4D+gate, frozen$-$gate, S4D\}, the size of the frozen block's advantage over S4D, or the verdicts of the pre-specified gate and graft rules.
 
 \subsection{The interaction effect concentrates on the hard class}
 \label{sec:results:perclass}
@@ -103,4 +151,4 @@ Preregistered recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \t
 \label{fig:perclass}
 \end{figure}
 
-Per-class analysis (5 arms $\times$ $\{$clean, 0, $-6\,\mathrm{dB}\}$ $\times$ 5 seeds, per-sample predictions dumped and re-verified against reported metrics cell-by-cell): the inner-race class is hard from the outset (clean recall $0.41$--$0.62$ vs.\ $0.96$--$1.00$ for outer-race). Its trajectory under noise is governed by gate presence: in all three gated arms IR improves under matched noise, while in both gateless arms it deteriorates (Figure~\ref{fig:perclass}). Both ablation directions hit IR hardest---gate removal costs IR $2.6$--$3.8\times$ more F1 than OR at every level, and the graft's noise-time gains also concentrate on IR ($-6$\,dB: $+6.8\pp$ IR vs.\ $+4.2\pp$ OR). Because macro-F1 averages the two classes, the arm-level robustness gaps of Sections~\ref{sec:results:falsify}--\ref{sec:results:graft} are carried substantially by the hard class. This refines the headline claim: the component-interaction effect operates through the low-margin class---multiplicative gating appears to protect precisely the class with the least separability margin---and it is honest to state that the effect is class-concentrated rather than uniform.
+Per-class analysis (a separate 75-cell grid at 20 epochs with best-epoch selection on the evaluation condition: 5 arms $\times$ $\{$clean, 0, $-6\,\mathrm{dB}\}$ $\times$ 5 seeds, per-sample predictions dumped and re-verified against reported metrics cell-by-cell): the inner-race class is hard from the outset (clean recall $0.41$--$0.62$ vs.\ $0.96$--$1.00$ for outer-race). Its trajectory under noise is governed by gate presence: in all three gated arms IR recall at $-6$\,dB exceeds its clean value (e.g., $0.55 \rightarrow 0.81$ for BM3), while in both gateless arms it is below its clean value (frozen$-$gate: $0.41 \rightarrow 0.37$; S4D: $0.62 \rightarrow 0.56$, non-monotone, rising to $0.67$ at $0$\,dB) (Figure~\ref{fig:perclass}). Both ablation directions hit IR hardest---gate removal costs IR $2.3$--$3.8\times$ more F1 than OR at every level (F1 from predictions pooled over seeds), and the graft's noise-time gains also concentrate on IR ($-6$\,dB: $+6.8\pp$ IR vs.\ $+4.2\pp$ OR). Because macro-F1 averages the two classes, the arm-level robustness gaps of Sections~\ref{sec:results:falsify}--\ref{sec:results:graft} are carried substantially by the hard class. The gate-related differences are therefore class-concentrated rather than uniform, and fall on the class with the lowest recall. We did not measure classification margins, so we do not describe IR as a ``low-margin'' class. Because this grid is separate from the main 50-epoch grid and the IR class comes from a single training bearing (Section~\ref{sec:protocol:testbed}), these results are descriptive and do not decompose the main-grid effects.

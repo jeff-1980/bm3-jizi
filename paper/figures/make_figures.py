@@ -16,8 +16,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 
-ROOT = "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627"
-OUT = os.path.join(ROOT, "paper", "figures")
+ROOT = os.environ.get("P9_RESULTS_ROOT",
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+OUT = os.environ.get("P9_FIG_OUT", os.path.dirname(os.path.abspath(__file__)))
 
 # ---- validated CVD-safe categorical palette (fixed slot order, dataviz skill) ----
 BLUE = "#2a78d6"     # BM3 / bm3_kin
@@ -99,7 +100,7 @@ def fig2():
     style_axes(ax)
     ax.set_xlabel("SNR (dB); clean plotted at 15")
     ax.set_ylabel("Macro-F1 (%)")
-    ax.set_title("Selectivity is not the mechanism (§4a)")
+    ax.set_title("Freezing Δ,A,B,C projections (§4.1)")
     ax.text(-3, 45, "adjudication\nband", fontsize=8, color=MUTED, ha="center")
     ax.legend(loc="upper right")
     save(fig, "fig2_snr_curves")
@@ -134,7 +135,7 @@ def fig3():
     ax.set_xticklabels(labels)
     ax.set_xlabel("Condition")
     ax.set_ylabel(r"$\Delta$(frozen $-$ arm), pp")
-    ax.set_title("The gate is the necessary component (§4b)")
+    ax.set_title("Gate removal: large, one-signed effect (§4.2)")
     ax.legend(loc="upper left")
     save(fig, "fig3_ablation_bars")
 
@@ -167,7 +168,7 @@ def fig4():
     style_axes(ax)
     ax.set_xlabel("SNR (dB); clean plotted at 15")
     ax.set_ylabel("Macro-F1 (%)")
-    ax.set_title("Necessary but not sufficient: the graft fails (§4c)")
+    ax.set_title("Adding a gate to S4D: limited recovery (§4.3)")
 
     r_labels = {0: (0.249, (2.3, 3)), -2: (0.239, (-2.3, -10)), -6: (0.035, (-1.8, -10))}
     for xv, (rv, (dx, dy)) in r_labels.items():
@@ -175,7 +176,7 @@ def fig4():
         ax.annotate(f"R={rv:.3f}", xy=(xv, y), xytext=(xv + dx, y + dy),
                      fontsize=8, color=SECONDARY_INK, ha="center",
                      arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6))
-    ax.text(0.5, 0.06, r"mean $R=0.174$ (< 0.3 confirmation floor)",
+    ax.text(0.5, 0.06, r"mean $R=0.174$ (< 0.3 'insufficient' bin; last-epoch 0.196)",
              transform=ax.transAxes, fontsize=8.5, color=SECONDARY_INK, ha="center")
     ax.legend(loc="upper right")
     save(fig, "fig4_graft")
@@ -217,7 +218,7 @@ def fig5():
         ax.set_ylim(0.30, 1.03)
     axes[0].set_ylabel("Recall")
     axes[1].legend(loc="lower right", fontsize=8.5)
-    fig.suptitle("The interaction effect concentrates on the hard class (§4d)",
+    fig.suptitle("Gate-related differences concentrate on the minority class (§4.5)",
                  fontsize=11, fontweight="bold", y=1.02)
     save(fig, "fig5_perclass")
 

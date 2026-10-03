@@ -1,4 +1,4 @@
-\section{Confusion matrices and process-level reproducibility floor}
+\section{Confusion matrices and a repeat-run check}
 \label{app:confusion}
 
 \subsection{Full confusion-matrix set}
@@ -8,11 +8,11 @@ Table~\ref{tab:confmat} gives the complete confusion-matrix set underlying the p
 
 \input{appendix/confusion_table}
 
-\subsection{Process-level reproducibility floor}
+\subsection{Repeat-run check}
 \label{app:confusion:floor}
 
 Because two independent process runs of an identical configuration are not bitwise reproducible on this hardware (non-deterministic GPU kernel reductions in the selective-scan and normalisation ops), we measured a process-level noise floor directly: the same arm, condition, and seed (\texttt{bm3\_frozen}, clean, seed 0, 2 epochs) was run twice in separate processes with identical evaluation fingerprints and identical parameter counts confirmed. The two runs' best macro-F1 differed by
 \[
 |0.69025 - 0.69712| = 0.00687 \approx 0.687\pp,
 \]
-which we report as the $\sim\!0.7\pp$ process floor cited in Section~\ref{sec:protocol:prereg}. This is an order of magnitude below the seed-level variability observed within the deep-noise band across the curve tables underlying Figures~\ref{fig:snr_curves} and~\ref{fig:graft} (standard deviations typically $2$--$9\pp$, e.g.\ BM3-frozen $5.7$--$9.4\pp$ and S4D $1.7$--$4.5\pp$ at $\{0,-2,-6\}$\,dB). All within-grid comparisons in this paper share batch and process conditions, so this floor bounds --- but does not explain away --- the arm-level effects reported in Section~\ref{sec:results}.
+which we report as an observed repeat difference of $\sim\!0.7\pp$ (cited in Section~\ref{sec:protocol:prereg}). It is a single repeat of one arm, one condition and a 2-epoch run, and therefore neither an estimate nor a bound of process variability for full-length runs. It is an order of magnitude below the seed-level variability observed within the deep-noise band across the curve tables underlying Figures~\ref{fig:snr_curves} and~\ref{fig:graft} (standard deviations typically $2$--$9\pp$, e.g.\ BM3-frozen $5.7$--$9.4\pp$ and S4D $1.7$--$4.5\pp$ at $\{0,-2,-6\}$\,dB). Arm-level effects in Section~\ref{sec:results} are judged against seed-level variability, not against this single repeat.

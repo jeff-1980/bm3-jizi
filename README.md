@@ -1,8 +1,12 @@
 # bm3-jizi — Reproducibility Package
 
 Code, experimental data, preregistration artifacts, and manuscript source for
-*"Necessary but Not Transplantable: Deep-Noise Robustness of Mamba-Style Blocks
-Is a Component-Interaction Effect"* (submitted to *Neurocomputing*).
+*"Gating Benefits Depend on the Backbone: An Ablation Study of a Mamba-3 Block
+under Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*).
+
+The manuscript was retitled and substantially rescoped on 2026-10-03 after an
+independent review; `recheck/` holds the two follow-up grids that drove the
+rescoping, and `CHANGELOG.md` lists what changed and why.
 
 ## Layout
 
@@ -14,7 +18,10 @@ paper/                     LaTeX source, figures, and compiled PDF for the manus
   figures/                 Fig.1-5 source scripts + rendered 300dpi pdf/png
   references.bib           Bibliography
   highlights.tex           Submission highlights
-  main.pdf                 Compiled manuscript (0 compile errors)
+  main_sandbox_build.pdf   Manuscript built in a sandbox WITHOUT the TS1 (text companion)
+                           fonts, which were substituted at build time. Layout is faithful,
+                           a few symbol glyphs are not. Build locally (commands below) for
+                           the authoritative PDF.
 
 results/                   All 865 preregistered cells across five grids:
   fullgrid_*/               baseline grid (475 cells)
@@ -24,6 +31,35 @@ results/                   All 865 preregistered cells across five grids:
   perclass_*/                  per-class grid (75 cells) + confusion matrices
   preddump_*/                   evaluation-fingerprint / process-determinism verification runs
   predproc_*/                    prediction-dump availability checks
+
+recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGELOG.md
+  recheck_driver.py        Stage-1: re-runs 4 arms x {0,-2,-6} dB x 5 seeds x 50 epochs with
+                           the harness training loop unchanged, logging macro-F1 at EVERY
+                           epoch so the reported metric can also be read at the final epoch
+                           (the harness's own metric is the max over epochs on the evaluation
+                           condition, which uses evaluation data to pick the epoch)
+  analyze_stage1.py        Stage-1 aggregation: per-rule means and paired contrasts
+  stage1/                  Stage-1 outputs (60 cells with full per-epoch curves, 2 CSVs)
+  layered_freeze.py        Stage-2 arms: the bm3_frozen arm freezes the input-dependent parts
+                           of Delta/A/B/C but leaves Mamba-3's trapezoidal weight and rotation
+                           angles input-dependent. frozen_ctrap / frozen_cangle / frozen_clti
+                           freeze those too (clti = no tensor entering the scan depends on
+                           the input; conv stem and output gate untouched)
+  layered_unitcheck.py     Single-variable check for those arms, including the decisive
+                           input-independence probe (capture Trap/Angles for two different
+                           inputs through the same module and require bitwise equality for
+                           whatever the arm claims to have frozen)
+  layered_unitcheck_*/     Unit-check output snapshot
+  recheck2_driver.py       Stage-2: the three layered arms plus the original bm3_kin arm
+                           (so Delta(BM3 - frozen) is no longer rested on best-epoch values)
+  stage2/                  Stage-2 outputs
+
+bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
+baselines/, models_extended.py, noise_utils.py
+                           Remaining harness imports. These four were missing from the
+                           initial upload, so `xjtu_noisy_harness.py` could not be imported
+                           from a fresh checkout; added 2026-10-04. bearmamba3/ and
+                           baselines/ carry only the files this study imports.
 
 xjtu_noisy_harness.py      Training/eval harness (all arms, all noise conditions)
 bm3_models.py               BM3 / S4D / S4D-wide model definitions
@@ -51,14 +87,18 @@ Each grid directory under `results/` contains one subdirectory per
 `summary.json`. Every cell carries `eval_sha256` (full value in
 `paper/appendix/appendixA.tex`, Section A.1); recomputing that hash over the
 held-out test-label array and checking it against the value in each grid's
-`fairness_report.json` is the fastest way to confirm you are looking at
-byte-identical evaluation data before comparing any two arms.
+`fairness_report.json` is the fastest way to confirm that the same held-out
+label vector was scored in every cell before comparing any two arms. The hash
+covers the evaluation labels, not the input windows.
 
 To regenerate a grid's headline numbers: run the corresponding
-`*_aggregate.py` script against its `results/<grid>_*/` directory; to verify
-the preregistration predates the data, compare the prereg artifact's
-modification time (`stat`) against the run-directory's timestamp in its
-folder name, per the table in `paper/appendix/appendixA.tex` Section A.3.
+`*_aggregate.py` script against its `results/<grid>_*/` directory; the
+thresholds were written down before each grid was launched, and the evidence
+for that ordering is local: compare the pre-specification artifact's
+modification time (`stat`) against the run-directory's timestamp in its folder
+name, per the table in `paper/appendix/appendixA.tex` Section A.3. This is
+internal pre-specification, not registration with an external time-stamped
+registry, and `git clone` does not preserve the original mtimes.
 
 ## Adjudication trail and disclosure
 

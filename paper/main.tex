@@ -20,7 +20,7 @@
 
 \begin{frontmatter}
 
-\title{Necessary but Not Transplantable: Deep-Noise Robustness of Mamba-Style Blocks Is a Component-Interaction Effect}
+\title{Gating Benefits Depend on the Backbone: An Ablation Study of a Mamba-3 Block under Matched-Noise Cross-Condition Drift}
 
 \author{Yi Wang\corref{cor1}}
 \ead{jefflsxy@lsu.edu.cn}
@@ -28,11 +28,11 @@
 \cortext[cor1]{Corresponding author}
 
 \begin{abstract}
-The robustness of Mamba-style selective state-space models (SSMs) is widely attributed to their defining feature: input-dependent selectivity. We falsify this attribution through a three-step preregistered ablation chain on a controlled distribution-shift $\times$ noise testbed (bearing vibration signals under operating-condition drift). First, freezing selectivity---replacing input-dependent $\Delta$, $B$, $C$ with learned constants while keeping the block otherwise intact---costs only 2--5$\pp$ under deep noise, yet the frozen block still outperforms a parameter-matched time-invariant S4D by 14--18$\pp$. Second, component-wise ablation localises the necessary ingredient: removing the multiplicative SiLU gate collapses performance below plain S4D. Third, however, grafting the gate onto S4D recovers merely 17\% of the robustness gap---the gate is necessary within its native block but not transplantable. We conclude that deep-noise robustness is a component-interaction effect of the block composition, not a property of any single mechanism. Per-class analysis further shows the effect concentrates on the hard minority class, whose recall under noise is governed by gate presence. Our results caution against crediting input-selectivity for the matched-noise robustness of Mamba-style blocks, and against expecting any single transplanted component to confer that robustness on another backbone under a matched training budget.
+The robustness of Mamba-style selective state-space models (SSMs) is often attributed to input-dependent selectivity. We test this attribution with a three-step ablation chain on one controlled testbed: a Mamba-3 block, bearing vibration signals (XJTU-SY, one speed-and-load transition), and noise-aware training at matched signal-to-noise ratio. Decision thresholds for each step were written down before the corresponding grid was run (internal pre-specification, not an external registry). First, replacing the input-dependent parts of $\Delta$, $A$, $B$ and $C$ by learned constants---while the input-dependent trapezoidal weights and rotation angles of the Mamba-3 scan, the convolutional stem and the output gate are kept---costs at most about 5$\pp$ under deep noise (paired intervals include zero), and the frozen block still outperforms a parameter-matched time-invariant S4D by 14--20$\pp$. Under the pre-specified criterion these four projections are therefore not the primary contributor; the remaining input-dependent scan terms were not tested. Second, removing the multiplicative SiLU gate from the frozen block costs 9--24$\pp$ and returns it to roughly the level of S4D. Third, adding one gate branch to S4D recovers only 17--20\% of the gap to the frozen block (the seed interval reaches the pre-specified 0.3 bound under last-epoch reporting); a host-by-gate contrast of 5--23$\pp$ indicates that, in this design and training budget, the gate's benefit depends strongly on the host. Removal and addition are not symmetric interventions, so this does not show that the gate cannot be transplanted. A separate, shorter per-class grid shows the gate-related differences concentrating on the minority inner-race class. Values are best-epoch macro-F1 on the evaluation condition; the central contrasts for four arms are re-assessed under last-epoch reporting. The evidence is conditional on one block, one condition pair with four bearings per side, five seeds and matched-noise training.
 \end{abstract}
 
 \begin{keyword}
-state-space models \sep Mamba \sep input selectivity \sep gating \sep robustness \sep ablation \sep distribution shift \sep component interaction
+state-space models \sep Mamba \sep input selectivity \sep gating \sep robustness \sep ablation \sep distribution shift \sep matched-noise training
 \end{keyword}
 
 \end{frontmatter}
@@ -54,10 +54,10 @@ Yi Wang: Conceptualization, Methodology, Software, Validation, Formal analysis, 
 The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.
 
 \section*{Declaration of Generative AI and AI-assisted technologies in the writing process}
-During the preparation of this work the authors used LLM-based agents to execute and cross-check preregistered analysis and adjudication passes as described in Appendix~C, and to assist with manuscript drafting and figure generation. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article. All numeric thresholds, adjudication rulings, and scientific interpretations reported in this paper were fixed and made by the human authors, as detailed in Appendix~C.
+During the preparation of this work the authors used LLM-based agents to execute and cross-check pre-specified analysis and adjudication passes as described in Appendix~C, and to assist with manuscript drafting and figure generation. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the published article. All numeric thresholds, adjudication rulings, and scientific interpretations reported in this paper were fixed and made by the human authors, as detailed in Appendix~C.
 
 \section*{Data availability}
-The code, preregistration artifacts, and adjudication trail for this study are available at \url{https://github.com/jeff-1980/bm3-jizi}.
+The code, pre-specification artifacts, and adjudication trail for this study are available at \url{https://github.com/jeff-1980/bm3-jizi}. \VERIFY{add the last-epoch re-run data and scripts (60 cells) and the external modules the training entry point imports (\texttt{bearmamba3}, \texttt{models\_extended}, \texttt{noise\_utils}) or a version map to the repository before submission}
 
 \appendix
 \input{appendix/appendixA}

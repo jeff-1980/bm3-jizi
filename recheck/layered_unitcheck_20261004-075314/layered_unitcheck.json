@@ -1,0 +1,165 @@
+{
+ "base_arm": "bm3_frozen",
+ "base_params": 112410,
+ "torch": "2.9.0+cu128",
+ "arms": {
+  "frozen_ctrap": {
+   "expected": {
+    "trap": "frozen",
+    "angles": "selective"
+   },
+   "forward_backward": {
+    "out_shape": [
+     4,
+     2
+    ],
+    "finite": true,
+    "n_const_params": 16,
+    "all_const_params_have_grad": true,
+    "pass": true
+   },
+   "input_independence": {
+    "observed": {
+     "trap": "frozen",
+     "angles": "selective"
+    },
+    "n_layers_probed": 4,
+    "pass": true
+   },
+   "state_dict_diff": {
+    "added": [
+     "mamba_layers.0.trap_const",
+     "mamba_layers.1.trap_const",
+     "mamba_layers.2.trap_const",
+     "mamba_layers.3.trap_const"
+    ],
+    "removed": [],
+    "reshaped": [
+     "mamba_layers.0.in_proj.weight",
+     "mamba_layers.1.in_proj.weight",
+     "mamba_layers.2.in_proj.weight",
+     "mamba_layers.3.in_proj.weight"
+    ],
+    "in_proj_shape": [
+     [
+      288,
+      64
+     ]
+    ],
+    "pass": true
+   },
+   "param_table": {
+    "params": 111906,
+    "delta_vs_bm3_frozen": -504
+   },
+   "pass": true
+  },
+  "frozen_cangle": {
+   "expected": {
+    "trap": "selective",
+    "angles": "frozen"
+   },
+   "forward_backward": {
+    "out_shape": [
+     4,
+     2
+    ],
+    "finite": true,
+    "n_const_params": 16,
+    "all_const_params_have_grad": true,
+    "pass": true
+   },
+   "input_independence": {
+    "observed": {
+     "trap": "selective",
+     "angles": "frozen"
+    },
+    "n_layers_probed": 4,
+    "pass": true
+   },
+   "state_dict_diff": {
+    "added": [
+     "mamba_layers.0.angle_const",
+     "mamba_layers.1.angle_const",
+     "mamba_layers.2.angle_const",
+     "mamba_layers.3.angle_const"
+    ],
+    "removed": [],
+    "reshaped": [
+     "mamba_layers.0.in_proj.weight",
+     "mamba_layers.1.in_proj.weight",
+     "mamba_layers.2.in_proj.weight",
+     "mamba_layers.3.in_proj.weight"
+    ],
+    "in_proj_shape": [
+     [
+      258,
+      64
+     ]
+    ],
+    "pass": true
+   },
+   "param_table": {
+    "params": 104346,
+    "delta_vs_bm3_frozen": -8064
+   },
+   "pass": true
+  },
+  "frozen_clti": {
+   "expected": {
+    "trap": "frozen",
+    "angles": "frozen"
+   },
+   "forward_backward": {
+    "out_shape": [
+     4,
+     2
+    ],
+    "finite": true,
+    "n_const_params": 20,
+    "all_const_params_have_grad": true,
+    "pass": true
+   },
+   "input_independence": {
+    "observed": {
+     "trap": "frozen",
+     "angles": "frozen"
+    },
+    "n_layers_probed": 4,
+    "pass": true
+   },
+   "state_dict_diff": {
+    "added": [
+     "mamba_layers.0.angle_const",
+     "mamba_layers.0.trap_const",
+     "mamba_layers.1.angle_const",
+     "mamba_layers.1.trap_const",
+     "mamba_layers.2.angle_const",
+     "mamba_layers.2.trap_const",
+     "mamba_layers.3.angle_const",
+     "mamba_layers.3.trap_const"
+    ],
+    "removed": [],
+    "reshaped": [
+     "mamba_layers.0.in_proj.weight",
+     "mamba_layers.1.in_proj.weight",
+     "mamba_layers.2.in_proj.weight",
+     "mamba_layers.3.in_proj.weight"
+    ],
+    "in_proj_shape": [
+     [
+      256,
+      64
+     ]
+    ],
+    "pass": true
+   },
+   "param_table": {
+    "params": 103842,
+    "delta_vs_bm3_frozen": -8568
+   },
+   "pass": true
+  }
+ },
+ "all_pass": true
+}
