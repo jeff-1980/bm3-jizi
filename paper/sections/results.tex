@@ -22,9 +22,9 @@ Throughout, ``deep noise'' denotes the pre-specified adjudication band $\{0, -2,
 Condition & BM3 & BM3-frozen & S4D & $\Delta$(BM3$-$frozen) & $\Delta$(frozen$-$S4D) \\
 \midrule
 clean & 78.9 & 78.9 & 81.0 & $-0.0$ & $-2.1$ \\
-0\,dB & 95.1 & 89.9 & 76.1 & $+5.1$ & $\mathbf{+13.8}$ \\
-$-2$\,dB & 95.4 & 92.1 & 75.2 & $+3.3$ & $\mathbf{+17.0}$ \\
-$-6$\,dB & 88.5 & 86.3 & 68.6 & $+2.2$ & $\mathbf{+17.7}$ \\
+0\,dB & 95.0 & 89.9 & 76.1 & $+5.1$ & $\mathbf{+13.8}$ \\
+$-2$\,dB & 95.4 & 92.1 & 75.1 & $+3.3$ & $\mathbf{+17.0}$ \\
+$-6$\,dB & 88.5 & 86.3 & 68.5 & $+2.2$ & $\mathbf{+17.7}$ \\
 $-10$\,dB\rlap{$^{*}$} & 68.1 & 64.3 & 52.3 & $+3.8$ & $+12.0$ \\
 \bottomrule
 \end{tabular}
@@ -72,7 +72,7 @@ BM3 $-$ frozen$-$all & \multicolumn{2}{c}{$-2.6$ [$-$8.2, 2.9]} & \multicolumn{2
 
 It is not. With every tensor entering the scan input-independent, \emph{frozen$-$all} is $+21.9$, $+24.0$ and $+21.2\pp$ above S4D at $0$, $-2$ and $-6$\,dB under final-epoch reporting, positive in 5/5 seeds at every level and with intervals excluding zero---if anything a larger margin than the partially frozen arm's $+15.5$, $+19.8$, $+16.4\pp$ (Table~\ref{tab:sensitivity_contrasts}). None of the three freezing steps costs accuracy: the paired differences BM3-frozen $-$ frozen$-$trap, $-$ frozen$-$rot and $-$ frozen$-$all are negative at all three levels (between $-1.8$ and $-6.3\pp$ under final-epoch reporting), i.e.\ the more heavily frozen arm is numerically ahead, with every interval including zero. The direction is not an artefact of capacity: \emph{frozen$-$all} has 103{,}842 parameters against 112{,}410 for BM3-frozen and 177{,}938 for BM3. At the deepest level \emph{frozen$-$all} also exceeds the full BM3 block by $4.5\pp$ ($[-7.2, -1.9]$ for BM3 $-$ frozen$-$all, 0/5 seeds in BM3's favour); we report this but do not build on it, since five seeds and one speed pair cannot separate a genuine advantage of a time-invariant scan from a variance effect.
 
-Two readings of the whole step are therefore available, and the data do not separate them: input-dependence of the scan contributes nothing measurable here, or it contributes something that the learned constants recover under this training budget. Either way the conclusion for the attribution chain is the same and now rests on a complete intervention rather than a partial one: \textbf{the Mamba-style block's deep-noise advantage over a time-invariant S4D does not require any input-dependent term in its scan}. What remains to carry it is the rest of the block---the convolutional stem, the heavy-tailed $A$ parameterisation, the normalisations and the output gate---which is what Sections~\ref{sec:results:localise}--\ref{sec:results:graft} examine. The re-run also reproduces the original grids: the BM3 arm's best-epoch means (95.6, 95.8, 88.6) match Table~\ref{tab:falsify}'s 95.1, 95.4, 88.5 to within $0.5\pp$.
+Two readings of the whole step are therefore available, and the data do not separate them: input-dependence of the scan contributes nothing measurable here, or it contributes something that the learned constants recover under this training budget. Either way the conclusion for the attribution chain is the same and now rests on a complete intervention rather than a partial one: \textbf{the Mamba-style block's deep-noise advantage over a time-invariant S4D does not require any input-dependent term in its scan}. What remains to carry it is the rest of the block---the convolutional stem, the heavy-tailed $A$ parameterisation, the normalisations and the output gate---which is what Sections~\ref{sec:results:localise}--\ref{sec:results:graft} examine. The re-run also reproduces the original grids: the BM3 arm's best-epoch means (95.6, 95.8, 88.6) exceed Table~\ref{tab:falsify}'s 95.0, 95.4, 88.5 by $0.57$, $0.43$ and $0.16\pp$ (a different PyTorch/Triton build, Section~\ref{sec:results:sensitivity}).
 
 \subsection{Removing the gate is the only ablation with a large, one-signed effect}
 \label{sec:results:localise}
@@ -106,7 +106,7 @@ heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside 
 
 \begin{table}[htbp]
 \centering
-\caption{Grafting the SiLU gate branch onto plain S4D (S4D unchanged key-by-key; only the gate branch added).}
+\caption{Grafting the SiLU gate branch onto plain S4D (S4D unchanged key-by-key; only the gate branch added). The S4D+gate column is the graft grid; the S4D and BM3-frozen columns, and hence $R$, are the component-ablation grid of Section~\ref{sec:results:localise}, as pre-specified, which is why they differ from Table~\ref{tab:falsify} by 0.1--0.7\,pp (independent runs of the same arms).}
 \label{tab:graft}
 \begin{tabular}{@{}lrrrr@{}}
 \toprule
