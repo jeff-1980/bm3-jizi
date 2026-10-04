@@ -51,7 +51,7 @@ Freezing the remaining terms does not reduce the advantage over S4D:
   arm is numerically ahead, with every interval including zero.
 - Not a capacity effect: `frozen_clti` has 103,842 parameters against 112,410
   for `bm3_frozen` and 177,938 for BM3.
-- At −6 dB `frozen_clti` also exceeds the full BM3 block by 4.6 pp
+- At −6 dB `frozen_clti` also exceeds the full BM3 block by 4.5 pp
   ([−7.2, −1.9] for BM3 − `frozen_clti`, 0/5 seeds in BM3's favour). Reported,
   not built on.
 - The re-run reproduces the original grids: the BM3 arm's best-epoch means

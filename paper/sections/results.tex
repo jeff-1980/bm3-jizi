@@ -56,21 +56,21 @@ Table~\ref{tab:fullfreeze} reports the three layered arms of Section~\ref{sec:pr
 Arm & best & final & best & final & best & final \\
 \midrule
 BM3 (re-run) & 95.6 & 86.9 & 95.8 & 88.3 & 88.6 & 83.3 \\
-BM3-frozen ($\Delta,A,B,C$) & 90.6 & 83.1 & 92.4 & 87.3 & 85.7 & 83.1 \\
-frozen$-$trap & 95.6 & 87.6 & 95.3 & 89.3 & 90.5 & 88.0 \\
-frozen$-$rot & 94.6 & 86.7 & 94.6 & 89.1 & 89.1 & 86.4 \\
+BM3-frozen ($\Delta,A,B,C$) & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+frozen$-$trap & 95.5 & 87.6 & 95.3 & 89.3 & 90.5 & 88.0 \\
+frozen$-$rot & 94.6 & 86.7 & 94.6 & 89.1 & 89.0 & 86.4 \\
 frozen$-$all & 96.5 & 89.5 & 96.8 & 91.5 & 90.5 & 87.9 \\
 S4D & 75.9 & 67.6 & 75.1 & 67.5 & 68.6 & 66.7 \\
 \midrule
 \multicolumn{7}{@{}l}{\emph{Paired differences, final-epoch reporting (pp)}} \\
 frozen$-$all $-$ S4D & \multicolumn{2}{c}{$+21.9$ [16.7, 27.1]} & \multicolumn{2}{c}{$+24.0$ [21.4, 26.5]} & \multicolumn{2}{c}{$+21.2$ [17.5, 24.9]} \\
-BM3-frozen $-$ frozen$-$all & \multicolumn{2}{c}{$-6.4$ [$-$17.6, 4.9]} & \multicolumn{2}{c}{$-4.1$ [$-$12.0, 3.7]} & \multicolumn{2}{c}{$-4.8$ [$-$17.8, 8.2]} \\
-BM3 $-$ frozen$-$all & \multicolumn{2}{c}{$-2.6$ [$-$8.2, 2.9]} & \multicolumn{2}{c}{$-3.2$ [$-$7.1, 0.6]} & \multicolumn{2}{c}{$-4.6$ [$-$7.2, $-$1.9]} \\
+BM3-frozen $-$ frozen$-$all & \multicolumn{2}{c}{$-6.3$ [$-$17.6, 4.9]} & \multicolumn{2}{c}{$-4.1$ [$-$12.0, 3.7]} & \multicolumn{2}{c}{$-4.8$ [$-$17.8, 8.2]} \\
+BM3 $-$ frozen$-$all & \multicolumn{2}{c}{$-2.6$ [$-$8.2, 2.9]} & \multicolumn{2}{c}{$-3.2$ [$-$7.0, 0.6]} & \multicolumn{2}{c}{$-4.5$ [$-$7.2, $-$1.9]} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-It is not. With every tensor entering the scan input-independent, \emph{frozen$-$all} is $+21.9$, $+24.0$ and $+21.2\pp$ above S4D at $0$, $-2$ and $-6$\,dB under final-epoch reporting, positive in 5/5 seeds at every level and with intervals excluding zero---if anything a larger margin than the partially frozen arm's $+15.5$, $+19.8$, $+16.4\pp$ (Table~\ref{tab:sensitivity_contrasts}). None of the three freezing steps costs accuracy: the paired differences BM3-frozen $-$ frozen$-$trap, $-$ frozen$-$rot and $-$ frozen$-$all are negative at all three levels (between $-1.8$ and $-6.4\pp$ under final-epoch reporting), i.e.\ the more heavily frozen arm is numerically ahead, with every interval including zero. The direction is not an artefact of capacity: \emph{frozen$-$all} has 103{,}842 parameters against 112{,}410 for BM3-frozen and 177{,}938 for BM3. At the deepest level \emph{frozen$-$all} also exceeds the full BM3 block by $4.6\pp$ ($[-7.2, -1.9]$ for BM3 $-$ frozen$-$all, 0/5 seeds in BM3's favour); we report this but do not build on it, since five seeds and one speed pair cannot separate a genuine advantage of a time-invariant scan from a variance effect.
+It is not. With every tensor entering the scan input-independent, \emph{frozen$-$all} is $+21.9$, $+24.0$ and $+21.2\pp$ above S4D at $0$, $-2$ and $-6$\,dB under final-epoch reporting, positive in 5/5 seeds at every level and with intervals excluding zero---if anything a larger margin than the partially frozen arm's $+15.5$, $+19.8$, $+16.4\pp$ (Table~\ref{tab:sensitivity_contrasts}). None of the three freezing steps costs accuracy: the paired differences BM3-frozen $-$ frozen$-$trap, $-$ frozen$-$rot and $-$ frozen$-$all are negative at all three levels (between $-1.8$ and $-6.3\pp$ under final-epoch reporting), i.e.\ the more heavily frozen arm is numerically ahead, with every interval including zero. The direction is not an artefact of capacity: \emph{frozen$-$all} has 103{,}842 parameters against 112{,}410 for BM3-frozen and 177{,}938 for BM3. At the deepest level \emph{frozen$-$all} also exceeds the full BM3 block by $4.5\pp$ ($[-7.2, -1.9]$ for BM3 $-$ frozen$-$all, 0/5 seeds in BM3's favour); we report this but do not build on it, since five seeds and one speed pair cannot separate a genuine advantage of a time-invariant scan from a variance effect.
 
 Two readings of the whole step are therefore available, and the data do not separate them: input-dependence of the scan contributes nothing measurable here, or it contributes something that the learned constants recover under this training budget. Either way the conclusion for the attribution chain is the same and now rests on a complete intervention rather than a partial one: \textbf{the Mamba-style block's deep-noise advantage over a time-invariant S4D does not require any input-dependent term in its scan}. What remains to carry it is the rest of the block---the convolutional stem, the heavy-tailed $A$ parameterisation, the normalisations and the output gate---which is what Sections~\ref{sec:results:localise}--\ref{sec:results:graft} examine. The re-run also reproduces the original grids: the BM3 arm's best-epoch means (95.6, 95.8, 88.6) match Table~\ref{tab:falsify}'s 95.1, 95.4, 88.5 to within $0.5\pp$.
 
