@@ -1,0 +1,130 @@
+{
+ "generated": "2026-10-04T23:11:59",
+ "torch": "2.9.0+cu128",
+ "checks": {
+  "donor_shape": {
+   "d_inner": 128,
+   "is_outproj_norm": false,
+   "pass": true
+  },
+  "param_match": {
+   "params": {
+    "s4d_plus_gate_wm": 198978,
+    "s4d_plus_branch": 198978
+   },
+   "reference_params": {
+    "s4d": 100162,
+    "bm3_frozen": 112410,
+    "s4d_plus_gate": 116802,
+    "s4d_wide": 178498
+   },
+   "rel_diff": 0.0,
+   "pass": true
+  },
+  "combine_path": {
+   "s4d_plus_gate_wm": {
+    "mode": "mult",
+    "matches_own_formula": true,
+    "differs_from_other_formula": true,
+    "z_input_dependent": true,
+    "layers": 4,
+    "pass": true
+   },
+   "s4d_plus_branch": {
+    "mode": "add",
+    "matches_own_formula": true,
+    "differs_from_other_formula": true,
+    "z_input_dependent": true,
+    "layers": 4,
+    "pass": true
+   },
+   "pass": true
+  },
+  "state_dict_diff": {
+   "n_shared_host_keys": 14,
+   "removed": [
+    "s4d_layers.0.D",
+    "s4d_layers.0.kernel_fn.B",
+    "s4d_layers.0.kernel_fn.C",
+    "s4d_layers.0.kernel_fn.log_dt",
+    "s4d_layers.0.kernel_fn.log_neg_A",
+    "s4d_layers.1.D",
+    "s4d_layers.1.kernel_fn.B",
+    "s4d_layers.1.kernel_fn.C",
+    "s4d_layers.1.kernel_fn.log_dt",
+    "s4d_layers.1.kernel_fn.log_neg_A",
+    "s4d_layers.2.D",
+    "s4d_layers.2.kernel_fn.B",
+    "s4d_layers.2.kernel_fn.C",
+    "s4d_layers.2.kernel_fn.log_dt",
+    "s4d_layers.2.kernel_fn.log_neg_A",
+    "s4d_layers.3.D",
+    "s4d_layers.3.kernel_fn.B",
+    "s4d_layers.3.kernel_fn.C",
+    "s4d_layers.3.kernel_fn.log_dt",
+    "s4d_layers.3.kernel_fn.log_neg_A"
+   ],
+   "added": [
+    "s4d_layers.0.in_x.weight",
+    "s4d_layers.0.in_z.weight",
+    "s4d_layers.0.out.weight",
+    "s4d_layers.0.ssm.D",
+    "s4d_layers.0.ssm.kernel_fn.B",
+    "s4d_layers.0.ssm.kernel_fn.C",
+    "s4d_layers.0.ssm.kernel_fn.log_dt",
+    "s4d_layers.0.ssm.kernel_fn.log_neg_A",
+    "s4d_layers.1.in_x.weight",
+    "s4d_layers.1.in_z.weight",
+    "s4d_layers.1.out.weight",
+    "s4d_layers.1.ssm.D",
+    "s4d_layers.1.ssm.kernel_fn.B",
+    "s4d_layers.1.ssm.kernel_fn.C",
+    "s4d_layers.1.ssm.kernel_fn.log_dt",
+    "s4d_layers.1.ssm.kernel_fn.log_neg_A",
+    "s4d_layers.2.in_x.weight",
+    "s4d_layers.2.in_z.weight",
+    "s4d_layers.2.out.weight",
+    "s4d_layers.2.ssm.D",
+    "s4d_layers.2.ssm.kernel_fn.B",
+    "s4d_layers.2.ssm.kernel_fn.C",
+    "s4d_layers.2.ssm.kernel_fn.log_dt",
+    "s4d_layers.2.ssm.kernel_fn.log_neg_A",
+    "s4d_layers.3.in_x.weight",
+    "s4d_layers.3.in_z.weight",
+    "s4d_layers.3.out.weight",
+    "s4d_layers.3.ssm.D",
+    "s4d_layers.3.ssm.kernel_fn.B",
+    "s4d_layers.3.ssm.kernel_fn.C",
+    "s4d_layers.3.ssm.kernel_fn.log_dt",
+    "s4d_layers.3.ssm.kernel_fn.log_neg_A"
+   ],
+   "host_keys_identical": true,
+   "removed_only_s4d64": true,
+   "added_only_expected": true,
+   "arms_identical_at_init": true,
+   "pass": true
+  },
+  "fwd_bwd": {
+   "s4d_plus_gate_wm": {
+    "out_shape": [
+     4,
+     2
+    ],
+    "finite": true,
+    "all_params_have_finite_grad": true,
+    "pass": true
+   },
+   "s4d_plus_branch": {
+    "out_shape": [
+     4,
+     2
+    ],
+    "finite": true,
+    "all_params_have_finite_grad": true,
+    "pass": true
+   },
+   "pass": true
+  }
+ },
+ "all_pass": true
+}
