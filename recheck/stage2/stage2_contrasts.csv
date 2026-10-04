@@ -1,0 +1,37 @@
+rule,contrast,condition,n,mean_diff_pp,ci_lo,ci_hi,n_pos,wilcoxon_p
+oracle,BM3 - frozen,awgn@+0dB,5,5.05,-3.48,13.58,4,0.0938
+oracle,BM3 - frozen,awgn@-2dB,5,3.49,-2.07,9.05,4,0.0938
+oracle,BM3 - frozen,awgn@-6dB,5,2.97,-7.61,13.56,2,0.5
+oracle,frozen - frozen_ctrap (freeze trap),awgn@+0dB,5,-4.99,-17.92,7.95,2,0.8438
+oracle,frozen - frozen_ctrap (freeze trap),awgn@-2dB,5,-2.91,-12.9,7.07,2,0.7812
+oracle,frozen - frozen_ctrap (freeze trap),awgn@-6dB,5,-4.83,-19.2,9.55,3,0.6875
+oracle,frozen - frozen_cangle (freeze angles),awgn@+0dB,5,-4.08,-13.01,4.86,2,0.8438
+oracle,frozen - frozen_cangle (freeze angles),awgn@-2dB,5,-2.21,-8.03,3.62,2,0.8438
+oracle,frozen - frozen_cangle (freeze angles),awgn@-6dB,5,-3.38,-18.19,11.42,2,0.5938
+oracle,frozen - frozen_clti (freeze both),awgn@+0dB,5,-5.91,-15.63,3.81,2,0.9062
+oracle,frozen - frozen_clti (freeze both),awgn@-2dB,5,-4.41,-11.23,2.41,1,0.9375
+oracle,frozen - frozen_clti (freeze both),awgn@-6dB,5,-4.84,-19.04,9.35,2,0.6875
+oracle,frozen_clti - S4D,awgn@+0dB,5,20.54,12.82,28.26,5,0.0312
+oracle,frozen_clti - S4D,awgn@-2dB,5,21.63,16.31,26.95,5,0.0312
+oracle,frozen_clti - S4D,awgn@-6dB,5,21.95,18.62,25.28,5,0.0312
+oracle,BM3 - frozen_clti,awgn@+0dB,5,-0.86,-3.9,2.19,2,0.7812
+oracle,BM3 - frozen_clti,awgn@-2dB,5,-0.92,-3.47,1.63,1,0.8438
+oracle,BM3 - frozen_clti,awgn@-6dB,5,-1.87,-5.88,2.14,1,0.9062
+final,BM3 - frozen,awgn@+0dB,5,3.74,-3.81,11.29,4,0.1562
+final,BM3 - frozen,awgn@-2dB,5,0.93,-4.49,6.34,3,0.3125
+final,BM3 - frozen,awgn@-6dB,5,0.24,-12.12,12.59,2,0.6875
+final,frozen - frozen_ctrap (freeze trap),awgn@+0dB,5,-4.5,-20.91,11.92,2,0.8438
+final,frozen - frozen_ctrap (freeze trap),awgn@-2dB,5,-1.97,-13.86,9.92,1,0.8438
+final,frozen - frozen_ctrap (freeze trap),awgn@-6dB,5,-4.88,-18.05,8.29,2,0.8438
+final,frozen - frozen_cangle (freeze angles),awgn@+0dB,5,-3.58,-13.11,5.96,2,0.8438
+final,frozen - frozen_cangle (freeze angles),awgn@-2dB,5,-1.81,-8.54,4.93,2,0.7812
+final,frozen - frozen_cangle (freeze angles),awgn@-6dB,5,-3.31,-18.0,11.37,2,0.5938
+final,frozen - frozen_clti (freeze both),awgn@+0dB,5,-6.35,-17.57,4.87,1,0.9062
+final,frozen - frozen_clti (freeze both),awgn@-2dB,5,-4.14,-11.99,3.7,1,0.9062
+final,frozen - frozen_clti (freeze both),awgn@-6dB,5,-4.79,-17.8,8.23,2,0.7812
+final,frozen_clti - S4D,awgn@+0dB,5,21.88,16.69,27.08,5,0.0312
+final,frozen_clti - S4D,awgn@-2dB,5,23.95,21.38,26.52,5,0.0312
+final,frozen_clti - S4D,awgn@-6dB,5,21.19,17.49,24.88,5,0.0312
+final,BM3 - frozen_clti,awgn@+0dB,5,-2.61,-8.15,2.94,1,0.9062
+final,BM3 - frozen_clti,awgn@-2dB,5,-3.22,-7.05,0.62,0,1.0
+final,BM3 - frozen_clti,awgn@-6dB,5,-4.55,-7.21,-1.88,0,1.0

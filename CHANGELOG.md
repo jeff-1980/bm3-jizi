@@ -33,9 +33,36 @@ unchanged, logging macro-F1 at every epoch.
 Independent review established that the `bm3_frozen` arm freezes the
 input-dependent parts of Δ, A, B and C but leaves two further input-dependent
 tensors in Mamba-3's scan: the trapezoidal weight and the rotation angles.
-`recheck/layered_freeze.py` adds the arms that freeze those too, and the grid
-also re-runs the original `bm3_kin` arm so that Δ(BM3 − frozen) no longer rests
-on best-epoch values alone.
+`recheck/layered_freeze.py` adds the three arms that freeze those too
+(`frozen_ctrap`, `frozen_cangle`, `frozen_clti`), each verified by capturing the
+tensors the scan receives for two different inputs through the same module and
+requiring bitwise equality for whatever the arm claims to have frozen
+(`recheck/layered_unitcheck.py`). 60 cells: those three arms plus the original
+`bm3_kin` arm × {0, −2, −6} dB × 5 seeds × 50 epochs.
+
+Freezing the remaining terms does not reduce the advantage over S4D:
+
+- With no tensor entering the scan dependent on the input, `frozen_clti` is
+  +21.9, +24.0 and +21.2 pp above S4D at 0, −2 and −6 dB under final-epoch
+  reporting (5/5 seeds, intervals excluding zero) — a larger margin than the
+  partially frozen arm's +15.5, +19.8, +16.4 pp.
+- No freezing step costs accuracy. BM3-frozen minus each of the three arms is
+  negative at all three levels (−1.8 to −6.4 pp), i.e. the more heavily frozen
+  arm is numerically ahead, with every interval including zero.
+- Not a capacity effect: `frozen_clti` has 103,842 parameters against 112,410
+  for `bm3_frozen` and 177,938 for BM3.
+- At −6 dB `frozen_clti` also exceeds the full BM3 block by 4.6 pp
+  ([−7.2, −1.9] for BM3 − `frozen_clti`, 0/5 seeds in BM3's favour). Reported,
+  not built on.
+- The re-run reproduces the original grids: the BM3 arm's best-epoch means
+  (95.6, 95.8, 88.6) match the original 95.1, 95.4, 88.5 to within 0.5 pp.
+- Δ(BM3 − frozen) under final-epoch reporting is +3.7, +0.9, +0.2 pp
+  (best-epoch re-run +5.1, +3.5, +3.0), so the point estimates fall further
+  below the 10 pp threshold rather than rising towards it.
+
+The two readings this does not separate — input-dependence contributes nothing
+measurable here, or what it contributes is recovered by learned constants under
+this budget — lead to the same attribution and are both stated in the paper.
 
 ### Manuscript
 Retitled from *"Necessary but Not Transplantable: Deep-Noise Robustness of

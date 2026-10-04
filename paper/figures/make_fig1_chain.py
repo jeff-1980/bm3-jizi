@@ -93,7 +93,7 @@ def main():
     bw, bh = 2.6, 0.85
     y_block = 3.15
     stage_x = [0.35, 4.25, 8.15]
-    titles = ["Step 1 -- Freeze Δ,A,B,C\n(necessity test)", "Step 2 -- Remove gate\n(localise)", "Step 3 -- Add gate to S4D\n(sufficiency test)"]
+    titles = ["Step 1 -- Freeze the scan\n(necessity test)", "Step 2 -- Remove gate\n(localise)", "Step 3 -- Add gate to S4D\n(sufficiency test)"]
 
     # Step 1: freeze selectivity (scan slot dimmed = constants instead of input-dependent)
     block(ax, stage_x[0], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"})
@@ -126,7 +126,7 @@ def main():
     # verdict boxes
     vy = 1.55
     verdict_box(ax, stage_x[0] - 0.15, vy, bw + 0.3,
-                 "Δ(BM3−frozen) ≤ 5pp (CI incl. 0);\nfrozen ≫ S4D (+14–20pp)\n→ Δ,A,B,C not primary", CRITICAL)
+                 "Δ(BM3−frozen) ≤ 5pp (CI incl. 0);\nvs S4D: +14–20pp, full freeze +21–24pp\n→ no scan term is primary", CRITICAL)
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
                  "gate removal: −9 to −24pp,\nto ≈ S4D level or below\n→ gate is necessary here", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,

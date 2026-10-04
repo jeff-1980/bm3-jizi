@@ -52,7 +52,8 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   layered_unitcheck_*/     Unit-check output snapshot
   recheck2_driver.py       Stage-2: the three layered arms plus the original bm3_kin arm
                            (so Delta(BM3 - frozen) is no longer rested on best-epoch values)
-  stage2/                  Stage-2 outputs
+  analyze_stage2.py        Stage-2 aggregation under both reporting rules
+  stage2/                  Stage-2 outputs (60 cells with per-epoch curves, 2 CSVs)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py

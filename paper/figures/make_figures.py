@@ -100,7 +100,7 @@ def fig2():
     style_axes(ax)
     ax.set_xlabel("SNR (dB); clean plotted at 15")
     ax.set_ylabel("Macro-F1 (%)")
-    ax.set_title("Freezing Δ,A,B,C projections (§4.1)")
+    ax.set_title("Freezing Δ,A,B,C projections")
     ax.text(-3, 45, "adjudication\nband", fontsize=8, color=MUTED, ha="center")
     ax.legend(loc="upper right")
     save(fig, "fig2_snr_curves")
@@ -135,7 +135,7 @@ def fig3():
     ax.set_xticklabels(labels)
     ax.set_xlabel("Condition")
     ax.set_ylabel(r"$\Delta$(frozen $-$ arm), pp")
-    ax.set_title("Gate removal: large, one-signed effect (§4.2)")
+    ax.set_title("Gate removal: large, one-signed effect")
     ax.legend(loc="upper left")
     save(fig, "fig3_ablation_bars")
 
@@ -168,7 +168,7 @@ def fig4():
     style_axes(ax)
     ax.set_xlabel("SNR (dB); clean plotted at 15")
     ax.set_ylabel("Macro-F1 (%)")
-    ax.set_title("Adding a gate to S4D: limited recovery (§4.3)")
+    ax.set_title("Adding a gate to S4D: limited recovery")
 
     r_labels = {0: (0.249, (2.3, 3)), -2: (0.239, (-2.3, -10)), -6: (0.035, (-1.8, -10))}
     for xv, (rv, (dx, dy)) in r_labels.items():
@@ -218,7 +218,7 @@ def fig5():
         ax.set_ylim(0.30, 1.03)
     axes[0].set_ylabel("Recall")
     axes[1].legend(loc="lower right", fontsize=8.5)
-    fig.suptitle("Gate-related differences concentrate on the minority class (§4.5)",
+    fig.suptitle("Gate-related differences concentrate on the minority class",
                  fontsize=11, fontweight="bold", y=1.02)
     save(fig, "fig5_perclass")
 
