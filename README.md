@@ -54,6 +54,13 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
                            (so Delta(BM3 - frozen) is no longer rested on best-epoch values)
   analyze_stage2.py        Stage-2 aggregation under both reporting rules
   stage2/                  Stage-2 outputs (60 cells with per-epoch curves, 2 CSVs)
+  prereg_graft_control_pair2.md  Stage-3 pre-specification (+ .sha256), committed before any run
+  graft_control.py         Stage-3 arms: width-matched gate graft and same-size additive control
+  graft_control_unitcheck.py, unitcheck_stage3/   Construction check and its snapshot
+  recheck3_driver.py       Stage-3 driver (--pair 1 original, --pair 2 reverse transition)
+  analyze_stage3.py        Stage-3 analysis implementing the pre-specified rules
+  stage3_decision_memo.md  Rule-by-rule decisions and DEVIATIONS
+  stage3/                  Stage-3 outputs (105 cells with per-epoch curves, tables, decisions)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py

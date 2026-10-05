@@ -130,10 +130,10 @@ def main():
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
                  "gate removal: −9 to −24pp,\nto ≈ S4D level or below\n→ gate is necessary here", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "recovery ratio R = 0.17–0.20\n(< 0.3 'insufficient' bin)\n→ this graft recovers little", CRITICAL)
+                 "R: narrow 0.17–0.20, wide 0.30\nsame-size additive control 0.41\n→ recovery not gate-specific", CRITICAL)
 
     # bottom takeaway
-    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate's benefit depends strongly on the host.",
+    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate's benefit depends on the host.",
              ha="center", va="center", fontsize=9.8, color=INK, style="italic")
 
     # legend for component colors

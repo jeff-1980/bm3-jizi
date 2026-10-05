@@ -101,7 +101,7 @@ heavy-tailed $A \rightarrow$ S4D-style $A$ & $-2.4$ & $-2.2$ & $-4.2$ & outside 
 
 ``Necessary'' is used here in the operational sense of this ablation: removing the gate from the frozen block, with the other components and the budget unchanged, removes most of the block's advantage. The gate result is large, one-signed and monotone in noise depth: removal costs $13.1$, $21.1$ and $23.5\pp$ at $0$, $-2$ and $-6$\,dB (paired 95\% intervals $[6.5, 19.6]$, $[3.8, 38.5]$, $[8.5, 38.6]\pp$; 5/5 seeds at every level). The gateless arm also gives up most of the Mamba advantage: it sits \textbf{below plain S4D} at $-2$\,dB (71.7 vs.\ 75.2) and $-6$\,dB (62.5 vs.\ 68.6), though not at $0$\,dB (77.6 vs.\ 76.2), and the gateless--S4D gap itself is not resolved by five seeds (Section~\ref{sec:results:sensitivity}: under last-epoch reporting the gateless arm is below S4D at $-6$\,dB only). We read this as ``at best on par with S4D, and worse at the deepest noise level'', which suggests, but does not establish, that components interact rather than add. The other two components tell regime stories rather than robustness stories: the convolutional stem helps by $7.9\pp$ at $-6$\,dB (removal gives 78.1 vs.\ 86.0; paired 95\% interval of the difference $[-2.1, 17.9]\pp$, 4/5 seeds) but \emph{costs} $21.0\pp$ on clean cross-speed data (removal yields 98.8 vs.\ 77.8, with seed-std collapsing from $8.1$ to $0.6\pp$)---consistent either with speed-specific local temporal patterns mistransferring across conditions, or with optimisation friction under the matched budget; we report both readings. Replacing the heavy-tailed state parameterisation by an S4D-style one is numerically beneficial at all three deep-noise levels ($+2.4$, $+2.2$, $+4.2\pp$), but every paired interval includes zero (e.g., $[-15.4, 7.1]\pp$ at $-6$\,dB), so we draw no directional conclusion from it (numerically, the S4D-style variant is the best deep-noise cell in the component grid, 90.1 at $-6$\,dB).
 
-\subsection{Adding a gate branch to S4D: limited recovery}
+\subsection{Adding a narrow gate branch to S4D}
 \label{sec:results:graft}
 
 \begin{table}[htbp]
@@ -122,13 +122,70 @@ $-6$\,dB & 69.2 & 68.6 & 86.0 & $\mathbf{0.035}$ \\
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.85\linewidth]{figures/fig4_graft}
-\caption{Graft outcome: S4D+gate, plain S4D, and BM3-frozen across the adjudication band, with the per-condition recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery is near zero at the deepest adjudicated noise level.}
+\caption{Graft outcome: S4D+gate, plain S4D, and BM3-frozen across the adjudication band, with the per-condition recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery is near zero at the deepest adjudicated noise level. This is the narrow graft; the width-matched graft and its additive control are in Table~\ref{tab:graftwm}.}
 \label{fig:graft}
 \end{figure}
 
-Pre-specified recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D}) = \mathbf{0.174}$. The pre-specified bins were $R \geq 0.7$ (confirmed), $0.3 \leq R < 0.7$ (partial recovery) and $R < 0.3$ (insufficient); $R = 0.174$ falls in the last. Resampling seeds within each arm gives a 95\% interval of $[0.04, 0.29]$ for $R$, and the per-level paired gains of S4D+gate over S4D are $+3.6$ ($[-2.2, 9.3]$), $+4.2$ ($[1.1, 7.3]$) and $+0.6\pp$ ($[-2.2, 3.4]$). At the deepest adjudicated level the graft recovers essentially nothing. Removal and addition are not mirror-image interventions. In BM3 the gate has its own $64 \rightarrow 128$ projection and multiplies the scan output at the inner width of 128 before the output projection; removing it deletes $32{,}768$ parameters. In the S4D host the grafted gate is a $64 \rightarrow 64$ linear branch (with bias) computed from the layer input and multiplying the SSM output before the residual addition; it adds $16{,}640$ parameters over four layers. The two share the multiplicative SiLU form but not width, projection structure or parameter count. Removal costs $13$--$24\pp$ in the frozen block whereas this graft adds $0.6$--$4.2\pp$ to S4D. What this shows is that \emph{this gate branch, in this host and under this budget, recovers little}. Three readings fit the data and cannot be separated here: (i) host dependence, i.e.\ the gate needs the stem or scan context it co-trained with; (ii) implementation differences in width, projection and placement; (iii) transplant friction, i.e.\ the grafted branch is harder to optimise in a foreign host under the matched budget (training converges normally, but convergence is not robustness). Separating them would need a width-matched graft, an equal-capacity non-multiplicative branch as control, and a tuning or longer-budget comparison selected on a source-domain validation set; none was run.
+Pre-specified recovery ratio $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D}) = \mathbf{0.174}$. The pre-specified bins were $R \geq 0.7$ (confirmed), $0.3 \leq R < 0.7$ (partial recovery) and $R < 0.3$ (insufficient); $R = 0.174$ falls in the last. Resampling seeds within each arm gives a 95\% interval of $[0.04, 0.29]$ for $R$, and the per-level paired gains of S4D+gate over S4D are $+3.6$ ($[-2.2, 9.3]$), $+4.2$ ($[1.1, 7.3]$) and $+0.6\pp$ ($[-2.2, 3.4]$). At the deepest adjudicated level the graft recovers essentially nothing. Removal and addition are not mirror-image interventions. In BM3 the gate has its own $64 \rightarrow 128$ projection and multiplies the scan output at the inner width of 128 before the output projection; removing it deletes $32{,}768$ parameters. In the S4D host the grafted gate is a $64 \rightarrow 64$ linear branch (with bias) computed from the layer input and multiplying the SSM output before the residual addition; it adds $16{,}640$ parameters over four layers. The two share the multiplicative SiLU form but not width, projection structure or parameter count. Removal costs $13$--$24\pp$ in the frozen block whereas this graft adds $0.6$--$4.2\pp$ to S4D. What this shows is that \emph{this gate branch, in this host and under this budget, recovers little}. Three readings fit the data and cannot be separated here: (i) host dependence, i.e.\ the gate needs the stem or scan context it co-trained with; (ii) implementation differences in width, projection and placement; (iii) transplant friction, i.e.\ the grafted branch is harder to optimise in a foreign host under the matched budget (training converges normally, but convergence is not robustness). Section~\ref{sec:results:graftwm} tests reading (ii) with a width-matched graft and an equal-capacity non-multiplicative control; a tuning or longer-budget comparison selected on a source-domain validation set was not run.
 
 The four arms do allow a coarse host-by-gate contrast, $I = [F(\text{frozen}) - F(\text{frozen}{-}\text{gate})] - [F(\text{S4D+gate}) - F(\text{S4D})]$, where $F$ is macro-F1. Under last-epoch reporting $I = 5.2$ $[2.3, 8.1]$, $8.9$ $[-6.2, 23.9]$ and $22.6$ $[2.9, 42.4]\pp$ at $0$, $-2$ and $-6$\,dB (seed-matched 95\% $t$-intervals; positive in 5/5, 4/5 and 5/5 seeds); under best-epoch reporting in the re-run it is $7.8$ $[1.4, 14.2]$, $14.4$ $[-1.4, 30.3]$ and $23.1$ $[8.7, 37.4]\pp$. A positive $I$ means the gate adds more on the frozen host than on S4D. Because the host differs in several respects at once and the two gates are not aligned, $I$ cannot be assigned to a specific component or interaction term, and the seed pairing across arms is nominal (arms share seed indices, not initialisations).
+
+\subsection{A width-matched graft and an additive control}
+\label{sec:results:graftwm}
+
+The graft of Section~\ref{sec:results:graft} is narrower and smaller than the donor gate. Two further arms rebuild it in the donor's shape (Table~\ref{tab:arms}). In each layer the layer input is projected to $x$ and $z$ of width 128 (the frozen block's inner width), the S4D layer runs on $x$ at width 128 with state size 64---so that its own parameter count and total state size equal the host's 64-wide, state-128 layer---and an output projection maps back to width 64. \emph{S4D+gate (wm)} combines $y \odot \mathrm{SiLU}(z)$, as the donor does; \emph{S4D+branch} uses the same modules, parameters and initial weights but combines $y + \mathrm{SiLU}(z)$. Both have 198{,}978 parameters, more than BM3-frozen (112{,}410) and BM3 (177{,}938), which biases the test towards recovery. A construction check with forward hooks confirms that the tensor entering the output projection equals the intended formula for each arm and not the other, and that the two arms are identical at initialisation. The thresholds were committed publicly before the grid ran (Section~\ref{sec:protocol:prereg}): $R$ as before, under final-epoch reporting; the verdict is INCONCLUSIVE whenever the seed-resampled interval crosses a bin boundary, in which case we write at the tier less favourable to the claim; and a gate-specific reading requires $\Delta R = R_{\text{gate}} - R_{\text{branch}} > 0.1$ with an interval excluding zero.
+
+\begin{table}[htbp]
+\centering
+\caption{Width-matched graft and additive control on the original transition. Macro-F1 (\%), mean over 5 seeds, final-epoch reporting; $R$ is the mean over the three levels of (arm $-$ S4D)/(BM3-frozen $-$ S4D), with a seed-resampled 95\% interval. S4D, BM3-frozen and the narrow graft are the re-runs of Section~\ref{sec:results:sensitivity}.}
+\label{tab:graftwm}
+\footnotesize
+\begin{tabular}{@{}lrrrcc@{}}
+\toprule
+Arm & 0\,dB & $-2$\,dB & $-6$\,dB & $R$ & 95\% interval \\
+\midrule
+S4D & 67.6 & 67.5 & 66.7 & -- & -- \\
+S4D+gate (narrow) & 71.5 & 74.3 & 66.6 & 0.196 & [0.09, 0.31] \\
+S4D+gate (wm) & 70.1 & 73.4 & 73.8 & 0.296 & [0.16, 0.52] \\
+S4D+branch & 73.1 & 76.2 & 73.8 & 0.408 & [0.31, 0.60] \\
+BM3-frozen & 83.1 & 87.3 & 83.1 & 1 & -- \\
+\midrule
+\multicolumn{4}{@{}l}{$\Delta R$ = S4D+gate (wm) $-$ S4D+branch} & $-0.112$ & [$-$0.26, 0.02] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The width-matched graft recovers $R = 0.296$ of the gap (per level 0.159, 0.298, 0.431). Its interval, $[0.16, 0.52]$, crosses the 0.3 boundary, so the pre-specified verdict is INCONCLUSIVE between ``insufficient'' and ``partial'', and we report it at the less favourable tier: a graft built in the donor's shape recovers part of the gap. The recovery is not gate-specific. The additive branch, with the same parameters, recovers at least as much ($R = 0.408$), $\Delta R = -0.112$ $[-0.26, 0.02]$, and at 0\,dB the gated arm is below the additive one by $3.0\pp$ ($[-4.5, -1.5]$, 0/5 seeds). With frozen$-$all in the denominator the gated arm's ratio is $0.231$ $[0.13, 0.33]$; under best-epoch reporting the two ratios are 0.459 and 0.483. What a graft recovers on this transition therefore follows the added structure---a wider channel axis and input/output projections---rather than the multiplicative interaction. Reading (ii) of Section~\ref{sec:results:graft} is partly confirmed, in that the narrow graft understated what added structure can recover; but in the S4D host the gate itself contributes nothing beyond an equal-capacity additive branch, whereas removing it from the frozen Mamba-3 block costs $9$--$23\pp$ under the same rule (Table~\ref{tab:sensitivity_contrasts}).
+
+\subsection{The reverse transition}
+\label{sec:results:reverse}
+
+A pre-specified grid repeats the chain's central contrasts on the reverse transition, 40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN (75 cells: frozen$-$all, BM3-frozen, frozen$-$gate, S4D and S4D+gate (wm), at three levels and five seeds; Section~\ref{sec:protocol:testbed} for the data). This direction is harder for the time-invariant model: on its evaluation set, predicting the majority class gives a macro-F1 of 46.8\% and uniform random guessing 41.5\%, and S4D sits close to those levels (Table~\ref{tab:reverse}).
+
+\begin{table}[htbp]
+\centering
+\caption{Reverse transition (40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN). Macro-F1 (\%), mean over 5 seeds, best-epoch and final-epoch reporting; paired differences under final-epoch reporting with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference.}
+\label{tab:reverse}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Arm (best / final) & 0\,dB & $-2$\,dB & $-6$\,dB \\
+\midrule
+frozen$-$all & 86.3 / 77.5 & 87.8 / 77.9 & 81.7 / 74.0 \\
+BM3-frozen & 81.1 / 74.7 & 84.0 / 76.7 & 80.8 / 73.9 \\
+S4D+gate (wm) & 79.0 / 72.9 & 80.5 / 73.9 & 78.5 / 72.2 \\
+frozen$-$gate & 63.8 / 56.2 & 62.0 / 54.7 & 57.1 / 50.0 \\
+S4D & 61.2 / 51.2 & 61.0 / 52.4 & 54.6 / 51.8 \\
+\midrule
+frozen$-$all $-$ S4D & \shortstack{$+26.3$\\ {[}21.5, 31.0{]} (5/5)} & \shortstack{$+25.6$\\ {[}21.1, 30.1{]} (5/5)} & \shortstack{$+22.2$\\ {[}18.8, 25.6{]} (5/5)} \\[3pt]
+BM3-frozen $-$ frozen$-$gate & \shortstack{$+18.4$\\ {[}1.2, 35.6{]} (5/5)} & \shortstack{$+22.0$\\ {[}3.4, 40.6{]} (5/5)} & \shortstack{$+24.0$\\ {[}7.6, 40.3{]} (5/5)} \\[3pt]
+frozen$-$gate $-$ S4D & \shortstack{$+5.0$\\ {[}$-$17.6, 27.7{]} (2/5)} & \shortstack{$+2.4$\\ {[}$-$19.2, 23.9{]} (2/5)} & \shortstack{$-1.8$\\ {[}$-$18.9, 15.3{]} (1/5)} \\[3pt]
+S4D+gate (wm) $-$ S4D & \shortstack{$+21.7$\\ {[}15.4, 28.0{]} (5/5)} & \shortstack{$+21.5$\\ {[}17.0, 26.0{]} (5/5)} & \shortstack{$+20.5$\\ {[}15.7, 25.2{]} (5/5)} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The first two steps replicate. The fully input-independent scan exceeds S4D by $+26.3$, $+25.6$ and $+22.2\pp$ at $0$, $-2$ and $-6$\,dB, with intervals excluding zero and 5/5 seeds at every level, so by the pre-specified rule (at least two of three levels) the first step is replicated on the reverse transition. Removing the gate from BM3-frozen costs $18.4$, $22.0$ and $24.0\pp$, above the $8\pp$ threshold at all three levels, with intervals excluding zero and 5/5 seeds, and the gateless arm is indistinguishable from S4D (intervals include zero). On the third step, which the pre-specification treats as descriptive here, the width-matched graft recovers most of the gap, $R = 0.911$ $[0.82, 1.04]$ ($0.863$ with frozen$-$all in the denominator). No additive control was run in this direction, so whether this recovery is due to the gate is not tested here; on the original transition the additive control recovered at least as much as the gate. Both statements carry the limits of this pair: the same eight bearings with their roles swapped, and a single inner-race bearing in the evaluation set.
 
 \subsection{Sensitivity to the reporting rule}
 \label{sec:results:sensitivity}

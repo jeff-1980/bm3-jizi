@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-05 — stage 3: width-matched graft control and reverse transition
+
+Pre-specified in `recheck/prereg_graft_control_pair2.md` (sha256 720898b9…,
+committed in a10f477 before the first cell; unchanged afterwards). 105 cells,
+20.1 GPU-h (30 h fuse not reached). Final-epoch reporting is primary.
+Decisions, rule by rule, with a DEVIATIONS section: `recheck/stage3_decision_memo.md`.
+
+- Experiment 1 (original transition, 30 cells). `s4d_plus_gate_wm` rebuilds the
+  graft in the donor's shape (x/z at width 128, S4D at width 128 with state 64,
+  output projection); `s4d_plus_branch` is identical but additive
+  (y + silu(z)). Both 198,978 parameters. R_gate_wm = 0.296 [0.159, 0.515]:
+  the interval crosses 0.3, so the verdict is INCONCLUSIVE and the manuscript is
+  written at the less favourable tier (partial recovery). R_branch = 0.408;
+  dR = -0.112 [-0.263, 0.022], so no gate-specific statement is made.
+- Experiment 2 (reverse transition 40Hz10kN -> 37.5Hz11kN, 75 cells; same eight
+  bearings with roles swapped, eval hash 93424834…). frozen_clti - S4D =
+  +26.3 / +25.6 / +22.2 pp, 3/3 levels with intervals excluding zero:
+  replicated on the reverse transition. Gate removal from bm3_frozen costs
+  18.4 / 22.0 / 24.0 pp (3/3 levels >= 8 pp). Width-matched graft R2 = 0.911,
+  descriptive only (no additive control in this direction).
+- `analyze_stage3.py`: the seeded bootstrap initially depended on Python's
+  string-hash randomisation through set ordering; fixed to a sorted order and
+  checked byte-identical across PYTHONHASHSEED values. Decisions unchanged.
+- Manuscript: new subsections on the width-matched graft and the reverse
+  transition; abstract, introduction, discussion, boundaries, conclusion,
+  highlights, Figure 1 and Figure 4 title updated.
+
 ## 2026-10-04 — follow-up grids, retitle, and the four missing modules
 
 ### Repository completeness

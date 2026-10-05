@@ -168,7 +168,7 @@ def fig4():
     style_axes(ax)
     ax.set_xlabel("SNR (dB); clean plotted at 15")
     ax.set_ylabel("Macro-F1 (%)")
-    ax.set_title("Adding a gate to S4D: limited recovery")
+    ax.set_title("Narrow gate graft on S4D (width-matched: see text)")
 
     r_labels = {0: (0.249, (2.3, 3)), -2: (0.239, (-2.3, -10)), -6: (0.035, (-1.8, -10))}
     for xv, (rv, (dx, dy)) in r_labels.items():
