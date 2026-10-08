@@ -1,8 +1,9 @@
 # bm3-jizi — Reproducibility Package
 
 Code, experimental data, preregistration artifacts, and manuscript source for
-*"Gating Benefits Depend on the Backbone: An Ablation Study of a Mamba-3 Block
-under Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*).
+*"Necessary but Not Transplantable: The Multiplicative Gate of a Mamba-3 Block
+under Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; subtitle
+provisional).
 
 The manuscript was retitled and substantially rescoped on 2026-10-03 after an
 independent review; `recheck/` holds the two follow-up grids that drove the
@@ -61,6 +62,11 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   analyze_stage3.py        Stage-3 analysis implementing the pre-specified rules
   stage3_decision_memo.md  Rule-by-rule decisions and DEVIATIONS
   stage3/                  Stage-3 outputs (105 cells with per-epoch curves, tables, decisions)
+  prereg_native_additive.md  Stage-4 pre-specification (+ .sha256) incl. the title decision tree
+  additive_native.py       Stage-4 arm: gate replaced by an additive branch inside BM3-frozen
+  additive_native_unitcheck.py, unitcheck_stage4/   Construction check and its snapshot
+  recheck4_driver.py, analyze_stage4.py, stage4_decision_memo.md
+  stage4/                  Stage-4 outputs (30 cells with per-epoch curves, tables, decisions)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py

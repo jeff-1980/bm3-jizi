@@ -157,6 +157,36 @@ BM3-frozen & 83.1 & 87.3 & 83.1 & 1 & -- \\
 
 The width-matched graft recovers $R = 0.296$ of the gap (per level 0.159, 0.298, 0.431). Its interval, $[0.16, 0.52]$, crosses the 0.3 boundary, so the pre-specified verdict is INCONCLUSIVE between ``insufficient'' and ``partial'', and we report it at the less favourable tier: a graft built in the donor's shape recovers part of the gap. The recovery is not gate-specific. The additive branch, with the same parameters, recovers at least as much ($R = 0.408$), $\Delta R = -0.112$ $[-0.26, 0.02]$, and at 0\,dB the gated arm is below the additive one by $3.0\pp$ ($[-4.5, -1.5]$, 0/5 seeds). With frozen$-$all in the denominator the gated arm's ratio is $0.231$ $[0.13, 0.33]$; under best-epoch reporting the two ratios are 0.459 and 0.483. What a graft recovers on this transition therefore follows the added structure---a wider channel axis and input/output projections---rather than the multiplicative interaction. Reading (ii) of Section~\ref{sec:results:graft} is partly confirmed, in that the narrow graft understated what added structure can recover; but in the S4D host the gate itself contributes nothing beyond an equal-capacity additive branch, whereas removing it from the frozen Mamba-3 block costs $9$--$23\pp$ under the same rule (Table~\ref{tab:sensitivity_contrasts}).
 
+\subsection{Replacing the gate in its native host}
+\label{sec:results:nativeadd}
+
+The previous subsection changes the host and keeps the operator. A pre-specified grid (15 cells, original transition) does the converse: it keeps the host and changes the operator. In \emph{frozen$+$add} the scan kernel of every BM3-frozen layer is called without gating and the layer output becomes $W_{\mathrm{out}}(y + \mathrm{SiLU}(z))$; modules, parameter count (112{,}410) and initial weights are bitwise those of BM3-frozen, and a construction check confirms that the donor operator is $y \odot \mathrm{SiLU}(z)$ and that the new arm computes $y + \mathrm{SiLU}(z)$. The pre-specified statistic is the native rescue ratio $\rho = (\text{add} - \text{no gate})/(\text{frozen} - \text{no gate})$, mean over levels, final epoch, with a seed-resampled interval; \emph{not rescued} requires $\rho < 0.3$ with an upper bound below $0.5$.
+
+\begin{table}[htbp]
+\centering
+\caption{Gate replaced by an additive branch inside BM3-frozen (original transition). Macro-F1 (\%), mean over 5 seeds; paired differences under final-epoch reporting with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference.}
+\label{tab:nativeadd}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{0\,dB} & \multicolumn{2}{c}{$-2$\,dB} & \multicolumn{2}{c}{$-6$\,dB} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Arm & best & final & best & final & best & final \\
+\midrule
+BM3-frozen ($y \odot \mathrm{SiLU}(z)$) & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+frozen$+$add ($y + \mathrm{SiLU}(z)$) & 78.0 & 74.7 & 72.6 & 71.5 & 62.3 & 60.9 \\
+frozen$-$gate (no $z$) & 77.7 & 74.0 & 73.1 & 71.7 & 61.9 & 60.5 \\
+\midrule
+BM3-frozen $-$ frozen$+$add & \multicolumn{2}{c}{\shortstack{$+8.5$\\ {[}1.1, 15.9{]} (5/5)}} & \multicolumn{2}{c}{\shortstack{$+15.8$\\ {[}$-$1.2, 32.9{]} (4/5)}} & \multicolumn{2}{c}{\shortstack{$+22.2$\\ {[}4.6, 39.9{]} (5/5)}} \\[3pt]
+frozen$+$add $-$ frozen$-$gate & \multicolumn{2}{c}{\shortstack{$+0.6$\\ {[}$-$1.7, 3.0{]} (3/5)}} & \multicolumn{2}{c}{\shortstack{$-0.2$\\ {[}$-$3.4, 3.0{]} (3/5)}} & \multicolumn{2}{c}{\shortstack{$+0.4$\\ {[}$-$0.7, 1.4{]} (3/5)}} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The additive branch rescues nothing. frozen$+$add is indistinguishable from the gateless arm at every level ($+0.6$, $-0.2$, $+0.4$\,pp, every interval including zero), and the multiplicative arm exceeds it by $8.5$, $15.8$, $22.2$\,pp. The rescue ratio is $\rho = 0.024$ (per level 0.070, $-$0.015, 0.016), with a seed-resampled 95\% interval of $[-1.159, 0.486]$; under best-epoch reporting $\rho = 0.005$. By the pre-specified rule the verdict is \emph{not rescued}. Two features of the interval should be read with it: its upper bound lies only $0.014$ below the threshold, and its lower bound is wide because the 0\,dB denominator is only $9.1\pp$ (in 7.8\% of resamples one level's denominator fell below $2\pp$ and was excluded, as pre-specified).
+
+Together with Section~\ref{sec:results:graftwm} this gives the two halves of a symmetric test. In the S4D host the gate adds nothing beyond an additive branch of the same size; in the Mamba-3 host an additive branch of the same size adds nothing beyond removing the gate. The benefit of the gate is specific to the multiplicative operator \emph{in its native host}, and what transfers to the time-invariant host is the added structure, not the gating.
+
 \subsection{The reverse transition}
 \label{sec:results:reverse}
 
@@ -185,7 +215,7 @@ S4D+gate (wm) $-$ S4D & \shortstack{$+21.7$\\ {[}15.4, 28.0{]} (5/5)} & \shortst
 \end{tabular}
 \end{table}
 
-The first two steps replicate. The fully input-independent scan exceeds S4D by $+26.3$, $+25.6$ and $+22.2\pp$ at $0$, $-2$ and $-6$\,dB, with intervals excluding zero and 5/5 seeds at every level, so by the pre-specified rule (at least two of three levels) the first step is replicated on the reverse transition. Removing the gate from BM3-frozen costs $18.4$, $22.0$ and $24.0\pp$, above the $8\pp$ threshold at all three levels, with intervals excluding zero and 5/5 seeds, and the gateless arm is indistinguishable from S4D (intervals include zero). On the third step, which the pre-specification treats as descriptive here, the width-matched graft recovers most of the gap, $R = 0.911$ $[0.82, 1.04]$ ($0.863$ with frozen$-$all in the denominator). No additive control was run in this direction, so whether this recovery is due to the gate is not tested here; on the original transition the additive control recovered at least as much as the gate. Both statements carry the limits of this pair: the same eight bearings with their roles swapped, and a single inner-race bearing in the evaluation set.
+The first two steps replicate. The fully input-independent scan exceeds S4D by $+26.3$, $+25.6$ and $+22.2\pp$ at $0$, $-2$ and $-6$\,dB, with intervals excluding zero and 5/5 seeds at every level, so by the pre-specified rule (at least two of three levels) the first step is replicated on the reverse transition. Removing the gate from BM3-frozen costs $18.4$, $22.0$ and $24.0\pp$, above the $8\pp$ threshold at all three levels, with intervals excluding zero and 5/5 seeds, and the gateless arm is indistinguishable from S4D (intervals include zero). On the third step, which the pre-specification treats as descriptive here, the width-matched graft recovers most of the gap, $R = 0.911$ $[0.82, 1.04]$ ($0.863$ with frozen$-$all in the denominator). A further pre-specified grid (15 cells) adds the same-size additive control in this direction: it reaches 67.8, 72.1, 68.4\% (final epoch) and recovers $R = 0.758$ $[0.66, 0.88]$. The gate arm exceeds it by $+5.1$, $+1.7$, $+3.8$\,pp (only the $-6$\,dB interval excludes zero), and the difference in recovery is $\Delta R = 0.153$ $[0.06, 0.26]$; under best-epoch reporting it shrinks to $0.037$ $[-0.1, 0.17]$. By the pre-specified descriptive labels this is \emph{unresolved}: in this direction the gate carries a small increment over the additive branch, whereas on the original transition it carried none ($\Delta R = -0.112$). Most of the reverse-direction recovery is therefore available to an additive branch of the same size, and the remaining gate increment is direction-dependent. Both ratios rest on an S4D baseline close to the trivial floor (51--52\% against 46.8\% for the majority class). Both statements carry the limits of this pair: the same eight bearings with their roles swapped, and a single inner-race bearing in the evaluation set.
 
 \subsection{Sensitivity to the reporting rule}
 \label{sec:results:sensitivity}

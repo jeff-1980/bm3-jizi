@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-06 — stage 4: gate -> additive substitution in the native host, reverse additive control
+
+Pre-specified in `recheck/prereg_native_additive.md` (sha256 cafcc974…, committed in
+9371ba6 before the first cell, together with the title decision tree; unchanged afterwards).
+30 cells, 4.1 GPU-h (15 h fuse not reached). Final-epoch reporting is primary.
+Rule-by-rule decisions with DEVIATIONS: `recheck/stage4_decision_memo.md`.
+
+- Experiment 3 (original transition, 15 cells). `bm3_frozen_add` replaces y * silu(z) by
+  y + silu(z) inside BM3-frozen; parameters (112,410) and initial weights bitwise identical.
+  Native rescue ratio rho = 0.024 [-1.159, 0.486] -> NOT RESCUED (rho < 0.3 and upper bound
+  < 0.5). The additive arm is indistinguishable from removing z (+0.6 / -0.2 / +0.4 pp).
+- Experiment 4 (reverse transition, 15 cells). `s4d_plus_branch` recovers R2 = 0.758
+  [0.657, 0.884] against 0.911 for the width-matched gate; dR2 = 0.153 [0.057, 0.262]
+  (best-epoch 0.037 [-0.096, 0.172]) -> pre-specified label "unresolved": a small,
+  direction-dependent gate increment in the S4D host.
+- Title decision tree executed (NOT RESCUED tier): the manuscript title returns to
+  "Necessary but Not Transplantable"; the subtitle is a draft for the author to confirm.
+- One launch was lost to a sandbox kernel restart before any cell was recorded and was
+  relaunched unchanged.
+- Stage-2 entry below: freezing-cost range corrected to -1.8..-6.3 pp (per-cell recomputation).
+
 ## 2026-10-05 — stage 3: width-matched graft control and reverse transition
 
 Pre-specified in `recheck/prereg_graft_control_pair2.md` (sha256 720898b9…,
@@ -74,7 +95,7 @@ Freezing the remaining terms does not reduce the advantage over S4D:
   reporting (5/5 seeds, intervals excluding zero) — a larger margin than the
   partially frozen arm's +15.5, +19.8, +16.4 pp.
 - No freezing step costs accuracy. BM3-frozen minus each of the three arms is
-  negative at all three levels (−1.8 to −6.4 pp), i.e. the more heavily frozen
+  negative at all three levels (−1.8 to −6.3 pp), i.e. the more heavily frozen
   arm is numerically ahead, with every interval including zero.
 - Not a capacity effect: `frozen_clti` has 103,842 parameters against 112,410
   for `bm3_frozen` and 177,938 for BM3.

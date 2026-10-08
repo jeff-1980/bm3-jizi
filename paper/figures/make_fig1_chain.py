@@ -130,7 +130,7 @@ def main():
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
                  "gate removal: −9 to −24pp,\nto ≈ S4D level or below\n→ gate is necessary here", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "R: narrow 0.17–0.20, wide 0.30\nsame-size additive control 0.41\n→ recovery not gate-specific", CRITICAL)
+                 "S4D: gate 0.30 ≤ additive 0.41\nBM3: additive rescues ρ = 0.02\n→ gate-specific only in native host", CRITICAL)
 
     # bottom takeaway
     ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate's benefit depends on the host.",
