@@ -1,8 +1,8 @@
 % Highlights for Neurocomputing submission -- separate file, 3-5 bullets, each <=85 characters.
 \begin{itemize}
-\item Freezing Mamba selectivity costs at most 5pp in deep noise; it is not the driver.
+\item Freezing every input-dependent term of a Mamba-3 scan costs no deep-noise accuracy.
 \item A fully input-independent scan beats S4D by 21-26pp in both directions.
 \item Removing the multiplicative gate costs 9-24pp of macro-F1 in deep noise.
-\item Swapping the gate for a same-size additive branch in its own block rescues nothing.
-\item The gate's benefit is specific to its native host; only added structure transfers.
+\item A same-size additive branch in place of the gate rescues nothing, in both directions.
+\item Added to S4D, a gate recovers little more than an additive branch of the same size.
 \end{itemize}

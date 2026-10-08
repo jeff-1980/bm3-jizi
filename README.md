@@ -1,9 +1,8 @@
 # bm3-jizi — Reproducibility Package
 
 Code, experimental data, preregistration artifacts, and manuscript source for
-*"Necessary but Not Transplantable: The Multiplicative Gate of a Mamba-3 Block
-under Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; subtitle
-provisional).
+*"Necessary in Its Native Block: ..."* (prepared for *Neurocomputing*; two title
+candidates in `paper/main.tex`, final choice by the author).
 
 The manuscript was retitled and substantially rescoped on 2026-10-03 after an
 independent review; `recheck/` holds the two follow-up grids that drove the
@@ -67,6 +66,10 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   additive_native_unitcheck.py, unitcheck_stage4/   Construction check and its snapshot
   recheck4_driver.py, analyze_stage4.py, stage4_decision_memo.md
   stage4/                  Stage-4 outputs (30 cells with per-epoch curves, tables, decisions)
+  prereg_stage5_metric_reverse.md  Stage-5 pre-specification (+ .sha256) incl. the title branch rule
+  recheck5_driver.py, analyze_stage5.py, stage5_decision_memo.md
+  numbers_stage5.py, verify_v8.py   Manuscript numbers from per-cell values, and an independent re-check
+  stage5/                  Stage-5 outputs (60 cells with per-epoch curves, tables, decisions)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py

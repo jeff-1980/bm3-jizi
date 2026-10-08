@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-10-08 — stage 5: reverse native additive substitution, final-epoch re-assessment, manuscript v8
+
+Pre-specified in `recheck/prereg_stage5_metric_reverse.md` (sha256 f3b66a83…, committed in
+9750930 before the first cell, together with the title branch rule; unchanged afterwards).
+60 cells, 5.05 GPU-h (12 h fuse not reached). Final-epoch reporting is primary. Rule-by-rule
+decisions with DEVIATIONS: `recheck/stage5_decision_memo.md`.
+
+- Experiment 3 (reverse transition, 15 cells). `bm3_frozen_add` against the stage-3 reverse
+  `bm3_frozen` / `frozen_nogate`: additive - gateless = +0.3 / -0.3 / +0.6 pp (all intervals
+  include zero); rho_rev = 0.009 [-0.943, 0.362] -> NOT RESCUED. Both directions are now not
+  rescued; title branch A ("Necessary in Its Native Block"; candidates A1/A2, final choice by the author).
+- Experiment 2 (original transition, 45 cells). `frozen_noconv`, `frozen_As4d`, `s4d_wide` under
+  final-epoch reporting: no change of sign against the best-epoch reference; S4D-wide capacity
+  control holds (BM3-frozen - S4D-wide excludes zero at 3/3 levels). Tables 2-4 move to the
+  final-epoch rule; best epoch becomes a sensitivity analysis.
+- Analysis byte-identical across PYTHONHASHSEED 1 and 2. Manuscript numbers computed from
+  per-cell values (`numbers_stage5.py`) and independently re-checked (`verify_v8.py`, 0 mismatches).
+- Manuscript v8: title branch A; abstract, introduction, Tables 2-4, sensitivity section,
+  native-host section (reverse block), discussion, boundaries, conclusion, highlights; Figures 3-4
+  redrawn from final-epoch cells in `recheck/` (set `P9_RECHECK_DIR` to override); two discussion
+  sentences downgraded to untested hypotheses; Appendix C compressed with the full incident text
+  moved to `paper/supplementary_S1_incidents.tex`; draft `paper/cover_letter.tex` disclosing the
+  related paper-8 manuscript.
+- `docs/`: desk check of CWRU/PU as an independent dataset (no runs) and the Neurocomputing scope check.
+
 ## 2026-10-06 — stage 4: gate -> additive substitution in the native host, reverse additive control
 
 Pre-specified in `recheck/prereg_native_additive.md` (sha256 cafcc974…, committed in

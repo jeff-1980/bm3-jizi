@@ -3,8 +3,8 @@
 
 Data sources (see scratchpad/data_inventory.md for full provenance):
   Fig.2: results/frozensel_curvefix_20260703-0748/frozensel_curve_table.csv
-  Fig.3: results/secondary_adjudication_20260705-1629/secondary_decision.json
-  Fig.4: results/graft_analysis_20260706-0811/graft_curve_table.csv + graft_decision.json
+  Fig.3, Fig.4: final-epoch re-runs in recheck/ (stage1/cells_recheck.jsonl,
+         stage5/cells_stage5_exp2.jsonl); override the directory with P9_RECHECK_DIR
   Fig.5: results/perclass_analysis_20260708-1316/per_class_report.csv
 """
 import csv
@@ -107,77 +107,85 @@ def fig2():
 
 
 # ---------------------------------------------------------------------------
-# Fig.3 -- section 4b: component-removal delta bars per SNR
+# Fig.3 / Fig.4 -- final-epoch re-runs (primary rule), adjudication band only
 # ---------------------------------------------------------------------------
-def fig3():
-    path = os.path.join(ROOT, "results", "secondary_adjudication_20260705-1629", "secondary_decision.json")
-    d = json.load(open(path))
-    ev = d["per_component_evidence"]
-    comp = {
-        "frozen_nogate": ("SiLU gate", RED),
-        "frozen_noconv": ("conv stem", YELLOW),
-        "frozen_As4d": ("heavy-tailed A", MAGENTA),
-    }
-    conds = ["clean", "awgn@+10dB", "awgn@+6dB", "awgn@+0dB", "awgn@-2dB", "awgn@-6dB", "awgn@-10dB"]
-    labels = ["clean", "+10dB", "+6dB", "0dB", "-2dB", "-6dB", "-10dB"]
-    x = range(len(conds))
-    width = 0.26
+RECHECK = os.environ.get("P9_RECHECK_DIR", os.path.join(ROOT, "recheck"))
+BAND = ["awgn@+0dB", "awgn@-2dB", "awgn@-6dB"]
+BAND_LABELS = ["0 dB", "-2 dB", "-6 dB"]
+T975_DF4 = 2.7764451051977987
 
-    fig, ax = plt.subplots(figsize=(7.2, 4.2))
+
+def _cells():
+    rows = []
+    for rel in ["stage1/cells_recheck.jsonl", "stage5/cells_stage5_exp2.jsonl"]:
+        rows += [json.loads(l) for l in open(os.path.join(RECHECK, rel))]
+    return rows
+
+
+def _vals(rows, arm, cond, rule):
+    d = {r["seed"]: r[rule] * 100 for r in rows if r["arm"] == arm and r["condition"] == cond}
+    assert sorted(d) == [0, 1, 2, 3, 4], (arm, cond, sorted(d))
+    return [d[k] for k in range(5)]
+
+
+def _paired(rows, a, b, cond, rule):
+    d = [x - y for x, y in zip(_vals(rows, a, cond, rule), _vals(rows, b, cond, rule))]
+    m = sum(d) / 5
+    sd = (sum((x - m) ** 2 for x in d) / 4) ** 0.5
+    return m, T975_DF4 * sd / 5 ** 0.5
+
+
+def fig3():
+    rows = _cells()
+    comp = {"frozen_nogate": ("SiLU gate", RED), "frozen_noconv": ("conv stem", YELLOW),
+            "frozen_As4d": ("heavy-tailed A", MAGENTA)}
+    x = list(range(len(BAND)))
+    width = 0.26
+    fig, ax = plt.subplots(figsize=(6.4, 4.2))
     ax.axhline(0, color=AXIS, linewidth=1, zorder=2)
-    ax.axvspan(2.5, 5.5, color=GRID_HAIRLINE, alpha=0.5, zorder=0, lw=0)
-    for i, (key, (label, color)) in enumerate(comp.items()):
-        vals = ev[key]["all_conditions_delta_frozen_minus_X_pp"]
-        ys = [vals[c] for c in conds]
-        ax.bar([xi + (i - 1) * width for xi in x], ys, width=width, label=label, color=color, zorder=3)
+    ax.axhline(8, color=MUTED, linewidth=0.8, linestyle=":", zorder=2, label="pre-specified 8 pp threshold")
+    for i, (arm, (label, color)) in enumerate(comp.items()):
+        fin = [_paired(rows, "bm3_frozen", arm, c, "final") for c in BAND]
+        best = [_paired(rows, "bm3_frozen", arm, c, "oracle")[0] for c in BAND]
+        xs = [xi + (i - 1) * width for xi in x]
+        ax.bar(xs, [m for m, _ in fin], width=width, color=color, label=label, zorder=3,
+               yerr=[h for _, h in fin], error_kw=dict(ecolor=INK, elinewidth=0.9, capsize=2.5))
+        ax.scatter(xs, best, marker="_", s=140, color=INK, linewidths=1.6, zorder=4,
+                   label="best epoch (re-run)" if i == 0 else None)
     style_axes(ax)
-    ax.set_xticks(list(x))
-    ax.set_xticklabels(labels)
-    ax.set_xlabel("Condition")
+    ax.set_xticks(x)
+    ax.set_xticklabels(BAND_LABELS)
+    ax.set_xlabel("Condition (adjudication band)")
     ax.set_ylabel(r"$\Delta$(frozen $-$ arm), pp")
-    ax.set_title("Gate removal: large, one-signed effect")
-    ax.legend(loc="upper left")
+    ax.set_title("Single-component removal, final epoch")
+    ax.legend(loc="upper left", fontsize=8.5, bbox_to_anchor=(0.0, 1.0))
+    ax.set_ylim(-27, 46)
     save(fig, "fig3_ablation_bars")
 
 
-# ---------------------------------------------------------------------------
-# Fig.4 -- section 4c: graft recovery
-# ---------------------------------------------------------------------------
 def fig4():
-    curve_path = os.path.join(ROOT, "results", "graft_analysis_20260706-0811", "graft_curve_table.csv")
-    decision_path = os.path.join(ROOT, "results", "graft_analysis_20260706-0811", "graft_decision.json")
-    rows = list(csv.DictReader(open(curve_path)))
-    arms = {"s4d_plus_gate": ("S4D+gate", AQUA, "D", "-."),
-            "s4d": ("S4D", VIOLET, "^", ":"),
+    rows = _cells()
+    arms = {"s4d_plus_gate": ("S4D+gate", AQUA, "D", "-."), "s4d": ("S4D", VIOLET, "^", ":"),
             "bm3_frozen": ("BM3-frozen", ORANGE, "s", "--")}
-    data = {a: {} for a in arms}
-    for r in rows:
-        a = r["arm"]
-        if a in data:
-            data[a][float(r["snr_db_for_plot"])] = float(r["mean_macro_f1"])
-    decision = json.load(open(decision_path))
-    assert abs(decision["mean_R"] - 0.1742) < 1e-6
-
-    fig, ax = plt.subplots(figsize=(6.6, 4.4))
-    shade_adjudication_band(ax)
+    xs = [0, -2, -6]
+    m = {a: [sum(_vals(rows, a, c, "final")) / 5 for c in BAND] for a in arms}
+    R = [(g - s) / (f - s) for g, s, f in zip(m["s4d_plus_gate"], m["s4d"], m["bm3_frozen"])]
+    fig, ax = plt.subplots(figsize=(6.2, 4.3))
     for a, (label, color, marker, ls) in arms.items():
-        xs = sorted(data[a])
-        ys = [data[a][x] * 100 for x in xs]
-        ax.plot(xs, ys, label=label, color=color, marker=marker, linestyle=ls, linewidth=2,
-                 markersize=6, zorder=3)
+        ax.plot(xs, m[a], label=label, color=color, marker=marker, linestyle=ls, linewidth=2, markersize=6, zorder=3)
     style_axes(ax)
-    ax.set_xlabel("SNR (dB); clean plotted at 15")
-    ax.set_ylabel("Macro-F1 (%)")
+    ax.set_xticks(xs)
+    ax.set_xticklabels(["0", "-2", "-6"])
+    ax.invert_xaxis()
+    ax.set_xlabel("SNR (dB), adjudication band")
+    ax.set_ylabel("Macro-F1 (%), final epoch")
     ax.set_title("Narrow gate graft on S4D (width-matched: see text)")
-
-    r_labels = {0: (0.249, (2.3, 3)), -2: (0.239, (-2.3, -10)), -6: (0.035, (-1.8, -10))}
-    for xv, (rv, (dx, dy)) in r_labels.items():
-        y = data["s4d_plus_gate"][xv] * 100
-        ax.annotate(f"R={rv:.3f}", xy=(xv, y), xytext=(xv + dx, y + dy),
-                     fontsize=8, color=SECONDARY_INK, ha="center",
-                     arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6))
-    ax.text(0.5, 0.06, r"mean $R=0.174$ (< 0.3 'insufficient' bin; last-epoch 0.196)",
-             transform=ax.transAxes, fontsize=8.5, color=SECONDARY_INK, ha="center")
+    for xv, rv, yv in zip(xs, R, m["s4d_plus_gate"]):
+        ax.annotate(f"R={rv:.3f}", xy=(xv, yv), xytext=(xv, yv + 4.0), fontsize=8, color=SECONDARY_INK,
+                    ha="center", arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.6))
+    ax.text(0.5, 0.05, f"mean R = {sum(R) / 3:.3f} (< 0.3 'insufficient' bin; best epoch 0.174)",
+            transform=ax.transAxes, fontsize=8.5, color=SECONDARY_INK, ha="center")
+    ax.set_ylim(55, 95)
     ax.legend(loc="upper right")
     save(fig, "fig4_graft")
 

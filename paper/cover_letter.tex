@@ -1,0 +1,24 @@
+\documentclass[11pt]{letter}
+\usepackage[margin=2.5cm]{geometry}
+% DRAFT for the author: title follows the stage-5 branch; final wording and signature by the author.
+% Title: candidate A1 (stage-5 branch A). Alternative A2: Necessary in Its Native Block: Selectivity and Gating in a Mamba-3 Block under Matched-Noise Cross-Condition Drift
+\newcommand{\PTITLE}{Necessary in Its Native Block: The Multiplicative Gate, Not Input Selectivity, Underlies Deep-Noise Robustness of a Mamba-3 Block under Matched-Noise Cross-Condition Drift}
+\signature{Yi Wang\\College of Engineering, Lishui University\\jefflsxy@lsu.edu.cn}
+\address{}
+\begin{document}
+\begin{letter}{The Editor-in-Chief\\Neurocomputing}
+\opening{Dear Editor,}
+
+Please consider our manuscript \emph{``\PTITLE''} for publication in \emph{Neurocomputing} as a regular research article.
+
+\textbf{Type of contribution.} The paper contributes to the understanding of neural network architectures rather than proposing a new model. Selective state-space models (Mamba and its successors) are widely credited with robustness because of their input-dependent selectivity. We test this attribution with a pre-specified freeze--remove--add ablation chain on a Mamba-3 block, using cross-condition bearing-vibration data under matched additive noise as a controlled testbed. Freezing every input-dependent term entering the scan leaves the block's advantage over a time-invariant SSM intact; removing the multiplicative output gate costs 9--24 percentage points; and replacing the gate in place by an additive branch of identical size recovers none of that loss, on both transitions tested. The study therefore speaks directly to the journal's interest in architectures and the analysis of network behaviour; the vibration data serve as a testbed, not as the object of the contribution.
+
+\textbf{Rigour and transparency.} Decision thresholds were written before each grid was run; for the later grids the pre-specification was committed to a public repository before the first run. Reporting at the final epoch is primary, and all data, code and decision records are publicly available.
+
+\textbf{Related submission.} In the interest of transparency, we disclose a related manuscript, co-authored by the corresponding author, that is [AUTHOR TO CONFIRM: submitted to / about to be submitted to] \emph{Measurement Science and Technology}: ``When does a second vibration sensor help? A controlled case study of sensor configuration for deep-learning bearing fault diagnosis.'' It uses an earlier BearMamba-3 model as one of several backbones and asks a measurement question: when adding a second vibration sensor helps or hurts diagnosis. The present manuscript asks an architecture question, which component of a Mamba-3 block carries deep-noise robustness, using different experiments, arms and analyses. No figure, table or result is shared between the two manuscripts. An auxiliary kinematics-alignment loss that appeared in early versions of the BearMamba-3 model plays no role in the present conclusions; all attribution arms are trained with cross-entropy only.
+
+The manuscript is not under consideration elsewhere, and all authors have approved the submission. Generative-AI use is declared in the manuscript and in Appendix~C.
+
+\closing{Sincerely,}
+\end{letter}
+\end{document}

@@ -126,14 +126,14 @@ def main():
     # verdict boxes
     vy = 1.55
     verdict_box(ax, stage_x[0] - 0.15, vy, bw + 0.3,
-                 "Δ(BM3−frozen) ≤ 5pp (CI incl. 0);\nvs S4D: +14–20pp, full freeze +21–24pp\n→ no scan term is primary", CRITICAL)
+                 "Δ(BM3−frozen) ≤ 4pp (CI incl. 0)\nvs S4D: +15–20pp (full: +21–24)\n→ no scan term is primary", CRITICAL)
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
-                 "gate removal: −9 to −24pp,\nto ≈ S4D level or below\n→ gate is necessary here", GOOD)
+                 "gate removal: −9 to −23pp,\nto ≈ S4D level\n→ gate is necessary here", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "S4D: gate 0.30 ≤ additive 0.41\nBM3: additive rescues ρ = 0.02\n→ gate-specific only in native host", CRITICAL)
+                 "S4D: gate 0.30 ≤ additive 0.41\nBM3: additive rescues ρ ≈ 0.01–0.02\n→ gate-specific in its native block", CRITICAL)
 
     # bottom takeaway
-    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate's benefit depends on the host.",
+    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: the gate is necessary as a multiplicative operator in its native block.",
              ha="center", va="center", fontsize=9.8, color=INK, style="italic")
 
     # legend for component colors
