@@ -1,5 +1,22 @@
 # Changelog
 
+## 2026-10-08 — stage 6: Paderborn replication (NOT REPLICATED), manuscript v9 draft pending author decision
+
+Pre-specified in `recheck/prereg_stage6_pu.md` (sha256 502a2a69…, committed in d1b7337 before the
+smoke check and the grid; unchanged afterwards). Smoke check passed its pre-specified criteria
+(learnability by 0.3 pp); 75 grid cells, 5.40 GPU-h including the smoke check. Decisions and
+DEVIATIONS: `recheck/stage6_decision_memo.md`.
+
+- PU real-damage bearings, disjoint train {KA04, KA16, KI04, KI14} @ 1500 rpm and test
+  {KA15, KA22, KI17, KI18, KI21} @ 900 rpm; arms bm3_frozen, frozen_clti, s4d, frozen_nogate,
+  bm3_frozen_add. Final epoch: frozen_clti - s4d = -1.4 / -2.5 / -3.3 pp (NOT REPLICATED);
+  bm3_frozen - s4d = -3.8 / -3.6 / -3.4 (NOT REPLICATED); gate removal bm3_frozen - frozen_nogate
+  = -5.0 / -4.6 / -3.3 (NOT REPLICATED); native additive substitution not assessable.
+  All arms end at 47.7-56.9 % macro-F1 (majority-class 37.5 %).
+- Pre-specified writing branch: unfavourable; scope and title returned to the author. The manuscript
+  draft adds a reporting subsection (Table 9) and a boundaries item restricting claims to XJTU-SY;
+  title A2, corrected Saadatmand et al. citations and the cover letter (paper-8 status) are included.
+
 ## 2026-10-08 — stage 5: reverse native additive substitution, final-epoch re-assessment, manuscript v8
 
 Pre-specified in `recheck/prereg_stage5_metric_reverse.md` (sha256 f3b66a83…, committed in

@@ -1,8 +1,9 @@
 # bm3-jizi — Reproducibility Package
 
 Code, experimental data, preregistration artifacts, and manuscript source for
-*"Necessary in Its Native Block: ..."* (prepared for *Neurocomputing*; two title
-candidates in `paper/main.tex`, final choice by the author).
+*"Necessary in Its Native Block: Selectivity and Gating in a Mamba-3 Block under
+Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; draft pending the
+author's decision after the stage-6 replication).
 
 The manuscript was retitled and substantially rescoped on 2026-10-03 after an
 independent review; `recheck/` holds the two follow-up grids that drove the
@@ -70,6 +71,9 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   recheck5_driver.py, analyze_stage5.py, stage5_decision_memo.md
   numbers_stage5.py, verify_v8.py   Manuscript numbers from per-cell values, and an independent re-check
   stage5/                  Stage-5 outputs (60 cells with per-epoch curves, tables, decisions)
+  prereg_stage6_pu.md      Stage-6 pre-specification (+ .sha256): PU replication, smoke rule, decision rules
+  pu_dataset.py, recheck6_driver.py, analyze_stage6.py, stage6_decision_memo.md
+  stage6/                  Stage-6 outputs (75 PU cells + 6 smoke cells, tables, decisions, run log)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py
