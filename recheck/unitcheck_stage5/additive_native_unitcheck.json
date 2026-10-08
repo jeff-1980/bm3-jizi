@@ -1,0 +1,37 @@
+{
+ "generated": "2026-10-08T09:53:30",
+ "torch": "2.9.0+cu128",
+ "checks": {
+  "donor_operator": {
+   "layers": 4,
+   "pass": true
+  },
+  "param_match": {
+   "bm3_frozen": 112410,
+   "bm3_frozen_add": 112410,
+   "rel_diff": 0.0,
+   "pass": true
+  },
+  "init_identical": {
+   "n_keys": 58,
+   "pass": true
+  },
+  "combine_path": {
+   "kernel_called_with_Z_None": true,
+   "matches_y_plus_silu_z": true,
+   "differs_from_y_times_silu_z": true,
+   "z_input_dependent": true,
+   "pass": true
+  },
+  "fwd_bwd": {
+   "out_shape": [
+    4,
+    2
+   ],
+   "finite": true,
+   "all_params_finite_grad": true,
+   "pass": true
+  }
+ },
+ "all_pass": true
+}
