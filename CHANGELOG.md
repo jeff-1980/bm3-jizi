@@ -1,5 +1,23 @@
 # Changelog
 
+## 2026-10-09 — stage 7: PU shared-bearing diagnostic (branch R), manuscript v10
+
+Pre-specified in `recheck/prereg_stage7_pu_shared.md` (sha256 98e5074f…, committed in 20395f3
+before the smoke check and the grid; unchanged afterwards). Smoke margins: learnable +31.3 pp
+(stage 6: +0.3), not-floor +31.0, not-ceiling +19.5. 45 grid cells, 3.05 GPU-h incl. smoke.
+Decisions and DEVIATIONS: `recheck/stage7_decision_memo.md`.
+
+- Single change from stage 6: training and evaluation use the same bearings {KA04, KA16, KI04,
+  KI14} (1500 -> 900 rpm, different recordings). Arms s4d, bm3_frozen, frozen_nogate.
+- D1 transferability gate: PASS (all arms off the floor at all levels; 75.5-86.6 % macro-F1).
+- D2: L1'' bm3_frozen - s4d = +8.4 / +8.5 / +8.7 pp (REPLICATED, 2/3); L2'' bm3_frozen -
+  frozen_nogate = +9.0 / +7.7 / +5.3 pp (REPLICATED, 3/3); no reversal -> branch R.
+- Shared minus disjoint bearings raises every arm, S4D included, by 18.6-38.8 pp: bearing
+  non-overlap breaks transfer for all examined architectures.
+- Manuscript v10: title A2 kept; abstract, Section 4.8 (two PU settings, Table 9 extended),
+  boundaries ("Bearing identity"), introduction, conclusion, highlights; scope = cross-condition
+  drift with shared bearing identity (XJTU-SY and Paderborn).
+
 ## 2026-10-08 — stage 6: Paderborn replication (NOT REPLICATED), manuscript v9 draft pending author decision
 
 Pre-specified in `recheck/prereg_stage6_pu.md` (sha256 502a2a69…, committed in d1b7337 before the

@@ -1,0 +1,112 @@
+[LAUNCH-SMOKE] 2026-10-09 08:45:45 prereg sha 98e5074fc369 remote 20395f3 GPU: 0 %, 0 MiB
+[INIT] PU N15_M07_F10 -> N09_M07_F10  GPU free 15249/16384 MiB  stage-7 GPU-h so far 0.00
+[INIT] eval_sha addc1938057e content 3a40737977fb 908602165ad8
+[RUN] clean s4d seed=99 (1/6)
+      oracle=92.75 (ep23) final=91.32 147s
+[RUN] clean bm3_frozen seed=99 (2/6)
+      oracle=94.56 (ep1) final=88.41 247s
+[RUN] awgn@+0dB s4d seed=99 (3/6)
+      oracle=85.02 (ep14) final=76.26 173s
+[RUN] awgn@+0dB bm3_frozen seed=99 (4/6)
+      oracle=92.92 (ep3) final=81.00 272s
+[RUN] awgn@-6dB s4d seed=99 (5/6)
+      oracle=83.31 (ep17) final=77.52 175s
+[RUN] awgn@-6dB bm3_frozen seed=99 (6/6)
+      oracle=96.25 (ep17) final=86.08 240s
+[DONE]
+[SMOKE-DECISION] 2026-10-09 09:06:43 PROCEED {'s4d|clean': 91.3, 'bm3_frozen|clean': 88.4, 's4d|awgn@+0dB': 76.3, 'bm3_frozen|awgn@+0dB': 81.0, 's4d|awgn@-6dB': 77.5, 'bm3_frozen|awgn@-6dB': 86.1} {'learnable_margin': 31.3, 'not_floor_margin': 31.0, 'not_ceiling_margin': 19.5}
+[LAUNCH-GRID] 2026-10-09 09:06:43
+[INIT] PU N15_M07_F10 -> N09_M07_F10  GPU free 15249/16384 MiB  stage-7 GPU-h so far 0.35
+[INIT] eval_sha addc1938057e content 3a40737977fb 908602165ad8
+[RUN] awgn@+0dB s4d seed=0 (1/45)
+      oracle=85.65 (ep29) final=80.14 173s
+[RUN] awgn@+0dB bm3_frozen seed=0 (2/45)
+      oracle=90.16 (ep11) final=83.62 281s
+[RUN] awgn@+0dB frozen_nogate seed=0 (3/45)
+      oracle=90.16 (ep12) final=77.36 227s
+[RUN] awgn@-2dB s4d seed=0 (4/45)
+      oracle=91.04 (ep33) final=83.24 174s
+[RUN] awgn@-2dB bm3_frozen seed=0 (5/45)
+      oracle=97.38 (ep7) final=86.97 239s
+[RUN] awgn@-2dB frozen_nogate seed=0 (6/45)
+      oracle=94.49 (ep3) final=79.97 225s
+[RUN] awgn@-6dB s4d seed=0 (7/45)
+      oracle=83.31 (ep15) final=78.12 178s
+[RUN] awgn@-6dB bm3_frozen seed=0 (8/45)
+      oracle=96.88 (ep5) final=87.18 294s
+[RUN] awgn@-6dB frozen_nogate seed=0 (9/45)
+      oracle=88.90 (ep18) final=80.79 269s
+[RUN] awgn@+0dB s4d seed=1 (10/45)
+      oracle=84.90 (ep6) final=80.31 176s
+[RUN] awgn@+0dB bm3_frozen seed=1 (11/45)
+      oracle=86.79 (ep16) final=78.54 248s
+[RUN] awgn@+0dB frozen_nogate seed=1 (12/45)
+      oracle=93.55 (ep14) final=72.84 233s
+[RUN] awgn@-2dB s4d seed=1 (13/45)
+      oracle=83.49 (ep11) final=79.50 191s
+[RUN] awgn@-2dB bm3_frozen seed=1 (14/45)
+      oracle=92.36 (ep17) final=80.58 274s
+[RUN] awgn@-2dB frozen_nogate seed=1 (15/45)
+      oracle=94.19 (ep9) final=73.72 226s
+[RUN] awgn@-6dB s4d seed=1 (16/45)
+      oracle=84.48 (ep15) final=79.52 176s
+[RUN] awgn@-6dB bm3_frozen seed=1 (17/45)
+      oracle=96.05 (ep12) final=83.19 246s
+[RUN] awgn@-6dB frozen_nogate seed=1 (18/45)
+      oracle=90.03 (ep14) final=79.21 221s
+[RUN] awgn@+0dB s4d seed=2 (19/45)
+      oracle=84.99 (ep29) final=71.43 168s
+[RUN] awgn@+0dB bm3_frozen seed=2 (20/45)
+      oracle=91.60 (ep18) final=84.77 236s
+[RUN] awgn@+0dB frozen_nogate seed=2 (21/45)
+      oracle=88.49 (ep16) final=75.65 221s
+[RUN] awgn@-2dB s4d seed=2 (22/45)
+      oracle=82.26 (ep28) final=72.48 168s
+[RUN] awgn@-2dB bm3_frozen seed=2 (23/45)
+      oracle=97.88 (ep2) final=84.96 237s
+[RUN] awgn@-2dB frozen_nogate seed=2 (24/45)
+      oracle=92.01 (ep6) final=80.03 220s
+[RUN] awgn@-6dB s4d seed=2 (25/45)
+      oracle=78.27 (ep31) final=73.66 168s
+[RUN] awgn@-6dB bm3_frozen seed=2 (26/45)
+      oracle=96.52 (ep21) final=84.85 242s
+[RUN] awgn@-6dB frozen_nogate seed=2 (27/45)
+      oracle=92.94 (ep12) final=82.95 220s
+[RUN] awgn@+0dB s4d seed=3 (28/45)
+      oracle=82.37 (ep25) final=73.99 168s
+[RUN] awgn@+0dB bm3_frozen seed=3 (29/45)
+      oracle=92.11 (ep3) final=82.92 238s
+[RUN] awgn@+0dB frozen_nogate seed=3 (30/45)
+      oracle=90.07 (ep1) final=70.06 220s
+[RUN] awgn@-2dB s4d seed=3 (31/45)
+      oracle=84.00 (ep25) final=75.62 169s
+[RUN] awgn@-2dB bm3_frozen seed=3 (32/45)
+      oracle=94.39 (ep14) final=83.19 236s
+[RUN] awgn@-2dB frozen_nogate seed=3 (33/45)
+      oracle=88.46 (ep3) final=72.88 221s
+[RUN] awgn@-6dB s4d seed=3 (34/45)
+      oracle=82.53 (ep15) final=78.56 168s
+[RUN] awgn@-6dB bm3_frozen seed=3 (35/45)
+      oracle=94.44 (ep28) final=85.57 243s
+[RUN] awgn@-6dB frozen_nogate seed=3 (36/45)
+      oracle=85.37 (ep26) final=78.34 221s
+[RUN] awgn@+0dB s4d seed=4 (37/45)
+      oracle=87.00 (ep16) final=74.68 169s
+[RUN] awgn@+0dB bm3_frozen seed=4 (38/45)
+      oracle=98.90 (ep7) final=92.72 237s
+[RUN] awgn@+0dB frozen_nogate seed=4 (39/45)
+      oracle=89.57 (ep18) final=81.69 221s
+[RUN] awgn@-2dB s4d seed=4 (40/45)
+      oracle=85.90 (ep12) final=75.88 170s
+[RUN] awgn@-2dB bm3_frozen seed=4 (41/45)
+      oracle=98.85 (ep7) final=93.48 238s
+[RUN] awgn@-2dB frozen_nogate seed=4 (42/45)
+      oracle=93.07 (ep17) final=84.08 221s
+[RUN] awgn@-6dB s4d seed=4 (43/45)
+      oracle=85.87 (ep16) final=79.59 176s
+[RUN] awgn@-6dB bm3_frozen seed=4 (44/45)
+      oracle=99.25 (ep19) final=92.11 246s
+[RUN] awgn@-6dB frozen_nogate seed=4 (45/45)
+      oracle=93.79 (ep18) final=85.05 240s
+[DONE]
+[ALLDONE] 2026-10-09 11:49:06

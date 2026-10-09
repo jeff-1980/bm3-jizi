@@ -1,0 +1,19 @@
+rule,contrast,key,condition,n,mean,lo,hi,n_pos
+final,bm3_frozen - s4d,L1pp,awgn@+0dB,5,8.404,-1.319,18.127,4
+final,bm3_frozen - s4d,L1pp,awgn@-2dB,5,8.492,0.23,16.754,5
+final,bm3_frozen - s4d,L1pp,awgn@-6dB,5,8.693,4.343,13.042,5
+oracle,bm3_frozen - s4d,L1pp,awgn@+0dB,5,6.93,1.966,11.894,5
+oracle,bm3_frozen - s4d,L1pp,awgn@-2dB,5,10.831,6.373,15.289,5
+oracle,bm3_frozen - s4d,L1pp,awgn@-6dB,5,13.734,10.415,17.054,5
+final,bm3_frozen - frozen_nogate,L2pp,awgn@+0dB,5,8.991,5.19,12.793,5
+final,bm3_frozen - frozen_nogate,L2pp,awgn@-2dB,5,7.702,5.028,10.376,5
+final,bm3_frozen - frozen_nogate,L2pp,awgn@-6dB,5,5.312,2.445,8.18,5
+oracle,bm3_frozen - frozen_nogate,L2pp,awgn@+0dB,5,1.543,-5.663,8.75,3
+oracle,bm3_frozen - frozen_nogate,L2pp,awgn@-2dB,5,3.724,-0.45,7.898,4
+oracle,bm3_frozen - frozen_nogate,L2pp,awgn@-6dB,5,6.422,3.744,9.099,5
+final,frozen_nogate - s4d,nogate_minus_s4d,awgn@+0dB,5,-0.588,-8.039,6.863,2
+final,frozen_nogate - s4d,nogate_minus_s4d,awgn@-2dB,5,0.79,-7.366,8.946,2
+final,frozen_nogate - s4d,nogate_minus_s4d,awgn@-6dB,5,3.38,-1.677,8.437,3
+oracle,frozen_nogate - s4d,nogate_minus_s4d,awgn@+0dB,5,5.387,2.087,8.687,5
+oracle,frozen_nogate - s4d,nogate_minus_s4d,awgn@-2dB,5,7.107,3.172,11.042,5
+oracle,frozen_nogate - s4d,nogate_minus_s4d,awgn@-6dB,5,7.313,1.736,12.889,5

@@ -2,8 +2,7 @@
 
 Code, experimental data, preregistration artifacts, and manuscript source for
 *"Necessary in Its Native Block: Selectivity and Gating in a Mamba-3 Block under
-Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; draft pending the
-author's decision after the stage-6 replication).
+Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; manuscript v10).
 
 The manuscript was retitled and substantially rescoped on 2026-10-03 after an
 independent review; `recheck/` holds the two follow-up grids that drove the
@@ -74,6 +73,9 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   prereg_stage6_pu.md      Stage-6 pre-specification (+ .sha256): PU replication, smoke rule, decision rules
   pu_dataset.py, recheck6_driver.py, analyze_stage6.py, stage6_decision_memo.md
   stage6/                  Stage-6 outputs (75 PU cells + 6 smoke cells, tables, decisions, run log)
+  prereg_stage7_pu_shared.md  Stage-7 pre-specification (+ .sha256): shared-bearing diagnostic, D1/D2, branches
+  recheck7_driver.py, analyze_stage7.py, stage7_decision_memo.md
+  stage7/                  Stage-7 outputs (45 PU cells + 6 smoke cells, tables, decisions, run log)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py
