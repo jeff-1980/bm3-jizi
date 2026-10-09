@@ -1,8 +1,8 @@
 % Highlights for Neurocomputing submission -- separate file, 3-5 bullets, each <=85 characters.
 \begin{itemize}
-\item Freezing all input-dependent scan terms did not reduce deep-noise accuracy here.
-\item A fully input-independent scan beats S4D by 21-26pp in both directions.
-\item Removing the multiplicative gate costs 9-24pp of macro-F1 in deep noise.
-\item A same-size additive branch in place of the gate rescues nothing, in both directions.
-\item Effects replicate on PU with shared bearings; unseen bearings defeat all models.
+\item Input-independent scan coefficients keep a Mamba-3 block 20-23pp ahead of S4D.
+\item Removing the multiplicative gate costs most at -6 dB; milder noise is not resolved.
+\item An additive branch of identical size does not substitute for the gate.
+\item Core contrasts re-run with independent training and evaluation noise.
+\item Paderborn: gate cost replicates with shared bearings; no model transfers otherwise.
 \end{itemize}

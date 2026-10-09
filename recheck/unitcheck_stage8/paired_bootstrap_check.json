@@ -19,5 +19,61 @@
    0.013,
    0.338
   ]
+ },
+ "R_narrow_fwd": {
+  "point": 0.196,
+  "paired_ci": [
+   0.085,
+   0.39
+  ],
+  "frac_dropped": 0.0
+ },
+ "R_gate_wm_fwd": {
+  "point": 0.296,
+  "paired_ci": [
+   0.143,
+   0.717
+  ],
+  "frac_dropped": 0.0
+ },
+ "R_branch_fwd": {
+  "point": 0.408,
+  "paired_ci": [
+   0.272,
+   0.72
+  ],
+  "frac_dropped": 0.0
+ },
+ "dR_fwd": {
+  "point": -0.112,
+  "paired_ci": [
+   -0.197,
+   0.056
+  ],
+  "frac_dropped": 0.0
+ },
+ "R2_gate_rev": {
+  "point": 0.911,
+  "paired_ci": [
+   0.823,
+   1.068
+  ],
+  "frac_dropped": 0.0
+ },
+ "R2_branch_rev": {
+  "point": 0.758,
+  "paired_ci": [
+   0.644,
+   0.899
+  ],
+  "frac_dropped": 0.0
+ },
+ "dR2_rev": {
+  "point": 0.153,
+  "paired_ci": [
+   0.013,
+   0.338
+  ],
+  "frac_dropped": 0.0
  }
 }

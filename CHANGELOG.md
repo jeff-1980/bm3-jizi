@@ -1,5 +1,28 @@
 # Changelog
 
+## 2026-10-10 — stage 8: independent training/evaluation noise; manuscript v11-draft (title pending)
+
+Pre-specified in `recheck/prereg_stage8_indep_noise.md` (sha256 b4cd7065…, committed in 5cefc74 before
+the first grid cell; unchanged). 150 cells, 14.53 GPU-h. Decisions and DEVIATIONS:
+`recheck/stage8_decision_memo.md`.
+
+- Defect fixed: noise was keyed on (seed, idx) with the same seed for training and evaluation, so
+  window idx shared its base noise vector across the two sets. `indep_noise.py` keys it on
+  (seed, split, idx). Arm means move by at most 4 pp; no contrast changes direction.
+- XJTU-SY: frozen_clti - s4d +21.3/+23.3/+20.3 pp and bm3_frozen - s4d HOLD; gate removal
+  WEAKENED (resolved at -6 dB only) in both the partially and the fully frozen host; without
+  its gate the fully frozen block beats S4D at 0/-2 dB and trails it at -6 dB. Additive
+  substitution indistinguishable from gate removal in both hosts (not assessable by rule).
+  Combined attribution (fully frozen advantage carried by the gate) not supported.
+- PU shared: gate removal HOLDS; partial-freeze advantage WEAKENED.
+- New arms `clti_gate.py` (frozen_clti_nogate, frozen_clti_add); 11/11 construction checks.
+- Ratio intervals now also reported with a paired-seed bootstrap (`unitcheck_stage8/paired_bootstrap_check.json`).
+- Manuscript v11-draft: new Section 4.1 and Tables 2-3 (independent noise); earlier-protocol
+  tables labelled; XJTU bearing identity corrected (disjoint within each direction); scan
+  wording ("dynamics and read/write coefficients"); PU described as two protocols; threshold
+  instead of equivalence language; paired intervals; abstract 291 words. Title pending the
+  author (pre-specified downgrade).
+
 ## 2026-10-09 — stage 7: PU shared-bearing diagnostic (branch R), manuscript v10
 
 Pre-specified in `recheck/prereg_stage7_pu_shared.md` (sha256 98e5074f…, committed in 20395f3
