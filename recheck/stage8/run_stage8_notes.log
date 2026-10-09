@@ -1,0 +1,1 @@
+[FUSE-CHANGE] 2026-10-09 14:26:00 author raised fuse 15 -> 25 GPU-h (external GPU contention); grids C and B read the new default; A relaunched with --fuse-hours 25 if it stops at 15 h

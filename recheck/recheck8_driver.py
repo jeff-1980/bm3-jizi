@@ -116,7 +116,7 @@ def main():
     ap.add_argument("--snrs", default="0,-2,-6")
     ap.add_argument("--seeds", default="0,1,2,3,4")
     ap.add_argument("--epochs", type=int, default=50)
-    ap.add_argument("--fuse-hours", type=float, default=15.0)
+    ap.add_argument("--fuse-hours", type=float, default=25.0)   # raised from 15 h by the author on 2026-10-09 after launch (GPU shared with an external job)
     ap.add_argument("--out", default=None)
     a = ap.parse_args()
     G = GRIDS[a.grid]; arms = G["arms"].split(","); out = Path(a.out or G["out"])
