@@ -13,8 +13,15 @@ A_ = Path(sys.argv[1]) if len(sys.argv) > 1 else R / "cells_stage8_A_xjtu.jsonl"
 C_ = Path(sys.argv[2]) if len(sys.argv) > 2 else R / "cells_stage8_C_xjtu_clti.jsonl"
 B_ = Path(sys.argv[3]) if len(sys.argv) > 3 else R / "cells_stage8_B_pu_shared.jsonl"
 OUT = Path(sys.argv[4]) if len(sys.argv) > 4 else R
-OLD_X = [R / "cells_recheck.jsonl", R / "cells_stage2.jsonl", R / "cells_stage4_exp3.jsonl"]
-OLD_P = [R / "cells_stage7_pu_shared.jsonl"]
+_RD = Path(__file__).resolve().parent          # repo layout: recheck/stageN/...; workspace layout: results/
+def _old(*names):
+    out = []
+    for n in names:
+        hits = [p for p in [R / n.split("/")[-1], _RD / n] if p.exists()]
+        out.append(hits[0] if hits else R / n.split("/")[-1])
+    return out
+OLD_X = _old("stage1/cells_recheck.jsonl", "stage2/cells_stage2.jsonl", "stage4/cells_stage4_exp3.jsonl")
+OLD_P = _old("stage7/cells_stage7_pu_shared.jsonl")
 BAND = ["awgn@+0dB", "awgn@-2dB", "awgn@-6dB"]
 RULES = ["final", "oracle"]
 MIN_DEN = 2.0
@@ -129,7 +136,7 @@ desc = {}
 for tag, new, old, arms in (("xjtu", AC, oldX, ["bm3_frozen", "s4d", "frozen_nogate", "frozen_clti", "bm3_frozen_add"]),
                             ("pu_shared", Bg, oldP, ["bm3_frozen", "s4d", "frozen_nogate"])):
     for a in arms:
-        if not len(new) or vals(new, a, BAND[0]) is None or vals(old, a, BAND[0]) is None: continue
+        if not len(new) or not len(old) or vals(new, a, BAND[0]) is None or vals(old, a, BAND[0]) is None: continue
         desc[f"{tag}|{a}"] = [float(vals(new, a, c).mean() - vals(old, a, c).mean()) for c in BAND]
 dec["indep_minus_shared_descriptive"] = desc
 heads = [k for k in ("L1p", "L1f", "L2", "L1pp", "L2pp") if k in dec]
