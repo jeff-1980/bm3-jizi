@@ -1,0 +1,79 @@
+{
+ "generated": "2026-10-09T13:06:18",
+ "torch": "2.9.0+cu128",
+ "checks": {
+  "frozen_clti_nogate:param_match": {
+   "ref": 103842,
+   "arm": 71074,
+   "expected": 71074,
+   "pass": true
+  },
+  "frozen_clti_nogate:init_identical": {
+   "pass": true
+  },
+  "frozen_clti_nogate:combine_path": {
+   "kernel_Z_None": true,
+   "out_proj_input_matches": true,
+   "contrast_ok": true,
+   "pass": true
+  },
+  "frozen_clti_nogate:coeffs_const": {
+   "Q": true,
+   "K": true,
+   "ADT": true,
+   "DT": true,
+   "Trap": true,
+   "Angles": true,
+   "V_input_dependent": true,
+   "pass": true
+  },
+  "frozen_clti_nogate:fwd_bwd": {
+   "shape": [
+    4,
+    2
+   ],
+   "pass": true
+  },
+  "frozen_clti_add:param_match": {
+   "ref": 103842,
+   "arm": 103842,
+   "expected": 103842,
+   "pass": true
+  },
+  "frozen_clti_add:init_identical": {
+   "pass": true
+  },
+  "frozen_clti_add:combine_path": {
+   "kernel_Z_None": true,
+   "out_proj_input_matches": true,
+   "contrast_ok": true,
+   "pass": true
+  },
+  "frozen_clti_add:coeffs_const": {
+   "Q": true,
+   "K": true,
+   "ADT": true,
+   "DT": true,
+   "Trap": true,
+   "Angles": true,
+   "V_input_dependent": true,
+   "pass": true
+  },
+  "frozen_clti_add:fwd_bwd": {
+   "shape": [
+    4,
+    2
+   ],
+   "pass": true
+  },
+  "noise_indep": {
+   "harness_mean_corr": 0.9999999999999989,
+   "new_mean_abs_corr": 0.016442844041652187,
+   "common_eval_bank": true,
+   "differs_across_seeds": true,
+   "clean_unchanged": true,
+   "pass": true
+  }
+ },
+ "all_pass": true
+}

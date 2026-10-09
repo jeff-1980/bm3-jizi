@@ -1,0 +1,83 @@
+{
+ "XJTU fwd": {
+  "train": [
+   "Bearing2_1",
+   "Bearing2_2",
+   "Bearing2_4",
+   "Bearing2_5"
+  ],
+  "test": [
+   "Bearing3_1",
+   "Bearing3_3",
+   "Bearing3_4",
+   "Bearing3_5"
+  ],
+  "n_train": 5248,
+  "n_test": 5248,
+  "covered": 1.0,
+  "label_agree": 0.549,
+  "chance_agree": 0.628,
+  "memorisation_macroF1": 35.4
+ },
+ "XJTU rev": {
+  "train": [
+   "Bearing3_1",
+   "Bearing3_3",
+   "Bearing3_4",
+   "Bearing3_5"
+  ],
+  "test": [
+   "Bearing2_1",
+   "Bearing2_2",
+   "Bearing2_4",
+   "Bearing2_5"
+  ],
+  "n_train": 5248,
+  "n_test": 5248,
+  "covered": 1.0,
+  "label_agree": 0.549,
+  "chance_agree": 0.628,
+  "memorisation_macroF1": 35.4
+ },
+ "PU disjoint": {
+  "train": [
+   "KA04",
+   "KA16",
+   "KI04",
+   "KI14"
+  ],
+  "test": [
+   "KA15",
+   "KA22",
+   "KI17",
+   "KI18",
+   "KI21"
+  ],
+  "n_train": 4005,
+  "n_test": 5015,
+  "covered": 0.799,
+  "label_agree": 0.999,
+  "chance_agree": 0.5,
+  "memorisation_macroF1": 99.9
+ },
+ "PU shared": {
+  "train": [
+   "KA04",
+   "KA16",
+   "KI04",
+   "KI14"
+  ],
+  "test": [
+   "KA04",
+   "KA16",
+   "KI04",
+   "KI14"
+  ],
+  "n_train": 4005,
+  "n_test": 4003,
+  "covered": 1.0,
+  "label_agree": 1.0,
+  "chance_agree": 0.5,
+  "memorisation_macroF1": 100.0
+ }
+}
