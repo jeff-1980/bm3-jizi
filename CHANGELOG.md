@@ -1,5 +1,20 @@
 # Changelog
 
+## 2026-10-11 — 50 references; real-font build (manuscript v14)
+
+- Bibliography extended from 16 to 50 entries (all cited). The 34 additions were looked up by title in the
+  arXiv API (29) and Crossref (5); the bibliographic fields come from those records (`paper/reference_lookup/`),
+  not from memory. Each is cited where it supports a statement: S4/HiPPO/S5/LRU/Hyena/Mamba-2 and the
+  gating lineage (LSTM, highway, GLU, SE, SiLU) in Section 2; copying/state-tracking/recall limits and
+  MambaOut in Section 2.2; bearing-diagnosis reviews and CWRU benchmark, adversarial domain adaptation,
+  corruption benchmarks in Section 2.3; AdamW, cosine schedule, BatchNorm and DomainBed in Section 3
+  (AdamW and CosineAnnealingLR are what the harness uses); shortcut learning, seed-variance and ablation-practice
+  papers in Sections 4 and 7. No result, number or conclusion changed.
+- Build: `build_real.sh` + `genpk.sh` generate the TS1 bitmap fonts with Metafont from the local TeX tree, so the
+  PDF no longer uses substituted fonts (replaces `main_sandbox_build.pdf`). 55 pages in the `preprint,12pt`
+  option; 21 pages in `[final,5p,twocolumn]` with mathptmx (the `times` option's txfonts could not be
+  built in this tree).
+
 ## 2026-10-10 — format check against Neurocomputing requirements (manuscript v13b)
 
 - Keywords reduced from 8 to 7 (limit stated in the guide for authors: at most 7).

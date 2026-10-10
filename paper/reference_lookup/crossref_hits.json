@@ -1,0 +1,675 @@
+{
+ "lstm": [
+  {
+   "issue": "8",
+   "DOI": "10.1162/neco.1997.9.8.1735",
+   "type": "journal-article",
+   "page": "1735-1780",
+   "title": [
+    "Long Short-Term Memory"
+   ],
+   "volume": "9",
+   "author": [
+    {
+     "given": "Sepp",
+     "family": "Hochreiter",
+     "sequence": "first",
+     "affiliation": [
+      {
+       "name": "Fakult\u00e4t f\u00fcr Informatik, Technische Universit\u00e4t M\u00fcnchen, 80290 M\u00fcnchen, Germany"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "J\u00fcrgen",
+     "family": "Schmidhuber",
+     "sequence": "additional",
+     "affiliation": [
+      {
+       "name": "IDSIA, Corso Elvezia 36, 6900 Lugano, Switzerland"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "container-title": [
+    "Neural Computation"
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      1997,
+      11,
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "DOI": "10.1109/icassp.2016.7472852",
+   "title": [
+    "Lipreading with long short-term memory"
+   ],
+   "author": [
+    {
+     "given": "Michael",
+     "family": "Wand",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Jan",
+     "family": "Koutnik",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Jurgen",
+     "family": "Schmidhuber",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2016,
+      3
+     ]
+    ]
+   },
+   "container-title": [
+    "2016 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)"
+   ],
+   "page": "6115-6119",
+   "type": "proceedings-article"
+  }
+ ],
+ "smith2015cwru": [
+  {
+   "DOI": "10.1016/j.ymssp.2015.04.021",
+   "title": [
+    "Rolling element bearing diagnostics using the Case Western Reserve University data: A benchmark study"
+   ],
+   "author": [
+    {
+     "given": "Wade A.",
+     "family": "Smith",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Robert B.",
+     "family": "Randall",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2015,
+      12
+     ]
+    ]
+   },
+   "container-title": [
+    "Mechanical Systems and Signal Processing"
+   ],
+   "volume": "64-65",
+   "page": "100-131",
+   "type": "journal-article"
+  },
+  {
+   "issue": "2",
+   "DOI": "10.1109/tr.2019.2896240",
+   "type": "journal-article",
+   "page": "754-767",
+   "title": [
+    "Entropy Based Fault Classification Using the Case Western Reserve University Data: A Benchmark Study"
+   ],
+   "volume": "69",
+   "author": [
+    {
+     "ORCID": "https://orcid.org/0000-0003-2699-9951",
+     "authenticated-orcid": false,
+     "given": "Yongbo",
+     "family": "Li",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0002-7997-8348",
+     "authenticated-orcid": false,
+     "given": "Xianzhi",
+     "family": "Wang",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0003-2297-4423",
+     "authenticated-orcid": false,
+     "given": "Shubin",
+     "family": "Si",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0003-3066-8864",
+     "authenticated-orcid": false,
+     "given": "Shiqian",
+     "family": "Huang",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "container-title": [
+    "IEEE Transactions on Reliability"
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      6
+     ]
+    ]
+   }
+  }
+ ],
+ "zhang2017wdcnn": [
+  {
+   "issue": "2",
+   "DOI": "10.3390/s17020425",
+   "type": "journal-article",
+   "page": "425",
+   "title": [
+    "A New Deep Learning Model for Fault Diagnosis with Good Anti-Noise and Domain Adaptation Ability on Raw Vibration Signals"
+   ],
+   "volume": "17",
+   "author": [
+    {
+     "given": "Wei",
+     "family": "Zhang",
+     "sequence": "first",
+     "affiliation": [
+      {
+       "name": "State Key Laboratory of Robotics and System, Harbin Institute of Technology, No. 92 Xidazhi Street, Harbin 150001, China"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Gaoliang",
+     "family": "Peng",
+     "sequence": "additional",
+     "affiliation": [
+      {
+       "name": "State Key Laboratory of Robotics and System, Harbin Institute of Technology, No. 92 Xidazhi Street, Harbin 150001, China"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Chuanhao",
+     "family": "Li",
+     "sequence": "additional",
+     "affiliation": [
+      {
+       "name": "State Key Laboratory of Robotics and System, Harbin Institute of Technology, No. 92 Xidazhi Street, Harbin 150001, China"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Yuanhang",
+     "family": "Chen",
+     "sequence": "additional",
+     "affiliation": [
+      {
+       "name": "State Key Laboratory of Robotics and System, Harbin Institute of Technology, No. 92 Xidazhi Street, Harbin 150001, China"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Zhujun",
+     "family": "Zhang",
+     "sequence": "additional",
+     "affiliation": [
+      {
+       "name": "State Key Laboratory of Robotics and System, Harbin Institute of Technology, No. 92 Xidazhi Street, Harbin 150001, China"
+      }
+     ],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "container-title": [
+    "Sensors"
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017,
+      2,
+      22
+     ]
+    ]
+   }
+  },
+  {
+   "DOI": "10.20944/preprints201701.0132.v1",
+   "title": [
+    "A New Deep Learning Model for Fault Diagnosis with Good Anti-Noise and Domain Adaptation Ability on Raw Vibration Signal"
+   ],
+   "author": [
+    {
+     "given": "Wei",
+     "family": "Zhang",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Gaoliang",
+     "family": "Peng",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Chuanhao",
+     "family": "Li",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Yuanhang",
+     "family": "Chen",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Zhujun",
+     "family": "Zhang",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2017,
+      1,
+      30
+     ]
+    ]
+   },
+   "type": "posted-content"
+  }
+ ],
+ "lei2020review": [
+  {
+   "DOI": "10.1016/j.ymssp.2019.106587",
+   "type": "journal-article",
+   "page": "106587",
+   "title": [
+    "Applications of machine learning to machine fault diagnosis: A review and roadmap"
+   ],
+   "volume": "138",
+   "author": [
+    {
+     "given": "Yaguo",
+     "family": "Lei",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0002-3555-1916",
+     "authenticated-orcid": false,
+     "given": "Bin",
+     "family": "Yang",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Xinwei",
+     "family": "Jiang",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Feng",
+     "family": "Jia",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Naipeng",
+     "family": "Li",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "given": "Asoke K.",
+     "family": "Nandi",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "container-title": [
+    "Mechanical Systems and Signal Processing"
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020,
+      4
+     ]
+    ]
+   },
+   "article-number": "106587"
+  },
+  {
+   "DOI": "10.1201/9781003614821-6",
+   "title": [
+    "The Future of Machine Learning in Fault Diagnosis"
+   ],
+   "author": [
+    {
+     "given": "Govind",
+     "family": "Vashishtha",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "role": "author",
+       "vocabulary": "crossref"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2025,
+      7,
+      14
+     ]
+    ]
+   },
+   "container-title": [
+    "Data-Driven Fault Diagnosis"
+   ],
+   "page": "158-162",
+   "type": "book-chapter"
+  }
+ ],
+ "neupane2020": [
+  {
+   "DOI": "10.1109/access.2020.2990528",
+   "title": [
+    "Bearing Fault Detection and Diagnosis Using Case Western Reserve University Dataset With Deep Learning Approaches: A Review"
+   ],
+   "author": [
+    {
+     "ORCID": "https://orcid.org/0000-0001-6548-311X",
+     "authenticated-orcid": false,
+     "given": "Dhiraj",
+     "family": "Neupane",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0002-5723-6386",
+     "authenticated-orcid": false,
+     "given": "Jongwon",
+     "family": "Seok",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2020
+     ]
+    ]
+   },
+   "container-title": [
+    "IEEE Access"
+   ],
+   "volume": "8",
+   "page": "93155-93178",
+   "type": "journal-article"
+  },
+  {
+   "DOI": "10.1109/access.2021.3128669",
+   "title": [
+    "Machine Learning Based Bearing Fault Diagnosis Using the Case Western Reserve University Data: A Review"
+   ],
+   "author": [
+    {
+     "ORCID": "https://orcid.org/0000-0002-6625-6514",
+     "authenticated-orcid": false,
+     "given": "Xiao",
+     "family": "Zhang",
+     "sequence": "first",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0002-9386-2659",
+     "authenticated-orcid": false,
+     "given": "Boyang",
+     "family": "Zhao",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    },
+    {
+     "ORCID": "https://orcid.org/0000-0003-1379-9301",
+     "authenticated-orcid": false,
+     "given": "Yun",
+     "family": "Lin",
+     "sequence": "additional",
+     "affiliation": [],
+     "role": [
+      {
+       "vocabulary": "crossref",
+       "role": "author"
+      }
+     ]
+    }
+   ],
+   "issued": {
+    "date-parts": [
+     [
+      2021
+     ]
+    ]
+   },
+   "container-title": [
+    "IEEE Access"
+   ],
+   "volume": "9",
+   "page": "155598-155608",
+   "type": "journal-article"
+  }
+ ]
+}

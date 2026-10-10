@@ -1,0 +1,369 @@
+{
+ "s4": {
+  "query": "S4",
+  "title": "Efficiently Modeling Long Sequences with Structured State Spaces",
+  "authors": [
+   "Albert Gu",
+   "Karan Goel",
+   "Christopher R\u00e9"
+  ],
+  "id": "2111.00396",
+  "year": "2021"
+ },
+ "hippo": {
+  "query": "HiPPO: Recurrent Memory with Optimal Polynomial Projections",
+  "title": "HiPPO: Recurrent Memory with Optimal Polynomial Projections",
+  "authors": [
+   "Albert Gu",
+   "Tri Dao",
+   "Stefano Ermon",
+   "Atri Rudra",
+   "Christopher Re"
+  ],
+  "id": "2008.07669",
+  "year": "2020"
+ },
+ "mamba2": {
+  "query": "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+  "title": "Transformers are SSMs: Generalized Models and Efficient Algorithms Through Structured State Space Duality",
+  "authors": [
+   "Tri Dao",
+   "Albert Gu"
+  ],
+  "id": "2405.21060",
+  "year": "2024"
+ },
+ "s5": {
+  "query": "Simplified State Space Layers for Sequence Modeling",
+  "title": "Simplified State Space Layers for Sequence Modeling",
+  "authors": [
+   "Jimmy T. H. Smith",
+   "Andrew Warrington",
+   "Scott W. Linderman"
+  ],
+  "id": "2208.04933",
+  "year": "2022"
+ },
+ "lru": {
+  "query": "Resurrecting Recurrent Neural Networks for Long Sequences",
+  "title": "Resurrecting Recurrent Neural Networks for Long Sequences",
+  "authors": [
+   "Antonio Orvieto",
+   "Samuel L Smith",
+   "Albert Gu",
+   "Anushan Fernando",
+   "Caglar Gulcehre",
+   "Razvan Pascanu",
+   "Soham De"
+  ],
+  "id": "2303.06349",
+  "year": "2023"
+ },
+ "hyena": {
+  "query": "Hyena Hierarchy: Towards Larger Convolutional Language Models",
+  "title": "Hyena Hierarchy: Towards Larger Convolutional Language Models",
+  "authors": [
+   "Michael Poli",
+   "Stefano Massaroli",
+   "Eric Nguyen",
+   "Daniel Y. Fu",
+   "Tri Dao",
+   "Stephen Baccus",
+   "Yoshua Bengio",
+   "Stefano Ermon",
+   "Christopher R\u00e9"
+  ],
+  "id": "2302.10866",
+  "year": "2023"
+ },
+ "glu": {
+  "query": "Language Modeling with Gated Convolutional Networks",
+  "title": "Language Modeling with Gated Convolutional Networks",
+  "authors": [
+   "Yann N. Dauphin",
+   "Angela Fan",
+   "Michael Auli",
+   "David Grangier"
+  ],
+  "id": "1612.08083",
+  "year": "2016"
+ },
+ "gluvar": {
+  "query": "GLU Variants Improve Transformer",
+  "title": "GLU Variants Improve Transformer",
+  "authors": [
+   "Noam Shazeer"
+  ],
+  "id": "2002.05202",
+  "year": "2020"
+ },
+ "highway": {
+  "query": "Highway Networks",
+  "title": "Highway Networks",
+  "authors": [
+   "Rupesh Kumar Srivastava",
+   "Klaus Greff",
+   "J\u00fcrgen Schmidhuber"
+  ],
+  "id": "1505.00387",
+  "year": "2015"
+ },
+ "senet": {
+  "query": "Squeeze-and-Excitation Networks",
+  "title": "Squeeze-and-Excitation Networks",
+  "authors": [
+   "Jie Hu",
+   "Li Shen",
+   "Samuel Albanie",
+   "Gang Sun",
+   "Enhua Wu"
+  ],
+  "id": "1709.01507",
+  "year": "2017"
+ },
+ "swish": {
+  "query": "Searching for Activation Functions",
+  "title": "Searching for Activation Functions",
+  "authors": [
+   "Prajit Ramachandran",
+   "Barret Zoph",
+   "Quoc V. Le"
+  ],
+  "id": "1710.05941",
+  "year": "2017"
+ },
+ "gelu": {
+  "query": "Gaussian Error Linear Units (GELUs)",
+  "title": "Gaussian Error Linear Units (GELUs)",
+  "authors": [
+   "Dan Hendrycks",
+   "Kevin Gimpel"
+  ],
+  "id": "1606.08415",
+  "year": "2016"
+ },
+ "transformer": {
+  "query": "Attention Is All You Need",
+  "title": "Attention Is All You Need",
+  "authors": [
+   "Ashish Vaswani",
+   "Noam Shazeer",
+   "Niki Parmar",
+   "Jakob Uszkoreit",
+   "Llion Jones",
+   "Aidan N. Gomez",
+   "Lukasz Kaiser",
+   "Illia Polosukhin"
+  ],
+  "id": "1706.03762",
+  "year": "2017"
+ },
+ "vim": {
+  "query": "Vision Mamba: Efficient Visual Representation Learning with Bidirectional State Space Model",
+  "title": "Vision Mamba: Efficient Visual Representation Learning with Bidirectional State Space Model",
+  "authors": [
+   "Lianghui Zhu",
+   "Bencheng Liao",
+   "Qian Zhang",
+   "Xinlong Wang",
+   "Wenyu Liu",
+   "Xinggang Wang"
+  ],
+  "id": "2401.09417",
+  "year": "2024"
+ },
+ "mambaout": {
+  "query": "MambaOut: Do We Really Need Mamba for Vision?",
+  "title": "MambaOut: Do We Really Need Mamba for Vision?",
+  "authors": [
+   "Weihao Yu",
+   "Xinchao Wang"
+  ],
+  "id": "2405.07992",
+  "year": "2024"
+ },
+ "copying": {
+  "query": "Repeat After Me: Transformers are Better than State Space Models at Copying",
+  "title": "Repeat After Me: Transformers are Better than State Space Models at Copying",
+  "authors": [
+   "Samy Jelassi",
+   "David Brandfonbrener",
+   "Sham M. Kakade",
+   "Eran Malach"
+  ],
+  "id": "2402.01032",
+  "year": "2024"
+ },
+ "illusion": {
+  "query": "The Illusion of State in State-Space Models",
+  "title": "The Illusion of State in State-Space Models",
+  "authors": [
+   "William Merrill",
+   "Jackson Petty",
+   "Ashish Sabharwal"
+  ],
+  "id": "2404.08819",
+  "year": "2024"
+ },
+ "corrupt": {
+  "query": "Benchmarking Neural Network Robustness to Common Corruptions and Perturbations",
+  "title": "Benchmarking Neural Network Robustness to Common Corruptions and Perturbations",
+  "authors": [
+   "Dan Hendrycks",
+   "Thomas Dietterich"
+  ],
+  "id": "1903.12261",
+  "year": "2019"
+ },
+ "domainbed": {
+  "query": "In Search of Lost Domain Generalization",
+  "title": "In Search of Lost Domain Generalization",
+  "authors": [
+   "Ishaan Gulrajani",
+   "David Lopez-Paz"
+  ],
+  "id": "2007.01434",
+  "year": "2020"
+ },
+ "shortcut": {
+  "query": "Shortcut Learning in Deep Neural Networks",
+  "title": "Shortcut Learning in Deep Neural Networks",
+  "authors": [
+   "Robert Geirhos",
+   "J\u00f6rn-Henrik Jacobsen",
+   "Claudio Michaelis",
+   "Richard Zemel",
+   "Wieland Brendel",
+   "Matthias Bethge",
+   "Felix A. Wichmann"
+  ],
+  "id": "2004.07780",
+  "year": "2020"
+ },
+ "troubling": {
+  "query": "Troubling Trends in Machine Learning Scholarship",
+  "title": "Troubling Trends in Machine Learning Scholarship",
+  "authors": [
+   "Zachary C. Lipton",
+   "Jacob Steinhardt"
+  ],
+  "id": "1807.03341",
+  "year": "2018"
+ },
+ "variance": {
+  "query": "Accounting for Variance in Machine Learning Benchmarks",
+  "title": "Accounting for Variance in Machine Learning Benchmarks",
+  "authors": [
+   "Xavier Bouthillier",
+   "Pierre Delaunay",
+   "Mirko Bronzi",
+   "Assya Trofimov",
+   "Brennan Nichyporuk",
+   "Justin Szeto",
+   "Naz Sepah",
+   "Edward Raff",
+   "Kanika Madan",
+   "Vikram Voleti",
+   "Samira Ebrahimi Kahou",
+   "Vincent Michalski",
+   "Dmitriy Serdyuk",
+   "Tal Arbel",
+   "Chris Pal",
+   "Ga\u00ebl Varoquaux",
+   "Pascal Vincent"
+  ],
+  "id": "2103.03098",
+  "year": "2021"
+ },
+ "drlmatters": {
+  "query": "Deep Reinforcement Learning that Matters",
+  "title": "Deep Reinforcement Learning that Matters",
+  "authors": [
+   "Peter Henderson",
+   "Riashat Islam",
+   "Philip Bachman",
+   "Joelle Pineau",
+   "Doina Precup",
+   "David Meger"
+  ],
+  "id": "1709.06560",
+  "year": "2017"
+ },
+ "sgdr": {
+  "query": "SGDR: Stochastic Gradient Descent with Warm Restarts",
+  "title": "SGDR: Stochastic Gradient Descent with Warm Restarts",
+  "authors": [
+   "Ilya Loshchilov",
+   "Frank Hutter"
+  ],
+  "id": "1608.03983",
+  "year": "2016"
+ },
+ "adamw": {
+  "query": "Decoupled Weight Decay Regularization",
+  "title": "Decoupled Weight Decay Regularization",
+  "authors": [
+   "Ilya Loshchilov",
+   "Frank Hutter"
+  ],
+  "id": "1711.05101",
+  "year": "2017"
+ },
+ "dann": {
+  "query": "Domain-Adversarial Training of Neural Networks",
+  "title": "Domain-Adversarial Training of Neural Networks",
+  "authors": [
+   "Yaroslav Ganin",
+   "Evgeniya Ustinova",
+   "Hana Ajakan",
+   "Pascal Germain",
+   "Hugo Larochelle",
+   "Fran\u00e7ois Laviolette",
+   "Mario Marchand",
+   "Victor Lempitsky"
+  ],
+  "id": "1505.07818",
+  "year": "2015"
+ },
+ "zhao2020bench": {
+  "query": "Deep Learning Algorithms for Rotating Machinery Intelligent Diagnosis: An Open Source Benchmark Study",
+  "title": "Deep Learning Algorithms for Rotating Machinery Intelligent Diagnosis: An Open Source Benchmark Study",
+  "authors": [
+   "Zhibin Zhao",
+   "Tianfu Li",
+   "Jingyao Wu",
+   "Chuang Sun",
+   "Shibin Wang",
+   "Ruqiang Yan",
+   "Xuefeng Chen"
+  ],
+  "id": "2003.03315",
+  "year": "2020"
+ },
+ "zoology": {
+  "query": "Zoology: Measuring and Improving Recall in Efficient Language Models",
+  "title": "Zoology: Measuring and Improving Recall in Efficient Language Models",
+  "authors": [
+   "Simran Arora",
+   "Sabri Eyuboglu",
+   "Aman Timalsina",
+   "Isys Johnson",
+   "Michael Poli",
+   "James Zou",
+   "Atri Rudra",
+   "Christopher R\u00e9"
+  ],
+  "id": "2312.04927",
+  "year": "2023"
+ },
+ "bn": {
+  "query": "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift",
+  "title": "Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift",
+  "authors": [
+   "Sergey Ioffe",
+   "Christian Szegedy"
+  ],
+  "id": "1502.03167",
+  "year": "2015"
+ }
+}

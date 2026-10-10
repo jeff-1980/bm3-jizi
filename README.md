@@ -21,10 +21,12 @@ paper/                     LaTeX source, figures, and compiled PDF for the manus
   figures/                 Fig.1-5 source scripts + rendered 300dpi pdf/png
   references.bib           Bibliography
   highlights.tex           Submission highlights
-  main_sandbox_build.pdf   Manuscript built in a sandbox WITHOUT the TS1 (text companion)
-                           fonts, which were substituted at build time. Layout is faithful,
-                           a few symbol glyphs are not. Build locally (commands below) for
-                           the authoritative PDF.
+  main_build.pdf           Manuscript PDF built with build_real.sh (preprint class option).
+  build_real.sh, genpk.sh  Build scripts: BibTeX + pdfLaTeX; the TS1 (text companion) fonts
+                           are generated locally with Metafont (genpk.sh) when the TeX tree
+                           has no cm-super, so no font substitution is used.
+  reference_lookup/        arXiv / Crossref records from which the 34 references added in
+                           v14 were generated (paper/stage10_scripts/apply_refs50.py).
 
 results/                   All 865 preregistered cells across five grids:
   fullgrid_*/               baseline grid (475 cells)
@@ -177,8 +179,7 @@ bibtex main
 pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
 ```
-Requires a standard TeX Live install with `elsarticle`. Last verified build:
-0 errors, 0 undefined references (sandbox build with substituted fonts; see main_sandbox_build.pdf note).
+Requires a TeX Live install with `elsarticle` (a standard install also has cm-super, so `pdflatex main.tex`, `bibtex main`, `pdflatex` x2 suffice; `build_real.sh` is for trees without it). Last verified build: 0 errors, 0 undefined references, 0 missing characters; 55 pages in the `preprint,12pt` class option, 21 pages with `[final,5p,twocolumn]` + mathptmx.
 
 ## License
 
