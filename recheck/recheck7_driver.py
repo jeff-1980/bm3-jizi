@@ -9,8 +9,9 @@ import sys, json, time, argparse, importlib.util
 from pathlib import Path
 SRC = __import__("os").environ.get("P9_HARNESS_DIR") or str(__import__("pathlib").Path(__file__).resolve().parents[1])  # repository root holds xjtu_noisy_harness.py
 sys.path.insert(0, SRC)
-spec = importlib.util.spec_from_file_location("h", f"{SRC}/xjtu_noisy_harness.py")
-h = importlib.util.module_from_spec(spec); sys.modules["h"] = h; spec.loader.exec_module(h)
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))  # recheck/ (robust to PYTHONSAFEPATH)
+import harness_loader
+h = harness_loader.load(SRC)
 import numpy as np, torch, torch.nn.functional as F
 import layered_freeze as lf
 import graft_control as gc

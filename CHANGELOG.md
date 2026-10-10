@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-10-10 — stage 11: corrections from the third review of the day; manuscript v13
+
+No new experiments.
+
+- Fixed a transposition in Section 4.1: the share of the 3125 paired resamples in which at least one level was
+  excluded from rho is 16.2% (507) for the fully frozen host and 0.5% (16) for the partially frozen host (the
+  text had them swapped). The all-levels statistic (repository field paired_frac_dropped) is 0 for both and is
+  named separately.
+- Figure 1: step 3 is now the in-host replacement of the gate by an additive branch (the experiment whose numbers
+  it shows); step 1 labels partial and full freeze; "additive = gateless" replaced by "not resolved". The graft onto
+  S4D is described as an exploratory branch in Appendix D.
+- Gateless-versus-S4D statements now specify host and protocol; "the gate costs most" replaced by a statement about
+  the -6 dB loss with the cross-component ranking labelled earlier-protocol; the independent-noise grids are stated
+  to contain no unfrozen BM3 arm.
+- Contributions reduced to two scientific items plus supporting material; limitations merged into four themes.
+- Section 4.1: cell allocation (105 XJTU-SY cells = 7 arms, 45 PU cells); Table 6 notes no multiple-comparison correction.
+- "up to 18/20 pp" replaced by the range of the independent-noise results (12-28 pp).
+- Data availability narrowed: analysis is recomputable from released cells; training needs data, GPU and the Mamba source.
+- New recheck/harness_loader.py: loads the unmodified harness with its three absolute paths replaced by environment-
+  controlled values (default: repository copies, which are byte-identical to the originals). All stage drivers use it
+  and also add recheck/ to sys.path themselves. A 2-epoch smoke run of recheck9_driver.py from a clean copy of the
+  repository imported bearmamba3 and models_extended from that copy and reproduced eval_sha 934248343b29. A full
+  retraining from a clean environment has not been performed.
+
 ## 2026-10-10 — stage 10: evidence restructuring; manuscript v12 (title T2, scope of its noise-dependence claim stated)
 
 No new experiments. Response to the simulated review of the same day (author decisions: keep T2 with

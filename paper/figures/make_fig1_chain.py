@@ -41,7 +41,7 @@ COMP_COLORS = {
 COMP_LABELS = {"conv": "conv\nstem", "scan": "scan\n(Δ,A,B,C)", "gate": "SiLU\ngate", "proj": "proj"}
 
 
-def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatch_removed=False):
+def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatch_removed=False, labels=None, added_text="+ added"):
     """Draw a 4-slot block diagram; dim=set of slot names to grey out; removed=slot to cross out."""
     n = len(components)
     slot_w = w / n
@@ -57,7 +57,7 @@ def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatc
                           linewidth=1.6 if (is_removed or is_added) else 1.0, zorder=3,
                           linestyle="--" if is_removed else ("-." if is_added else "-"))
         ax.add_patch(rect)
-        label = COMP_LABELS[comp]
+        label = (labels or {}).get(comp, COMP_LABELS[comp])
         txtcolor = "white" if (not is_dim and comp in ("scan", "gate")) else INK
         if is_dim:
             txtcolor = MUTED
@@ -69,7 +69,7 @@ def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatc
             ax.plot([cx + 0.06, cx + slot_w - 0.06], [y0 + h - 0.03, y0 + 0.03],
                      color=CRITICAL, lw=2.2, zorder=5)
         if is_added:
-            ax.text(cx + slot_w / 2, y0 + h + 0.16, "+ added", ha="center", va="bottom",
+            ax.text(cx + slot_w / 2, y0 + h + 0.16, added_text, ha="center", va="bottom",
                      fontsize=7, color=GOOD, fontweight="bold", zorder=4)
     ax.add_patch(Rectangle((x0, y0), w, h, facecolor="none", edgecolor=INK, linewidth=1.3, zorder=6))
 
@@ -93,11 +93,11 @@ def main():
     bw, bh = 2.6, 0.85
     y_block = 2.1
     stage_x = [0.35, 4.25, 8.15]
-    titles = ["Step 1 -- Freeze the scan\n(necessity test)", "Step 2 -- Remove gate\n(localise)", "Step 3 -- Add gate to S4D\n(sufficiency test)"]
+    titles = ["Step 1 -- Freeze the scan\n(partial and full)", "Step 2 -- Remove the gate\n(in the frozen host)", "Step 3 -- Replace the gate by an\nadditive branch (in the host)"]
 
     # Step 1: freeze selectivity (scan slot dimmed = constants instead of input-dependent)
     block(ax, stage_x[0], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"})
-    ax.text(stage_x[0] + bw / 2, y_block + bh + 0.32, "BM3-frozen", ha="center", fontsize=8.5,
+    ax.text(stage_x[0] + bw / 2, y_block + bh + 0.32, "BM3-frozen (partial) / frozen$-$all (full)", ha="center", fontsize=8.5,
              color=SECONDARY_INK, style="italic")
 
     # Step 2: remove gate (crossed out) on frozen base
@@ -106,8 +106,8 @@ def main():
              color=SECONDARY_INK, style="italic")
 
     # Step 3: graft gate onto plain S4D
-    block(ax, stage_x[2], y_block, bw, bh, ["scan", "gate"], added="gate")
-    ax.text(stage_x[2] + bw / 2, y_block + bh + 0.32, "S4D + gate", ha="center", fontsize=8.5,
+    block(ax, stage_x[2], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"}, added="gate", labels={"gate": "additive\nbranch"}, added_text="replaced")
+    ax.text(stage_x[2] + bw / 2, y_block + bh + 0.32, "frozen + additive branch", ha="center", fontsize=8.5,
              color=SECONDARY_INK, style="italic")
 
     # arrows between stages
@@ -130,7 +130,7 @@ def main():
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
                  "partial host, forward: +9/+16/+27pp\n(resolved at −6 dB only)\nreverse: resolved at every level", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "additive ≈ gateless (not assessable);\nmult. − add. at −6 dB: +23 / +27pp\ngraft onto S4D: earlier protocol", CRITICAL)
+                 "mult. − add. at −6 dB:\n+23 (full) / +27 (partial) pp\nadditive vs gateless: not resolved", CRITICAL)
 
     # bottom takeaway
     ax.text(5.75, 0.22, "Conditional on this block, testbed and budget: input-independent scan coefficients suffice; gate cost grows with noise only in the forward fully frozen block.",

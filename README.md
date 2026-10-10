@@ -143,14 +143,15 @@ including the Mamba-3 SISO kernels; the stage-2..9 arms call its `mamba3_siso_co
 The original grids (before stage 1) used torch 2.5 / cu121; stage 1 re-ran four arms on the
 newer stack and reproduced the original values within about 1 pp (Appendix D.9 of the paper).
 
-* The stage-1..9 drivers and arm modules take the harness directory from `P9_HARNESS_DIR`
-  and default to the repository root (where `xjtu_noisy_harness.py` lives).
-* `xjtu_noisy_harness.py` itself is the byte-identical file that produced every result and was
-  deliberately not edited; it still contains three absolute paths near its top (`BM3_ROOT`,
-  `EXT_DIR`, `DATA_ROOT`). To run it elsewhere, create those directories (or symlinks):
-  `BM3_ROOT` must contain a `bearmamba3` package (this repository's `bearmamba3/`),
-  `EXT_DIR` the `models_extended.py` / `noise_utils.py` / `baselines/` copies in this repository,
-  and `DATA_ROOT` the XJTU-SY dataset (`XJTU-SY_Bearing_Datasets/`).
+* The stage-1..9 drivers load the harness through `recheck/harness_loader.py`, which executes the
+  unmodified `xjtu_noisy_harness.py` with its three absolute paths (`BM3_ROOT`, `EXT_DIR`, `DATA_ROOT`) replaced
+  by `P9_BM3_ROOT`, `P9_EXT_DIR` and `P9_XJTU_ROOT` (defaults: the repository's own `bearmamba3/`, `baselines/`,
+  `models_extended.py`, `noise_utils.py`, which are byte-identical to the files the original grids imported, and the
+  original XJTU-SY path). The harness directory itself comes from `P9_HARNESS_DIR` (default: repository root).
+  The loader prints and asserts which copies were imported.
+* Checked: a 2-epoch smoke run of `recheck/recheck9_driver.py --smoke` from a clean copy of the repository (not the
+  author's directory tree) imported those copies and reproduced `eval_sha 934248343b29`. Not done: a full retraining
+  from a clean environment.
 * Paderborn data: set `P9_PU_ROOT` to the folder with one sub-directory per bearing code.
 * Datasets, the Mamba source tree and a GPU are external requirements and are not included.
   The analysis scripts (`recheck/analyze_stage*.py`) need only the released cells and numpy,

@@ -26,8 +26,9 @@ import torch.nn.functional as F
 SRC = os.environ.get("P9_HARNESS_DIR") or str(__import__("pathlib").Path(__file__).resolve().parents[1])
 sys.path.insert(0, SRC)
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-spec = importlib.util.spec_from_file_location("h", f"{SRC}/xjtu_noisy_harness.py")
-h = importlib.util.module_from_spec(spec); sys.modules["h"] = h; spec.loader.exec_module(h)
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parent))  # recheck/ (robust to PYTHONSAFEPATH)
+import harness_loader
+h = harness_loader.load(SRC)
 import graft_control as gc
 from models_extended import BearS4D
 
