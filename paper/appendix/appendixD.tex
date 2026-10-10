@@ -1,0 +1,339 @@
+\section{Results under the earlier noise protocol}
+\label{app:earlier}
+
+This appendix collects the results obtained while the noise added to window $i$ of the training and the evaluation set was drawn from the same stream (Section~\ref{sec:protocol:confounds}), together with the final-epoch and best-epoch re-runs of the original grids. They are reported in full because they were the pre-specified adjudications of the original design, but they are of lower evidential weight than the independent-noise results of Section~\ref{sec:results}: no abstract-level claim rests on them alone, thresholds labelled ``primary'' or ``necessary'' below refer to the earlier-protocol grid only, and where an independent-noise counterpart exists (Table~\ref{tab:coverage}) the counterpart takes precedence. Section~\ref{sec:results:earlier} summarises what these results add.
+
+\subsection{Freezing the input-dependent $\Delta$, $A$, $B$, $C$ projections (earlier protocol)}
+\label{sec:results:falsify}
+
+\begin{table}[htbp]
+\centering
+\caption{BM3, BM3-frozen and S4D, macro-F1 (\%), mean over 5 seeds; $\Delta$ columns are seed-paired mean differences in percentage points. Upper block: final epoch of the 50-epoch budget on the adjudication band (primary; re-runs of \ref{sec:results:fullfreeze} and~\ref{sec:results:sensitivity}). Middle block: best epoch on the evaluation condition in the same re-runs (sensitivity). Lower block: best epoch in the original frozen-selectivity grid for levels outside the band (auxiliary; not re-run). Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:falsify}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Condition & BM3 & BM3-frozen & S4D & $\Delta$(BM3$-$frozen) & $\Delta$(frozen$-$S4D) \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Final epoch (primary)}} \\
+0\,dB & 86.9 & 83.1 & 67.6 & $+3.7$ & $\mathbf{+15.5}$ \\
+$-2$\,dB & 88.3 & 87.3 & 67.5 & $+0.9$ & $\mathbf{+19.8}$ \\
+$-6$\,dB & 83.3 & 83.1 & 66.7 & $+0.2$ & $\mathbf{+16.4}$ \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Best epoch (sensitivity, same re-runs)}} \\
+0\,dB & 95.6 & 90.6 & 75.9 & $+5.1$ & $+14.6$ \\
+$-2$\,dB & 95.8 & 92.3 & 75.1 & $+3.5$ & $+17.2$ \\
+$-6$\,dB & 88.6 & 85.7 & 68.6 & $+3.0$ & $+17.1$ \\
+\midrule
+\multicolumn{6}{@{}l}{\emph{Auxiliary (best epoch, original grid)}} \\
+clean & 78.9 & 78.9 & 81.0 & $-0.0$ & $-2.1$ \\
+$-10$\,dB\rlap{$^{*}$} & 68.1 & 64.3 & 52.3 & $+3.8$ & $+12.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig2_snr_curves}
+\caption{Macro-F1 vs.\ SNR for BM3, BM3-frozen, and S4D across the full noise grid (best epoch, original frozen-selectivity grid; final-epoch values on the adjudication band are in Table~\ref{tab:falsify}, and levels outside the band are auxiliary). The frozen arm tracks BM3 closely and stays well above S4D throughout the adjudication band. Earlier noise protocol (training and evaluation noise shared by index).}
+\label{fig:snr_curves}
+\end{figure}
+
+Freezing the input-dependent $\Delta$, $A$, $B$, $C$ projections (Section~\ref{sec:protocol:freeze}) costs at most $3.7\pp$ anywhere in the adjudication band on the point estimates under final-epoch reporting ($+3.7$, $+0.9$, $+0.2$\,pp at $0$, $-2$, $-6$\,dB), while the frozen block retains an advantage of $+15.5$, $+19.8$, $+16.4$\,pp over S4D (Table~\ref{tab:falsify}, Figure~\ref{fig:snr_curves}). Five seeds bound these quantities loosely: paired 95\% intervals for $\Delta$(BM3$-$frozen) are $[-3.8, 11.3]$, $[-4.5, 6.3]$, $[-12.1, 12.6]$\,pp (BM3 ahead in 4/5, 3/5, 2/5 seeds), and for $\Delta$(frozen$-$S4D) $[4.3, 26.8]$, $[12.0, 27.7]$, $[4.1, 28.7]$\,pp (5/5, 5/5, 4/5 seeds). The pre-specified rule attributed robustness to selectivity only if $\Delta$(BM3$-$frozen) $\geq 10\pp$ in deep noise with the frozen arm collapsing toward S4D. It was written for best-epoch reporting, under which the original grid gives $\Delta$(BM3$-$frozen) $= +5.1$, $+3.3$, $+2.2\pp$ (re-run: $+5.1$, $+3.5$, $+3.0$) and $\Delta$(frozen$-$S4D) $= +13.8$, $+17.0$, $+17.7\pp$. Neither condition holds under either rule, so the pre-specified verdict is that these projections are \emph{not the primary mechanism}. This is a failure to meet a confirmation criterion, not a demonstration that freezing is cheap: the intervals above are compatible with differences larger than $10\pp$, and no equivalence margin was pre-specified or tested. One limit applies: the frozen arm still contains input-dependent trapezoidal weights and rotation angles, so this result concerns $\Delta, A, B, C$ only; \ref{sec:results:fullfreeze} removes that limit. On clean data (auxiliary, best epoch) S4D matches or slightly exceeds both Mamba-style arms---in line with the clean-benchmark comparison of~\cite{saadatmand2026s4d}, which, like this auxiliary row, involves no added noise. In the noisy regime, the block's advantage over S4D is not removed by freezing these four terms, so it must be carried by other parts of the block or by the remaining input-dependent scan terms.
+
+\subsection{Freezing the remaining input-dependent scan terms (earlier protocol)}
+\label{sec:results:fullfreeze}
+
+Table~\ref{tab:fullfreeze} reports the three layered arms of Section~\ref{sec:protocol:freeze} on the adjudication band (60 cells: 4 arms $\times$ 3 levels $\times$ 5 seeds $\times$ 50 epochs, the original training code, the same evaluation fingerprint, with the original BM3 arm re-run in the same grid). The question is whether the advantage that survived freezing $\Delta, A, B, C$ is carried by the two input-dependent terms the frozen arm retained.
+
+\begin{table}[htbp]
+\centering
+\caption{Layered freezing of the scan's input-dependent terms. Macro-F1 (\%), mean over 5 seeds, under best-epoch and final-epoch reporting; $\Delta$ columns are paired differences under final-epoch reporting with 95\% $t$-intervals over seeds. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:fullfreeze}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{0\,dB} & \multicolumn{2}{c}{$-2$\,dB} & \multicolumn{2}{c}{$-6$\,dB} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Arm & best & final & best & final & best & final \\
+\midrule
+BM3 (re-run) & 95.6 & 86.9 & 95.8 & 88.3 & 88.6 & 83.3 \\
+BM3-frozen ($\Delta,A,B,C$) & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+frozen$-$trap & 95.5 & 87.6 & 95.3 & 89.3 & 90.5 & 88.0 \\
+frozen$-$rot & 94.6 & 86.7 & 94.6 & 89.1 & 89.0 & 86.4 \\
+frozen$-$all & 96.5 & 89.5 & 96.8 & 91.5 & 90.5 & 87.9 \\
+S4D & 75.9 & 67.6 & 75.1 & 67.5 & 68.6 & 66.7 \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Paired differences, final-epoch reporting (pp)}} \\
+frozen$-$all $-$ S4D & \multicolumn{2}{c}{$+21.9$ [16.7, 27.1]} & \multicolumn{2}{c}{$+24.0$ [21.4, 26.5]} & \multicolumn{2}{c}{$+21.2$ [17.5, 24.9]} \\
+BM3-frozen $-$ frozen$-$all & \multicolumn{2}{c}{$-6.3$ [$-$17.6, 4.9]} & \multicolumn{2}{c}{$-4.1$ [$-$12.0, 3.7]} & \multicolumn{2}{c}{$-4.8$ [$-$17.8, 8.2]} \\
+BM3 $-$ frozen$-$all & \multicolumn{2}{c}{$-2.6$ [$-$8.2, 2.9]} & \multicolumn{2}{c}{$-3.2$ [$-$7.0, 0.6]} & \multicolumn{2}{c}{$-4.5$ [$-$7.2, $-$1.9]} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+It is not. With the scan's dynamics and read/write coefficients input-independent, \emph{frozen$-$all} is $+21.9$, $+24.0$ and $+21.2\pp$ above S4D at $0$, $-2$ and $-6$\,dB under final-epoch reporting, positive in 5/5 seeds at every level and with intervals excluding zero---if anything a larger margin than the partially frozen arm's $+15.5$, $+19.8$, $+16.4\pp$ (Table~\ref{tab:sensitivity_contrasts}). None of the three freezing steps costs accuracy: the paired differences BM3-frozen $-$ frozen$-$trap, $-$ frozen$-$rot and $-$ frozen$-$all are negative at all three levels (between $-1.8$ and $-6.3\pp$ under final-epoch reporting), i.e.\ the more heavily frozen arm is numerically ahead, with every interval including zero. The direction is not an artefact of capacity: \emph{frozen$-$all} has 103{,}842 parameters against 112{,}410 for BM3-frozen and 177{,}938 for BM3. At the deepest level \emph{frozen$-$all} also exceeds the full BM3 block by $4.5\pp$ ($[-7.2, -1.9]$ for BM3 $-$ frozen$-$all, 0/5 seeds in BM3's favour); we report this but do not build on it, since five seeds and one speed pair cannot separate a genuine advantage of a time-invariant scan from a variance effect.
+
+Two readings of the whole step are therefore available, and the data do not separate them: input-dependence of the scan contributes nothing measurable here, or it contributes something that the learned constants recover under this training budget. Either way the conclusion for the attribution chain is the same and now rests on a complete intervention rather than a partial one: \textbf{the Mamba-style block's deep-noise advantage over a time-invariant S4D does not require any input-dependent term in its scan}. What remains to carry it is the rest of the block---the convolutional stem, the heavy-tailed $A$ parameterisation, the normalisations and the output gate---which is what \ref{sec:results:localise}--\ref{sec:results:graft} examine. The re-run also reproduces the original grids: the BM3 arm's best-epoch means (95.6, 95.8, 88.6) exceed the original frozen-selectivity grid's 95.0, 95.4, 88.5 by $0.57$, $0.43$ and $0.16\pp$ (a different PyTorch/Triton build, \ref{sec:results:sensitivity}).
+
+\subsection{Single-component removal on the frozen base (earlier protocol)}
+\label{sec:results:localise}
+
+\begin{table}[htbp]
+\centering
+\caption{Single-component removal on the frozen base, $\Delta$(frozen $-$ arm) in percentage points: final-epoch mean, 95\% $t$-interval over seeds and number of seeds (of 5) with a positive difference (re-runs of \ref{sec:results:sensitivity}); ``best'' is the best-epoch value of the original component-ablation grid, for which the thresholds were pre-specified. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:localise}
+\scriptsize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccp{2.6cm}@{}}
+\toprule
+Component removed & 0\,dB & $-2$\,dB & $-6$\,dB & Adjudication \\
+\midrule
+SiLU gate & \shortstack{$+9.1$\\ {[}2.9, 15.3{]}\\ (5/5); best $+13.1$} & \shortstack{$+15.6$\\ {[}$-$0.8, 32.0{]}\\ (4/5); best $+21.1$} & \shortstack{$+22.6$\\ {[}5.8, 39.4{]}\\ (5/5); best $+23.5$} & PRIMARY (all $\geq 8\pp$, both rules) \\[3pt]
+\shortstack[l]{conv stem\\ ($k{=}7$)} & \shortstack{$-13.2$\\ {[}$-$24.1, $-$2.2{]}\\ (0/5); best $-6.6$} & \shortstack{$-7.5$\\ {[}$-$14.6, $-$0.3{]}\\ (0/5); best $-2.7$} & \shortstack{$+5.9$\\ {[}$-$4.0, 15.8{]}\\ (3/5); best $+7.9$} & outside bins; regime trade-off \\[3pt]
+\shortstack[l]{heavy-tailed $A$\\ $\rightarrow$ S4D-style $A$} & \shortstack{$-1.9$\\ {[}$-$9.2, 5.3{]}\\ (2/5); best $-2.4$} & \shortstack{$-2.6$\\ {[}$-$8.6, 3.4{]}\\ (2/5); best $-2.2$} & \shortstack{$-4.8$\\ {[}$-$16.4, 6.9{]}\\ (2/5); best $-4.2$} & outside bins; intervals include 0 \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig3_ablation_bars}
+\caption{Component-removal $\Delta$ (percentage points, frozen $-$ arm) on the adjudication band for the three single-component ablations on the frozen base: final-epoch means with 95\% $t$-intervals over seeds (bars) and best-epoch means of the same re-runs (black ticks). Only gate removal is large and one-signed at every level and clears the pre-specified $8\pp$ threshold. Earlier noise protocol (training and evaluation noise shared by index).}
+\label{fig:ablation_bars}
+\end{figure}
+
+``Necessary'' is used here in the operational sense of this ablation: removing the gate from the frozen block, with the other components and the budget unchanged, removes most of the block's advantage. The gate result is large, one-signed and grows with noise depth: under final-epoch reporting removal costs $9.1$, $15.6$, $22.6$\,pp at $0$, $-2$ and $-6$\,dB (paired 95\% intervals $[2.9, 15.3]$, $[-0.8, 32.0]$, $[5.8, 39.4]$; 5/5, 4/5, 5/5 seeds), above the pre-specified $8\pp$ threshold at every level; the interval at $-2$\,dB includes zero because of the large seed variance of the gateless arm. Under the best-epoch rule for which the threshold was written, the component-ablation grid gives $13.1$, $21.1$ and $23.5\pp$ ($[6.5, 19.6]$, $[3.8, 38.5]$, $[8.5, 38.6]$; 5/5 seeds at every level), so under the earlier noise protocol the verdict is \emph{primary} under both rules. Under independent training and evaluation noise the same contrast is resolved only at $-6$\,dB (Section~\ref{sec:results:indep}), so the operational sense of ``necessary'' holds there at the deepest level only. The gateless arm gives up most of the Mamba advantage but is not resolved against plain S4D: frozen$-$gate $-$ S4D is $+6.4$, $+4.2$, $-6.2$\,pp, with every interval including zero. We therefore describe it as roughly at the level of S4D, below it only on the point estimate at $-6$\,dB; this suggests, but does not establish, that components interact rather than add. The other two components tell regime stories rather than robustness stories. Removing the convolutional stem is beneficial at $0$ and $-2$\,dB (frozen $-$ frozen$-$conv $=$ $-13.2$ $[-24.1, -2.2]$ and $-7.5$ $[-14.6, -0.3]$, with the stemless arm ahead in every seed) and costly at $-6$\,dB ($+5.9$, $[-4.0, 15.8]$, 3/5 seeds); under best-epoch reporting the pattern was the same ($-6.6$, $-2.7$, $+7.9\pp$). On clean cross-speed data (auxiliary, best epoch, original grid) the stem costs $21.0\pp$ (removal yields 98.8 vs.\ 77.8, with seed-std collapsing from $8.1$ to $0.6\pp$)---consistent either with speed-specific local temporal patterns mistransferring across conditions, or with optimisation friction under the matched budget; we report both readings. Replacing the heavy-tailed state parameterisation by an S4D-style one is numerically beneficial at all three levels (by $1.9$, $2.6$, $4.8$\,pp under final-epoch and $2.4$, $2.2$, $4.2\pp$ under best-epoch reporting), but every paired interval includes zero, so we draw no directional conclusion from it.
+
+\subsection{Adding a narrow gate branch to S4D (earlier protocol)}
+\label{sec:results:graft}
+
+\begin{table}[htbp]
+\centering
+\caption{Grafting the SiLU gate branch onto plain S4D (S4D unchanged key-by-key; only the gate branch added). Upper block: final epoch, all three arms from the same re-run (\ref{sec:results:sensitivity}). Lower block: best epoch as pre-specified, with S4D+gate from the graft grid and S4D and BM3-frozen, and hence $R$, from the component-ablation grid of \ref{sec:results:localise} (independent runs of the same arms differ by 0.1--0.7\,pp). Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:graft}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Condition & S4D+gate & S4D & BM3-frozen & Recovery ratio \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Final epoch (primary)}} \\
+0\,dB & 71.5 & 67.6 & 83.1 & $0.249$ \\
+$-2$\,dB & 74.3 & 67.5 & 87.3 & $0.341$ \\
+$-6$\,dB & 66.6 & 66.7 & 83.1 & $-0.003$ \\
+\midrule
+\multicolumn{5}{@{}l}{\emph{Best epoch (as pre-specified)}} \\
+0\,dB & 79.8 & 76.2 & 90.6 & 0.249 \\
+$-2$\,dB & 79.4 & 75.2 & 92.8 & 0.239 \\
+$-6$\,dB & 69.2 & 68.6 & 86.0 & $\mathbf{0.035}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig4_graft}
+\caption{Graft outcome under final-epoch reporting: S4D+gate, plain S4D, and BM3-frozen on the adjudication band (one re-run grid), with the per-level recovery ratio $R = (\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$ annotated. Recovery is near zero at the deepest adjudicated noise level. This is the narrow graft; the width-matched graft and its additive control are in Table~\ref{tab:graftwm}. Earlier noise protocol (training and evaluation noise shared by index).}
+\label{fig:graft}
+\end{figure}
+
+The pre-specified recovery ratio is $R = $ mean over the band of $(\text{S4D+gate} - \text{S4D})/(\text{frozen} - \text{S4D})$. Under final-epoch reporting $R = \mathbf{0.196}$ (per level 0.249, 0.341, $-$0.003; seed-resampled 95\% interval $[0.09, 0.31]$); under the best-epoch rule for which it was specified, $R = 0.174$ ($[0.04, 0.29]$). The pre-specified bins were $R \geq 0.7$ (confirmed), $0.3 \leq R < 0.7$ (partial recovery) and $R < 0.3$ (insufficient); both values fall in the last, although the final-epoch interval reaches the $0.3$ boundary. The per-level paired gains of S4D+gate over S4D under final-epoch reporting are $+3.9$ ($[-0.8, 8.6]$), $+6.8$ ($[2.4, 11.1]$), $-0.1$ ($[-4.0, 3.9]$)\,pp. At the deepest adjudicated level the graft recovers nothing. Removal and addition are not mirror-image interventions. In BM3 the gate has its own $64 \rightarrow 128$ projection and multiplies the scan output at the inner width of 128 before the output projection; removing it deletes $32{,}768$ parameters. In the S4D host the grafted gate is a $64 \rightarrow 64$ linear branch (with bias) computed from the layer input and multiplying the SSM output before the residual addition; it adds $16{,}640$ parameters over four layers. The two share the multiplicative SiLU form but not width, projection structure or parameter count. Removal costs $9$--$23\pp$ in the frozen block, whereas this graft changes S4D by between $-0.1$ and $+6.8$\,pp (final epoch). What this shows is that \emph{this gate branch, in this host and under this budget, recovers little}. Three readings fit the data and cannot be separated here: (i) host dependence, i.e.\ the gate needs the stem or scan context it co-trained with; (ii) implementation differences in width, projection and placement; (iii) transplant friction, i.e.\ the grafted branch is harder to optimise in a foreign host under the matched budget (training converges normally, but convergence is not robustness). \ref{sec:results:graftwm} tests reading (ii) with a width-matched graft and an equal-capacity non-multiplicative control; a tuning or longer-budget comparison selected on a source-domain validation set was not run.
+
+The four arms do allow a coarse host-by-gate contrast, $I = [F(\text{frozen}) - F(\text{frozen}{-}\text{gate})] - [F(\text{S4D+gate}) - F(\text{S4D})]$, where $F$ is macro-F1. Under last-epoch reporting $I = 5.2$ $[2.3, 8.1]$, $8.9$ $[-6.2, 23.9]$ and $22.6$ $[2.9, 42.4]\pp$ at $0$, $-2$ and $-6$\,dB (seed-matched 95\% $t$-intervals; positive in 5/5, 4/5 and 5/5 seeds); under best-epoch reporting in the re-run it is $7.8$ $[1.4, 14.2]$, $14.4$ $[-1.4, 30.3]$ and $23.1$ $[8.7, 37.4]\pp$. A positive $I$ means the gate adds more on the frozen host than on S4D. Because the host differs in several respects at once and the two gates are not aligned, $I$ cannot be assigned to a specific component or interaction term, and the seed pairing across arms is nominal (arms share seed indices, not initialisations).
+
+\subsection{A width-matched graft and an additive control (earlier protocol)}
+\label{sec:results:graftwm}
+
+The graft of \ref{sec:results:graft} is narrower and smaller than the donor gate. Two further arms rebuild it in the donor's shape (Table~\ref{tab:arms}). In each layer the layer input is projected to $x$ and $z$ of width 128 (the frozen block's inner width), the S4D layer runs on $x$ at width 128 with state size 64---so that its own parameter count and total state size equal the host's 64-wide, state-128 layer---and an output projection maps back to width 64. \emph{S4D+gate (wm)} combines $y \odot \mathrm{SiLU}(z)$, as the donor does; \emph{S4D+branch} uses the same modules, parameters and initial weights but combines $y + \mathrm{SiLU}(z)$. Both have 198{,}978 parameters, more than BM3-frozen (112{,}410) and BM3 (177{,}938), which biases the test towards recovery. A construction check with forward hooks confirms that the tensor entering the output projection equals the intended formula for each arm and not the other, and that the two arms are identical at initialisation. The thresholds were committed publicly before the grid ran (Section~\ref{sec:protocol:prereg}): $R$ as before, under final-epoch reporting; the verdict is INCONCLUSIVE whenever the seed-resampled interval crosses a bin boundary, in which case we write at the tier less favourable to the claim; and a gate-specific reading requires $\Delta R = R_{\text{gate}} - R_{\text{branch}} > 0.1$ with an interval excluding zero.
+
+\begin{table}[htbp]
+\centering
+\caption{Width-matched graft and additive control on the original transition. Macro-F1 (\%), mean over 5 seeds, final-epoch reporting; $R$ is the mean over the three levels of (arm $-$ S4D)/(BM3-frozen $-$ S4D), with a seed-resampled 95\% interval. S4D, BM3-frozen and the narrow graft are the re-runs of \ref{sec:results:sensitivity}. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:graftwm}
+\footnotesize
+\begin{tabular}{@{}lrrrcc@{}}
+\toprule
+Arm & 0\,dB & $-2$\,dB & $-6$\,dB & $R$ & 95\% interval \\
+\midrule
+S4D & 67.6 & 67.5 & 66.7 & -- & -- \\
+S4D+gate (narrow) & 71.5 & 74.3 & 66.6 & 0.196 & [0.09, 0.31] \\
+S4D+gate (wm) & 70.1 & 73.4 & 73.8 & 0.296 & [0.16, 0.52] \\
+S4D+branch & 73.1 & 76.2 & 73.8 & 0.408 & [0.31, 0.60] \\
+BM3-frozen & 83.1 & 87.3 & 83.1 & 1 & -- \\
+\midrule
+\multicolumn{4}{@{}l}{$\Delta R$ = S4D+gate (wm) $-$ S4D+branch} & $-0.112$ & [$-$0.26, 0.02] \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The width-matched graft recovers $R = 0.296$ of the gap (per level 0.159, 0.298, 0.431). Its interval, $[0.16, 0.52]$ under the pre-specified bootstrap ($[0.14, 0.72]$ under paired-seed resampling), crosses the 0.3 boundary, so the pre-specified verdict is INCONCLUSIVE between ``insufficient'' and ``partial'', and we report it at the less favourable tier: a graft built in the donor's shape recovers part of the gap. The recovery is not gate-specific. The additive branch, with the same parameters, recovers at least as much ($R = 0.408$), $\Delta R = -0.112$ $[-0.26, 0.02]$ (paired-seed $[-0.20, 0.06]$), and at 0\,dB the gated arm is below the additive one by $3.0\pp$ ($[-4.5, -1.5]$, 0/5 seeds). With frozen$-$all in the denominator the gated arm's ratio is $0.231$ $[0.13, 0.33]$; under best-epoch reporting the two ratios are 0.459 and 0.483. What a graft recovers on this transition therefore follows the added structure---a wider channel axis and input/output projections---rather than the multiplicative interaction. Reading (ii) of \ref{sec:results:graft} is partly confirmed, in that the narrow graft understated what added structure can recover; but in the S4D host the gate did not contribute measurably beyond an equal-capacity additive branch, whereas removing it from the frozen Mamba-3 block costs $9$--$23\pp$ under the same rule (Table~\ref{tab:sensitivity_contrasts}).
+
+\subsection{Replacing the gate in its native host (earlier protocol)}
+\label{sec:results:nativeadd}
+
+The previous subsection changes the host and keeps the operator. A pre-specified grid (15 cells, original transition) does the converse: it keeps the host and changes the operator. In \emph{frozen$+$add} the scan kernel of every BM3-frozen layer is called without gating and the layer output becomes $W_{\mathrm{out}}(y + \mathrm{SiLU}(z))$; modules, parameter count (112{,}410) and initial weights are bitwise those of BM3-frozen, and a construction check confirms that the donor operator is $y \odot \mathrm{SiLU}(z)$ and that the new arm computes $y + \mathrm{SiLU}(z)$. The pre-specified statistic is the native rescue ratio $\rho = (\text{add} - \text{no gate})/(\text{frozen} - \text{no gate})$, mean over levels, final epoch, with a seed-resampled interval; \emph{not rescued} requires $\rho < 0.3$ with an upper bound below $0.5$.
+
+\begin{table}[htbp]
+\centering
+\caption{Gate replaced by an additive branch inside BM3-frozen, original and reverse transitions. Macro-F1 (\%), mean over 5 seeds; paired differences under final-epoch reporting with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:nativeadd}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{2}{c}{0\,dB} & \multicolumn{2}{c}{$-2$\,dB} & \multicolumn{2}{c}{$-6$\,dB} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Arm & best & final & best & final & best & final \\
+\midrule
+\multicolumn{7}{@{}l}{\emph{Original transition (37.5\,Hz/11\,kN $\rightarrow$ 40\,Hz/10\,kN)}} \\
+BM3-frozen ($y \odot \mathrm{SiLU}(z)$) & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+frozen$+$add ($y + \mathrm{SiLU}(z)$) & 78.0 & 74.7 & 72.6 & 71.5 & 62.3 & 60.9 \\
+frozen$-$gate (no $z$) & 77.7 & 74.0 & 73.1 & 71.7 & 61.9 & 60.5 \\
+\midrule
+BM3-frozen $-$ frozen$+$add & \multicolumn{2}{c}{\shortstack{$+8.5$\\ {[}1.1, 15.9{]} (5/5)}} & \multicolumn{2}{c}{\shortstack{$+15.8$\\ {[}$-$1.2, 32.9{]} (4/5)}} & \multicolumn{2}{c}{\shortstack{$+22.2$\\ {[}4.6, 39.9{]} (5/5)}} \\[3pt]
+frozen$+$add $-$ frozen$-$gate & \multicolumn{2}{c}{\shortstack{$+0.6$\\ {[}$-$1.7, 3.0{]} (3/5)}} & \multicolumn{2}{c}{\shortstack{$-0.2$\\ {[}$-$3.4, 3.0{]} (3/5)}} & \multicolumn{2}{c}{\shortstack{$+0.4$\\ {[}$-$0.7, 1.4{]} (3/5)}} \\[3pt]
+\midrule
+\multicolumn{7}{@{}l}{\emph{Reverse transition (40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN)}} \\
+BM3-frozen ($y \odot \mathrm{SiLU}(z)$) & 81.1 & 74.7 & 84.0 & 76.7 & 80.8 & 73.9 \\
+frozen$+$add ($y + \mathrm{SiLU}(z)$) & 64.3 & 56.5 & 62.2 & 54.4 & 55.7 & 50.5 \\
+frozen$-$gate (no $z$) & 63.8 & 56.2 & 62.0 & 54.7 & 57.1 & 50.0 \\
+\midrule
+BM3-frozen $-$ frozen$+$add & \multicolumn{2}{c}{\shortstack{$+18.1$\\ {[}1.2, 35.0{]} (5/5)}} & \multicolumn{2}{c}{\shortstack{$+22.3$\\ {[}3.5, 41.0{]} (5/5)}} & \multicolumn{2}{c}{\shortstack{$+23.4$\\ {[}6.8, 40.0{]} (5/5)}} \\[3pt]
+frozen$+$add $-$ frozen$-$gate & \multicolumn{2}{c}{\shortstack{$+0.3$\\ {[}$-$0.6, 1.2{]} (3/5)}} & \multicolumn{2}{c}{\shortstack{$-0.3$\\ {[}$-$1.0, 0.4{]} (2/5)}} & \multicolumn{2}{c}{\shortstack{$+0.6$\\ {[}$-$0.2, 1.4{]} (5/5)}} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The additive branch does not measurably rescue the loss. frozen$+$add cannot be distinguished from the gateless arm at any level ($+0.6$, $-0.2$, $+0.4$\,pp, every interval including zero), and the multiplicative arm exceeds it by $8.5$, $15.8$, $22.2$\,pp. The rescue ratio is $\rho = 0.024$ (per level 0.070, $-$0.015, 0.016), with a 95\% interval of $[-1.159, 0.486]$ under the pre-specified bootstrap, which resampled each arm and level independently; resampling seeds jointly across arms and levels, as the paired design warrants, gives $[-0.043, 0.136]$. Under best-epoch reporting $\rho = 0.005$. By the pre-specified rule the verdict is \emph{not rescued}: the point-estimate rescue is small and below the pre-specified criterion, which is not a demonstration that the two arms are equivalent.
+
+A further pre-specified grid (15 cells) repeats the substitution on the reverse transition (\ref{sec:results:reverse_old}), with BM3-frozen and frozen$-$gate taken from the reverse grid. The outcome is the same (Table~\ref{tab:nativeadd}, lower block): frozen$+$add cannot be distinguished from the gateless arm at any level ($+0.3$, $-0.3$, $+0.6$\,pp, every interval including zero), and the multiplicative arm exceeds it by $+18.1$, $+22.3$, $+23.4$\,pp (intervals excluding zero, 5/5 seeds at every level). The rescue ratio is $\rho = 0.009$ (per level 0.017, $-$0.014, 0.023), with a 95\% interval of $[-0.943, 0.362]$ under the pre-specified bootstrap and $[0.002, 0.018]$ under paired-seed resampling; under best-epoch reporting $\rho = -0.005$. The pre-specified verdict is again \emph{not rescued}.
+
+Together with \ref{sec:results:graftwm} this gives the two halves of a symmetric test. In the S4D host the gate did not recover more than an additive branch of the same size on the original transition and recovered somewhat more on the reverse one; in the Mamba-3 host an additive branch of the same size could not be distinguished from removing the gate, on both transitions. Under the earlier noise protocol this pattern is specific to the multiplicative operator in its native host; Section~\ref{sec:results:indep} shows that the size of the gate's contribution there depends on noise depth.
+
+\subsection{The reverse transition (earlier protocol)}
+\label{sec:results:reverse_old}
+
+A pre-specified grid repeats the chain's central contrasts on the reverse transition, 40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN (75 cells: frozen$-$all, BM3-frozen, frozen$-$gate, S4D and S4D+gate (wm), at three levels and five seeds; Section~\ref{sec:protocol:testbed} for the data). The independent-noise re-run of four of these arms is Section~\ref{sec:results:reverse}. This direction is harder for the time-invariant model: on its evaluation set, predicting the majority class gives a macro-F1 of 46.8\% and uniform random guessing 41.5\%, and S4D sits close to those levels (Table~\ref{tab:reverse_old}).
+
+\begin{table}[htbp]
+\centering
+\caption{Reverse transition (40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN). Macro-F1 (\%), mean over 5 seeds, best-epoch and final-epoch reporting; paired differences under final-epoch reporting with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:reverse_old}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Arm (best / final) & 0\,dB & $-2$\,dB & $-6$\,dB \\
+\midrule
+frozen$-$all & 86.3 / 77.5 & 87.8 / 77.9 & 81.7 / 74.0 \\
+BM3-frozen & 81.1 / 74.7 & 84.0 / 76.7 & 80.8 / 73.9 \\
+S4D+gate (wm) & 79.0 / 72.9 & 80.5 / 73.9 & 78.5 / 72.2 \\
+frozen$-$gate & 63.8 / 56.2 & 62.0 / 54.7 & 57.1 / 50.0 \\
+S4D & 61.2 / 51.2 & 61.0 / 52.4 & 54.6 / 51.8 \\
+\midrule
+frozen$-$all $-$ S4D & \shortstack{$+26.3$\\ {[}21.5, 31.0{]} (5/5)} & \shortstack{$+25.6$\\ {[}21.1, 30.1{]} (5/5)} & \shortstack{$+22.2$\\ {[}18.8, 25.6{]} (5/5)} \\[3pt]
+BM3-frozen $-$ frozen$-$gate & \shortstack{$+18.4$\\ {[}1.2, 35.6{]} (5/5)} & \shortstack{$+22.0$\\ {[}3.4, 40.6{]} (5/5)} & \shortstack{$+24.0$\\ {[}7.6, 40.3{]} (5/5)} \\[3pt]
+frozen$-$gate $-$ S4D & \shortstack{$+5.0$\\ {[}$-$17.6, 27.7{]} (2/5)} & \shortstack{$+2.4$\\ {[}$-$19.2, 23.9{]} (2/5)} & \shortstack{$-1.8$\\ {[}$-$18.9, 15.3{]} (1/5)} \\[3pt]
+S4D+gate (wm) $-$ S4D & \shortstack{$+21.7$\\ {[}15.4, 28.0{]} (5/5)} & \shortstack{$+21.5$\\ {[}17.0, 26.0{]} (5/5)} & \shortstack{$+20.5$\\ {[}15.7, 25.2{]} (5/5)} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+The first two steps replicate. The fully input-independent scan exceeds S4D by $+26.3$, $+25.6$ and $+22.2\pp$ at $0$, $-2$ and $-6$\,dB, with intervals excluding zero and 5/5 seeds at every level, so by the pre-specified rule (at least two of three levels) the first step is replicated on the reverse transition. Removing the gate from BM3-frozen costs $18.4$, $22.0$ and $24.0\pp$, above the $8\pp$ threshold at all three levels, with intervals excluding zero and 5/5 seeds, and the gateless arm is indistinguishable from S4D (intervals include zero). On the third step, which the pre-specification treats as descriptive here, the width-matched graft recovers most of the gap, $R = 0.911$ $[0.82, 1.04]$ ($0.863$ with frozen$-$all in the denominator). A further pre-specified grid (15 cells) adds the same-size additive control in this direction: it reaches 67.8, 72.1, 68.4\% (final epoch) and recovers $R = 0.758$ $[0.66, 0.88]$. The gate arm exceeds it by $+5.1$, $+1.7$, $+3.8$\,pp (only the $-6$\,dB interval excludes zero), and the difference in recovery is $\Delta R = 0.153$ $[0.06, 0.26]$; under best-epoch reporting it shrinks to $0.037$ $[-0.1, 0.17]$. By the pre-specified descriptive labels this is \emph{unresolved}: in this direction the gate carries a small increment over the additive branch, whereas on the original transition it carried none ($\Delta R = -0.112$). Most of the reverse-direction recovery is therefore available to an additive branch of the same size, and the remaining gate increment is direction-dependent. Both ratios rest on an S4D baseline close to the trivial floor (51--52\% against 46.8\% for the majority class). Both statements carry the limits of this pair: the same eight bearings with their roles swapped, and a single inner-race bearing in the evaluation set.
+
+\subsection{Paderborn: disjoint and shared bearings (earlier protocol)}
+\label{sec:results:pu}
+
+A pre-specified grid (75 cells; thresholds, a ceiling-and-floor check and the writing consequences committed before the first cell) repeats the three central contrasts on the Paderborn KAt data~\cite{lessmeier2016kat}, using real-damage bearings only. Models train on two outer-race (KA04, KA16) and two inner-race bearings (KI04, KI14) at 1500\,rpm and are evaluated on five different bearings (KA15, KA22; KI17, KI18, KI21) at 900\,rpm, with load and radial force unchanged; the vibration channel is resampled to 25.6\,kHz so that a window spans 80\,ms as in XJTU-SY, and everything else (noise, training, arms, budget) is as in the main grids. The pre-specified smoke check (two arms, one extra seed) passed its three criteria, the learnability criterion by $0.3\pp$. A second pre-specified grid (45 cells, three arms) then used the same four bearings for training and evaluation, at the same two speeds, from different recordings. This changes the evaluation bearings, their damage profiles, the number of windows and the class balance together, so the two settings are two protocols rather than a single-factor manipulation.
+
+\begin{table}[htbp]
+\centering
+\caption{Paderborn, real-damage bearings, 1500\,rpm $\rightarrow$ 900\,rpm. \emph{Disjoint}: training on KA04, KA16, KI04, KI14 and evaluation on KA15, KA22, KI17, KI18, KI21. \emph{Shared}: training and evaluation on KA04, KA16, KI04, KI14 (different recordings). Upper block: macro-F1 (\%) at the final epoch, mean over 5 seeds (majority-class macro-F1: 37.5\% disjoint, 33.3\% shared). Lower block: paired differences under final-epoch reporting, 95\% $t$-interval and seeds (of 5) with a positive difference. ``--'': arm not run in that setting. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:pu}
+\scriptsize\setlength{\tabcolsep}{2.5pt}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{3}{c}{Disjoint bearings} & \multicolumn{3}{c}{Shared bearings} \\
+\cmidrule(lr){2-4}\cmidrule(lr){5-7}
+Arm / contrast & 0\,dB & $-2$\,dB & $-6$\,dB & 0\,dB & $-2$\,dB & $-6$\,dB \\
+\midrule
+BM3-frozen & 51.9 & 50.3 & 47.7 & 84.5 & 85.8 & 86.6 \\
+frozen$-$all & 54.2 & 51.3 & 47.8 & -- & -- & -- \\
+S4D & 55.6 & 53.9 & 51.1 & 76.1 & 77.3 & 77.9 \\
+frozen$-$gate & 56.9 & 54.9 & 51.1 & 75.5 & 78.1 & 81.3 \\
+frozen$+$add & 56.9 & 54.8 & 51.0 & -- & -- & -- \\
+\midrule
+\shortstack[l]{BM3-frozen\\ $-$ S4D} & \shortstack{$-3.8$\\ {[}$-$11.9, 4.3{]}\\ (1/5)} & \shortstack{$-3.6$\\ {[}$-$12.6, 5.4{]}\\ (2/5)} & \shortstack{$-3.4$\\ {[}$-$8.9, 2.1{]}\\ (1/5)} & \shortstack{$+8.4$\\ {[}$-$1.3, 18.1{]}\\ (4/5)} & \shortstack{$+8.5$\\ {[}0.2, 16.8{]}\\ (5/5)} & \shortstack{$+8.7$\\ {[}4.3, 13.0{]}\\ (5/5)} \\[3pt]
+\shortstack[l]{BM3-frozen\\ $-$ frozen$-$gate} & \shortstack{$-5.0$\\ {[}$-$8.8, $-$1.3{]}\\ (0/5)} & \shortstack{$-4.6$\\ {[}$-$9.2, 0.1{]}\\ (0/5)} & \shortstack{$-3.3$\\ {[}$-$7.1, 0.4{]}\\ (0/5)} & \shortstack{$+9.0$\\ {[}5.2, 12.8{]}\\ (5/5)} & \shortstack{$+7.7$\\ {[}5.0, 10.4{]}\\ (5/5)} & \shortstack{$+5.3$\\ {[}2.4, 8.2{]}\\ (5/5)} \\[3pt]
+\shortstack[l]{frozen$-$all\\ $-$ S4D} & \shortstack{$-1.4$\\ {[}$-$4.0, 1.2{]}\\ (1/5)} & \shortstack{$-2.5$\\ {[}$-$5.3, 0.2{]}\\ (1/5)} & \shortstack{$-3.3$\\ {[}$-$5.8, $-$0.8{]}\\ (0/5)} & -- & -- & -- \\[3pt]
+\shortstack[l]{frozen$+$add\\ $-$ frozen$-$gate} & \shortstack{$0.0$\\ {[}$-$0.9, 0.8{]}\\ (2/5)} & \shortstack{$0.0$\\ {[}$-$0.4, 0.3{]}\\ (3/5)} & \shortstack{$-0.1$\\ {[}$-$0.4, 0.2{]}\\ (1/5)} & -- & -- & -- \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+None of the pre-specified contrasts replicates (Table~\ref{tab:pu}). The fully input-independent block does not exceed S4D (frozen$-$all $-$ S4D: $-1.4$, $-2.5$, $-3.3$\,pp, the interval at $-6$\,dB excluding zero in the negative direction), nor does BM3-frozen ($-3.8$, $-3.6$, $-3.4$\,pp). Removing the gate does not cost accuracy: BM3-frozen $-$ frozen$-$gate is $-5.0$, $-4.6$, $-3.3$\,pp, below zero in every seed at every level. With no gate effect to rescue, the native-substitution test is not assessable; the additive and gateless arms again cannot be distinguished ($0.0$, $0.0$, $-0.1$\,pp). The pre-specified labels are therefore \emph{not replicated} for both freeze contrasts and for gate removal, and \emph{not assessable} for the substitution test.
+
+Two observations bound how this result can be read, and neither changes the labels. First, the testbed discriminates poorly: every arm ends between 47.7 and 56.9\% macro-F1 at every level (majority-class predictor 37.5\%, a balanced random predictor about 50\%), all arms fit the training condition (the gated arms reach the lowest training loss), and none transfers far above the level reached after the first epoch. Second, where differences are resolved they run against the Mamba-3 arms, which reach lower training loss and transfer slightly worse. In the disjoint setting, therefore, the block's advantage under matched noise and drift is not observed; we do not know whether this reflects a property of the PU transition (speed reduction to 900\,rpm with disjoint bearings), the protocol transferred unchanged from XJTU-SY, or a limit of the XJTU-SY result itself, which the shared-bearing setting below separates.
+
+\emph{Shared bearings.} With bearing identity shared between training and evaluation, the same condition pair becomes transferable: every arm ends between 75.5 and 86.6\% at every level, and the pre-specified transferability gate (5-seed mean $\geq 65\%$ with one-sided 95\% lower bound $> 60\%$ at two of three levels for at least one arm) is passed by all three arms at all three levels (smallest lower bound 71.3\%). Within this setting both effects replicate under the pre-specified rule (Table~\ref{tab:pu}, right). BM3-frozen exceeds S4D by $+8.4$, $+8.5$, $+8.7$\,pp at $0$, $-2$, $-6$\,dB, with intervals excluding zero at $-2$ and $-6$\,dB; removing the gate costs $+9.0$, $+7.7$, $+5.3$\,pp, with intervals excluding zero at all three levels and in every seed; no level runs in the opposite direction. The gateless arm returns to the level of S4D (frozen$-$gate $-$ S4D: $-0.6$, $+0.8$, $+3.4$\,pp, all intervals including zero), as on XJTU-SY. Under best-epoch reporting the freeze contrast is resolved at all three levels ($+6.9$, $+10.8$, $+13.7$\,pp) and gate removal only at $-6$\,dB ($+1.5$, $+3.7$, $+6.4$\,pp). The cost of gate removal reaches the $8\pp$ threshold used on XJTU-SY at one level only; we compare directions, not magnitudes, across datasets.
+
+Read together, the two protocols give different results: with shared bearings every arm, S4D included, ends 18.6--38.8\,pp higher than with disjoint bearings (independent seeds; per-arm Welch intervals all exclude zero), and the block's advantage and the cost of gate removal reappear. Because the evaluation bearings, class balance and sample size change together, this does not isolate bearing overlap as the cause. With two bearings per class in the shared setting, a bearing's identity also determines its label, so a model can succeed partly by recognising bearing-specific signatures. XJTU-SY differs from both Paderborn settings: its training and evaluation bearings are disjoint in each direction, and the block transfers there. The shared-setting contrasts were re-run under independent noise (Section~\ref{sec:results:indep}); \emph{frozen$-$all} was not run on Paderborn.
+
+\subsection{Sensitivity to the reporting rule (earlier protocol)}
+\label{sec:results:sensitivity}
+
+The main tables use the final epoch of the 50-epoch budget (Section~\ref{sec:protocol:report}). The original grids recorded instead the best epoch on the evaluation condition, and their pre-specified thresholds were written for that rule. To measure how much the rule shapes the conclusions, every arm of the chain was re-run over the adjudication band with per-epoch evaluation, using the original training code and the same evaluation fingerprint: the four arms BM3-frozen, S4D, frozen$-$gate and S4D+gate (60 cells), the BM3 arm alongside the layered freezes (\ref{sec:results:fullfreeze}), and the capacity control and the two other single-component removals, S4D-wide, frozen$-$conv and frozen$-$A (45 cells, pre-specified with a rule for changes of sign). The re-runs used a different PyTorch/Triton build from the original grids; their best-epoch values reproduce the original arm-by-condition means to within $-0.6$ to $+1.4\pp$ across the eight re-run arms (the largest deviation is in the high-variance frozen$-$gate arm at $-2$\,dB).
+
+\begin{table}[htbp]
+\centering
+\caption{Macro-F1 (\%), mean over 5 seeds, under best-epoch and final-epoch reporting in the re-runs, for every arm of the chain on the adjudication band. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:sensitivity_means}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{2}{c}{0\,dB} & \multicolumn{2}{c}{$-2$\,dB} & \multicolumn{2}{c}{$-6$\,dB} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+Arm & best & final & best & final & best & final \\
+\midrule
+BM3 & 95.6 & 86.9 & 95.8 & 88.3 & 88.6 & 83.3 \\
+BM3-frozen & 90.6 & 83.1 & 92.3 & 87.3 & 85.7 & 83.1 \\
+S4D & 75.9 & 67.6 & 75.1 & 67.5 & 68.6 & 66.7 \\
+S4D-wide & 77.8 & 67.3 & 73.3 & 66.5 & 69.0 & 67.1 \\
+frozen$-$gate & 77.7 & 74.0 & 73.1 & 71.7 & 61.9 & 60.5 \\
+frozen$-$conv & 97.1 & 96.3 & 95.4 & 94.8 & 77.9 & 77.2 \\
+frozen$-$A & 92.5 & 85.1 & 95.6 & 89.9 & 90.4 & 87.9 \\
+S4D+gate & 80.9 & 71.5 & 79.9 & 74.3 & 69.2 & 66.6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Best-epoch values exceed final-epoch values by $0.6$--$10.6\pp$ across the 24 arm-by-level means, so best-epoch absolute levels are optimistic. The reduction is of similar size for the arms being contrasted (e.g., BM3-frozen $-7.4$, $-5.0$, $-2.6\pp$ and S4D $-8.3$, $-7.6$, $-1.9\pp$ at $0$, $-2$, $-6$\,dB), and the contrasts that carry the argument are correspondingly stable (Table~\ref{tab:sensitivity_contrasts}).
+
+\begin{table}[htbp]
+\centering
+\caption{Paired differences under final-epoch reporting, in percentage points: mean, 95\% $t$-interval over seeds, and number of seeds (of 5) with a positive difference. Earlier noise protocol (training and evaluation noise shared by index); see Section~\ref{sec:results:indep} for the independent-noise re-run.}
+\label{tab:sensitivity_contrasts}
+\footnotesize\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Contrast & 0\,dB & $-2$\,dB & $-6$\,dB \\
+\midrule
+BM3-frozen $-$ S4D & \shortstack{$+15.5$\\ {[}4.3, 26.8{]} (5/5)} & \shortstack{$+19.8$\\ {[}12.0, 27.7{]} (5/5)} & \shortstack{$+16.4$\\ {[}4.1, 28.7{]} (4/5)} \\[3pt]
+BM3-frozen $-$ frozen$-$gate & \shortstack{$+9.1$\\ {[}2.9, 15.3{]} (5/5)} & \shortstack{$+15.6$\\ {[}$-$0.8, 32.0{]} (4/5)} & \shortstack{$+22.6$\\ {[}5.8, 39.4{]} (5/5)} \\[3pt]
+frozen$-$gate $-$ S4D & \shortstack{$+6.4$\\ {[}$-$2.9, 15.8{]} (4/5)} & \shortstack{$+4.2$\\ {[}$-$14.5, 22.9{]} (3/5)} & \shortstack{$-6.2$\\ {[}$-$23.5, 11.2{]} (1/5)} \\[3pt]
+S4D+gate $-$ S4D & \shortstack{$+3.9$\\ {[}$-$0.8, 8.6{]} (4/5)} & \shortstack{$+6.8$\\ {[}2.4, 11.1{]} (5/5)} & \shortstack{$-0.1$\\ {[}$-$4.0, 3.9{]} (2/5)} \\[3pt]
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Selectivity.} The frozen block's advantage over S4D is $+15.5$, $+19.8$ and $+16.4\pp$ (and $+21.9$, $+24.0$, $+21.2\pp$ for the fully frozen scan, \ref{sec:results:fullfreeze}), versus $+14.6$, $+17.2$ and $+17.1\pp$ under best-epoch reporting in the re-run. It remains positive in 5/5, 5/5 and 4/5 seeds, with intervals excluding zero at every level. \emph{Gate.} Removing the gate costs $9.1$, $15.6$ and $22.6\pp$ ($12.8$ to $23.8\pp$ under best-epoch reporting in the re-run), above the $8\pp$ pre-specified threshold at every level; the interval at $-2$\,dB includes zero ($[-0.8, 32.0]\pp$, 4/5 seeds) because of the large seed variance of the gateless arm (standard deviation $14.6\pp$ at $-2$\,dB). \emph{Gateless versus S4D.} Under final-epoch reporting the gateless arm is not below S4D at $0$ and $-2$\,dB (point estimates $+6.4$ and $+4.2\pp$) and is below it at $-6$\,dB ($-6.2\pp$); all three intervals include zero. The statement that gate removal ``falls below S4D'' is therefore supported only as a point-estimate observation at the deepest level, and we phrase it as ``to or below'' elsewhere. \emph{Graft.} The recovery ratio is $0.249$, $0.341$ and $-0.003$ per level and $R = 0.196$ on average (best-epoch re-run: $0.220$), again in the pre-specified ``insufficient'' bin on the point estimate. The seed-resampled 95\% interval is $[0.09, 0.31]$ and so reaches the $0.3$ boundary: with five seeds the data support ``far below confirmation ($0.7$) and probably below $0.3$'', not a precise value of $R$. The graft gain over S4D is resolved at $-2$\,dB only ($+6.8\pp$, $[2.4, 11.1]$) and is indistinguishable from zero at $-6$\,dB.
+
+\emph{Remaining arms.} By the rule pre-specified for the 45-cell grid, no arm changes sign between the two rules at any level where both values exceed $1\pp$, so all main-table entries are reported under the final-epoch rule with unchanged wording. The capacity control holds: BM3-frozen exceeds S4D-wide by $+15.9$, $+20.8$, $+16.0$\,pp (intervals excluding zero at all three levels), and S4D-wide $-$ S4D is $-0.4$, $-1.0$, $+0.4$\,pp (intervals including zero). For the stem the final-epoch rule sharpens the regime trade-off (intervals at $0$ and $-2$\,dB now exclude zero) without reversing it.
+
+Because the final epoch of the same evaluation condition has been inspected repeatedly during this study, last-epoch values are also not a fresh confirmatory test. The reporting rule therefore changes absolute levels and the strength of the gateless-versus-S4D statement, but not the ordering BM3-frozen $>$ \{S4D+gate, frozen$-$gate, S4D\}, the size of the frozen block's advantage over S4D, or the verdicts of the pre-specified gate and graft rules.
+
+\subsection{Per-class recall (earlier protocol)}
+\label{sec:results:perclass}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.85\linewidth]{figures/fig5_perclass}
+\caption{Per-class recall (inner-race, IR, and outer-race, OR) as a function of noise depth, split by gate presence. Gated arms lift IR recall under matched noise; gateless arms let it deteriorate. Earlier noise protocol (training and evaluation noise shared by index).}
+\label{fig:perclass}
+\end{figure}
+
+Per-class analysis (a separate 75-cell grid at 20 epochs with best-epoch selection on the evaluation condition: 5 arms $\times$ $\{$clean, 0, $-6\,\mathrm{dB}\}$ $\times$ 5 seeds, per-sample predictions dumped and re-verified against reported metrics cell-by-cell): the inner-race class is hard from the outset (clean recall $0.41$--$0.62$ vs.\ $0.96$--$1.00$ for outer-race). Its trajectory under noise is governed by gate presence: in all three gated arms IR recall at $-6$\,dB exceeds its clean value (e.g., $0.55 \rightarrow 0.81$ for BM3), while in both gateless arms it is below its clean value (frozen$-$gate: $0.41 \rightarrow 0.37$; S4D: $0.62 \rightarrow 0.56$, non-monotone, rising to $0.67$ at $0$\,dB) (Figure~\ref{fig:perclass}). Both ablation directions hit IR hardest---gate removal costs IR $2.3$--$3.8\times$ more F1 than OR at every level (F1 from predictions pooled over seeds), and the graft's noise-time gains also concentrate on IR ($-6$\,dB: $+6.8\pp$ IR vs.\ $+4.2\pp$ OR). Because macro-F1 averages the two classes, the arm-level robustness gaps of \ref{sec:results:falsify}--\ref{sec:results:graft} are carried substantially by the hard class. The gate-related differences are therefore class-concentrated rather than uniform, and fall on the class with the lowest recall. We did not measure classification margins, so we do not describe IR as a ``low-margin'' class. Because this grid is separate from the main 50-epoch grid and the IR class comes from a single training bearing (Section~\ref{sec:protocol:testbed}), these results are descriptive and do not decompose the main-grid effects.

@@ -24,7 +24,7 @@ import torch
 import torch.nn.functional as F
 from einops import rearrange
 
-SRC = "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627"
+SRC = __import__("os").environ.get("P9_HARNESS_DIR") or str(__import__("pathlib").Path(__file__).resolve().parents[1])  # repository root holds xjtu_noisy_harness.py
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 from mamba_ssm.modules.mamba3 import heavy_tail_activation

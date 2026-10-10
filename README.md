@@ -1,12 +1,15 @@
 # bm3-jizi — Reproducibility Package
 
-Code, experimental data, preregistration artifacts, and manuscript source for
-*"Necessary in Its Native Block: Selectivity and Gating in a Mamba-3 Block under
-Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; manuscript v11 final).
+Code, experimental data, pre-specification artifacts, and manuscript source for
+*"What Carries Deep-Noise Robustness in a Mamba-3 Block? Input-Independent Scans and
+Noise-Dependent Gating under Cross-Condition Shift"* (prepared for *Neurocomputing*;
+manuscript v12, 2026-10-10).
 
-The manuscript was retitled and substantially rescoped on 2026-10-03 after an
-independent review; `recheck/` holds the two follow-up grids that drove the
-rescoping, and `CHANGELOG.md` lists what changed and why.
+The manuscript was rescoped several times after independent reviews; `CHANGELOG.md` lists
+what changed and why, and `recheck/` holds the follow-up grids (stages 1-9). Since stage 10
+the main text reports only results obtained with independent training and evaluation noise
+(stages 8-9); everything run under the earlier shared-noise protocol is in Appendix D.
+The manuscript's coverage table (Table 2) states which operation was run under which protocol.
 
 ## Layout
 
@@ -43,8 +46,9 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   layered_freeze.py        Stage-2 arms: the bm3_frozen arm freezes the input-dependent parts
                            of Delta/A/B/C but leaves Mamba-3's trapezoidal weight and rotation
                            angles input-dependent. frozen_ctrap / frozen_cangle / frozen_clti
-                           freeze those too (clti = no tensor entering the scan depends on
-                           the input; conv stem and output gate untouched)
+                           freeze those too (clti = the scan's dynamics and read/write coefficients
+                           no longer depend on the input; the value stream, the gate input, the
+                           conv stem and the output gate are untouched)
   layered_unitcheck.py     Single-variable check for those arms, including the decisive
                            input-independence probe (capture Trap/Angles for two different
                            inputs through the same module and require bitwise equality for
@@ -131,6 +135,28 @@ name, per the table in `paper/appendix/appendixA.tex` Section A.3. This is
 internal pre-specification, not registration with an external time-stamped
 registry, and `git clone` does not preserve the original mtimes.
 
+## Environment and paths
+
+Software used for stages 1-9: Python 3.12 (`bm3-repro` conda environment), torch 2.9.0+cu128,
+triton 3.5.0, CUDA 12.8, Mamba source at upstream commit `e9594ce` (modules `mamba_ssm`,
+including the Mamba-3 SISO kernels; the stage-2..9 arms call its `mamba3_siso_combined`).
+The original grids (before stage 1) used torch 2.5 / cu121; stage 1 re-ran four arms on the
+newer stack and reproduced the original values within about 1 pp (Appendix D.9 of the paper).
+
+* The stage-1..9 drivers and arm modules take the harness directory from `P9_HARNESS_DIR`
+  and default to the repository root (where `xjtu_noisy_harness.py` lives).
+* `xjtu_noisy_harness.py` itself is the byte-identical file that produced every result and was
+  deliberately not edited; it still contains three absolute paths near its top (`BM3_ROOT`,
+  `EXT_DIR`, `DATA_ROOT`). To run it elsewhere, create those directories (or symlinks):
+  `BM3_ROOT` must contain a `bearmamba3` package (this repository's `bearmamba3/`),
+  `EXT_DIR` the `models_extended.py` / `noise_utils.py` / `baselines/` copies in this repository,
+  and `DATA_ROOT` the XJTU-SY dataset (`XJTU-SY_Bearing_Datasets/`).
+* Paderborn data: set `P9_PU_ROOT` to the folder with one sub-directory per bearing code.
+* Datasets, the Mamba source tree and a GPU are external requirements and are not included.
+  The analysis scripts (`recheck/analyze_stage*.py`) need only the released cells and numpy,
+  scipy and pandas; they were re-run from a fresh clone for stages 8 and 9 and reproduced
+  the archived decisions, contrasts and means byte for byte.
+
 ## Adjudication trail and disclosure
 
 The mechanical analysis/review passes in this pipeline were implemented with
@@ -151,7 +177,7 @@ pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
 ```
 Requires a standard TeX Live install with `elsarticle`. Last verified build:
-0 errors, 0 undefined references, 26 pages.
+0 errors, 0 undefined references (sandbox build with substituted fonts; see main_sandbox_build.pdf note).
 
 ## License
 

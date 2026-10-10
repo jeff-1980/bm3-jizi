@@ -17,7 +17,7 @@ import numpy as np
 import scipy.io as sio
 from scipy.signal import resample_poly
 
-DATA_ROOT = "/home/jeffwork/data_pu"
+DATA_ROOT = __import__("os").environ.get("P9_PU_ROOT", "/home/jeffwork/data_pu")  # Paderborn .mat files, one sub-directory per bearing code
 LABEL = {"KA": 0, "KI": 1}                    # outer race 0, inner race 1
 COND_RPM = {"N15_M07_F10": 1500.0, "N09_M07_F10": 900.0, "N15_M01_F10": 1500.0, "N15_M07_F04": 1500.0}
 WINDOW = 2048

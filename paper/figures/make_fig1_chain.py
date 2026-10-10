@@ -75,23 +75,23 @@ def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatc
 
 
 def verdict_box(ax, x, y, w, text, color):
-    box = FancyBboxPatch((x, y), w, 0.52, boxstyle="round,pad=0.02,rounding_size=0.05",
+    box = FancyBboxPatch((x, y), w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.05",
                           facecolor=color, edgecolor="none", alpha=0.14, zorder=2)
     ax.add_patch(box)
-    ax.add_patch(FancyBboxPatch((x, y), w, 0.52, boxstyle="round,pad=0.02,rounding_size=0.05",
+    ax.add_patch(FancyBboxPatch((x, y), w, 0.62, boxstyle="round,pad=0.02,rounding_size=0.05",
                                   facecolor="none", edgecolor=color, linewidth=1.3, zorder=3))
-    ax.text(x + w / 2, y + 0.26, text, ha="center", va="center", fontsize=8.4,
+    ax.text(x + w / 2, y + 0.31, text, ha="center", va="center", fontsize=8.6,
              color=INK, zorder=4, linespacing=1.25, wrap=True)
 
 
 def main():
-    fig, ax = plt.subplots(figsize=(11.5, 4.6))
+    fig, ax = plt.subplots(figsize=(11.5, 3.5))
     ax.set_xlim(0, 11.5)
-    ax.set_ylim(0, 4.6)
+    ax.set_ylim(0, 3.5)
     ax.axis("off")
 
     bw, bh = 2.6, 0.85
-    y_block = 3.15
+    y_block = 2.1
     stage_x = [0.35, 4.25, 8.15]
     titles = ["Step 1 -- Freeze the scan\n(necessity test)", "Step 2 -- Remove gate\n(localise)", "Step 3 -- Add gate to S4D\n(sufficiency test)"]
 
@@ -118,29 +118,29 @@ def main():
                                 arrowstyle="-|>", mutation_scale=16, color=MUTED, linewidth=1.6, zorder=2)
         ax.add_patch(arr)
 
-    step_titles_y = y_block + bh + 0.85
+    step_titles_y = y_block + bh + 0.95
     for x, t in zip(stage_x, titles):
         ax.text(x + bw / 2, step_titles_y, t, ha="center", va="bottom", fontsize=10.5,
                  fontweight="bold", color=INK, linespacing=1.3)
 
     # verdict boxes
-    vy = 1.55
+    vy = 0.75
     verdict_box(ax, stage_x[0] - 0.15, vy, bw + 0.3,
-                 "partial / full freeze vs S4D:\n+12–18pp / +20–23pp (indep. noise)\n→ input-indep. coefficients suffice", CRITICAL)
+                 "partial / full freeze vs S4D:\n+12–18pp / +20–23pp (forward)\n→ input-indep. coefficients suffice", CRITICAL)
     verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
-                 "gate removal: +9 / +16 / +27pp\n(resolved at −6 dB only)\n→ gate need grows with noise", GOOD)
+                 "partial host, forward: +9/+16/+27pp\n(resolved at −6 dB only)\nreverse: resolved at every level", GOOD)
     verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "additive in place of gate ≈ no gate;\nS4D: gate 0.30 vs additive 0.41\n→ little gate-specific transfer", CRITICAL)
+                 "additive ≈ gateless (not assessable);\nmult. − add. at −6 dB: +23 / +27pp\ngraft onto S4D: earlier protocol", CRITICAL)
 
     # bottom takeaway
-    ax.text(5.75, 0.55, "Conditional on this block, testbed and budget: input-independent scan coefficients suffice; the gate matters most in the deepest noise.",
-             ha="center", va="center", fontsize=9.8, color=INK, style="italic")
+    ax.text(5.75, 0.22, "Conditional on this block, testbed and budget: input-independent scan coefficients suffice; gate cost grows with noise only in the forward fully frozen block.",
+             ha="center", va="center", fontsize=8.8, color=INK, style="italic")
 
     # legend for component colors
     handles = [Line2D([0], [0], marker="s", linestyle="none", markersize=10,
                         markerfacecolor=COMP_COLORS[c], markeredgecolor=INK, label=COMP_LABELS[c].replace("\n", " "))
                for c in ["conv", "scan", "gate", "proj"]]
-    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, 1.06), ncol=4,
+    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, 1.12), ncol=4,
                frameon=False, fontsize=8, handletextpad=0.4, columnspacing=1.2)
 
     fig.savefig(os.path.join(OUT, "fig1_chain.pdf"), bbox_inches="tight", dpi=300)

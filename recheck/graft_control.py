@@ -27,7 +27,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-SRC = "/home/jeffwork/exp/bm3-defense/xjtu_noisy_defense_20260627"
+SRC = __import__("os").environ.get("P9_HARNESS_DIR") or str(__import__("pathlib").Path(__file__).resolve().parents[1])  # repository root holds xjtu_noisy_harness.py
 if SRC not in sys.path:
     sys.path.insert(0, SRC)
 from models_extended import BearS4D, _S4DLayer

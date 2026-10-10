@@ -1,5 +1,32 @@
 # Changelog
 
+## 2026-10-10 — stage 10: evidence restructuring; manuscript v12 (title T2, scope of its noise-dependence claim stated)
+
+No new experiments. Response to the simulated review of the same day (author decisions: keep T2 with
+the noise-dependence statement restricted to the forward fully frozen host; move all earlier-protocol
+results into an appendix; no further re-runs).
+
+- Main text reports independent-noise results only (original transition, reverse, PU shared) plus a new
+  coverage table (operation x host x transition x protocol) and a descriptive analysis of the change of
+  the gate-removal cost with noise depth: only the forward fully frozen block shows it (+27.2 [19.2, 35.2] pp
+  between 0 and -6 dB); forward partially frozen, reverse and PU shared do not. Added during review, not
+  pre-specified.
+- All earlier-protocol results (freezing, component removal, grafts, native additive on the reverse
+  transition, PU disjoint, reporting-rule sensitivity, per-class) moved to Appendix D with protocol
+  labels in every caption; Section 4.5 states the weight given to each.
+- Additive substitution is now argued from the direct multiplicative-minus-additive contrasts
+  (fully frozen +4.6/+7.9/+23.3 pp; partially frozen +9.0/+15.1/+26.8 pp), not from "indistinguishable
+  from gate removal"; the pre-specified rescue test remains "not assessable". Resample drop fractions are
+  reported for both definitions (16.2% / 0.5% at least one level; 0% all levels).
+- Corrections: PU disjoint did include frozen-all; the statement "statistical tests were never
+  adjudication criteria" now distinguishes original from later grids; the label-agreement inference was
+  weakened; "all arms re-run" split into final-epoch and independent-noise re-runs; the abstract no longer
+  suggests the reverse transition covers the fully frozen gate tests.
+- Repository: stage-1..9 drivers and arm modules read the harness directory from P9_HARNESS_DIR (default:
+  repository root) and the Paderborn root from P9_PU_ROOT (path edits only; no change to any computation
+  or output); environment and path requirements documented in README; appendix parameter table now lists
+  every arm.
+
 ## 2026-10-10 — stage 9: reverse transition under independent noise; manuscript v11 final (title T2)
 
 Pre-specified in `recheck/prereg_stage9_reverse_indep.md` (sha256 cc5ba8fc…, committed in 9fadcfe before

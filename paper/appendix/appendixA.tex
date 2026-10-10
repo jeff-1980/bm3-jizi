@@ -17,7 +17,7 @@ Table~\ref{tab:appendixA-params} lists every arm's parameter count, each obtaine
 
 \begin{table}[htbp]
 \centering
-\caption{Per-arm parameter counts (verified against \texttt{arch\_map.md} and harness source).}
+\caption{Per-arm parameter counts for every arm of the study (from the \texttt{n\_params} field recorded in each cell and the harness source).}
 \label{tab:appendixA-params}
 \begin{tabular}{@{}lr@{}}
 \toprule
@@ -30,7 +30,15 @@ S4D-wide (\texttt{s4d\_wide}, capacity control, $1.75\times$) & 178{,}498 \\
 frozen$-$conv (\texttt{frozen\_noconv}) & 112{,}026 \\
 frozen$-$gate (\texttt{frozen\_nogate}) & 79{,}642 \\
 frozen$-$A (\texttt{frozen\_As4d}) & 112{,}410 \\
+frozen$-$trap (\texttt{frozen\_ctrap}) & 111{,}906 \\
+frozen$-$rot (\texttt{frozen\_cangle}) & 104{,}346 \\
+frozen$-$all (\texttt{frozen\_clti}) & 103{,}842 \\
+frozen$-$all$-$gate (\texttt{frozen\_clti\_nogate}) & 71{,}074 \\
+frozen$-$all$+$add (\texttt{frozen\_clti\_add}) & 103{,}842 \\
+frozen$+$add (\texttt{bm3\_frozen\_add}) & 112{,}410 \\
 S4D+gate (\texttt{s4d\_plus\_gate}) & 116{,}802 \\
+S4D+gate, width-matched (\texttt{s4d\_plus\_gate\_wm}) & 198{,}978 \\
+S4D+additive branch (\texttt{s4d\_plus\_branch}) & 198{,}978 \\
 \bottomrule
 \end{tabular}
 \end{table}

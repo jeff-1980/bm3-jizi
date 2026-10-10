@@ -1,0 +1,23 @@
+from s10_common import *
+P = 'sections/protocol.tex'
+# --- 3.1 totals sentence ---
+s = rd(P)
+a = s.index("In total the study comprises"); e = s.index("Training and evaluation bearings are disjoint in each direction")
+s = s[:a] + r"In total the study comprises 865 cells across five pre-specified grids of the original design (baseline grid 475; frozen-selectivity 105; component ablation 175; graft 35; per-class 75), run under the earlier noise protocol, and follow-up grids add 645 cells: 210 under independent training and evaluation noise (Sections~\ref{sec:results:indep}--\ref{sec:results:pu_shared}) and 435 under the earlier protocol (Appendix~\ref{app:earlier}); Table~\ref{tab:coverage} gives the coverage. " + s[e:]
+wr(P, s)
+# --- 3.3 reporting rule ---
+s = rd(P); a = s.index(r"Every arm of the chain was therefore re-run on the adjudication band"); e = s.index(r"Because the final epoch of the same evaluation condition")
+s = s[:a] + r"""The arms of the original transition were therefore re-run on the adjudication band ($0$, $-2$, $-6$\,dB) with the original training code, the same evaluation fingerprint and per-epoch evaluation (final-epoch re-run, earlier noise protocol; Appendix~\ref{sec:results:sensitivity}). This final-epoch re-run and the independent-noise re-run of Section~\ref{sec:results} are different sets of cells with different coverage (Table~\ref{tab:coverage}). Best-epoch values are a sensitivity analysis. Levels outside the band (clean, $+10$, $+6$, $-10$\,dB) and the per-class grid were not re-run; values there are best-epoch and auxiliary. """ + s[e:]
+wr(P, s)
+# --- 3.4 confound paragraph ---
+rep(P, r"Per-index label agreement between the two sets is $0.549$ on XJTU-SY, below the $0.628$ expected by chance, so a model that memorised training noise would be pushed \emph{away} from the correct test label; on Paderborn it is $0.999$ (disjoint) and $1.000$ (shared).",
+    r"Per-index label agreement between the two sets is $0.549$ on XJTU-SY, below the $0.628$ expected by chance, which excludes only the simplest route (memorising the training noise attached to each index); on Paderborn it is $0.999$ (disjoint) and $1.000$ (shared).")
+rep(P, r"The component ablations of the stem and the state parameterisation, the grafts and the per-class grid were not re-run and carry the earlier protocol in their captions. For these, the shared noise is unlikely to favour the gated arms: on XJTU-SY the per-index label alignment between training and evaluation runs against the correct label, and in every arm that was re-run the means moved by at most $4\pp$ with no contrast changing direction.",
+    r"The component ablations of the stem and the state parameterisation, the grafts, the additive substitution on the reverse transition, the per-class grid and the disjoint-bearing Paderborn setting were not re-run; they carry the earlier protocol in their captions and are reported in Appendix~\ref{app:earlier}. In the arms that were re-run the means moved by at most $4\pp$ and no contrast changed direction; this is an observation about those arms, not a guarantee for the ones that were not re-run, and the earlier-protocol results are weighted accordingly.")
+rep(P, r"\textbf{Capacity:} S4D-wide ($1.75\times$ parameters) tracks S4D", r"\textbf{Capacity (earlier protocol):} S4D-wide ($1.75\times$ parameters) tracks S4D")
+# --- 3.5 prereg ---
+rep(P, r"The exception is the last three follow-up grids (Appendix~\ref{sec:results:graftwm}--\ref{sec:results:sensitivity}): their thresholds, and for the last two grids the title decision that depends on their outcome, were committed to the public repository before the first cell was run, which gives those grids an external time-stamp.",
+    r"The exception is the follow-up grids from the width-matched graft onwards (Sections~\ref{sec:results:indep}--\ref{sec:results:pu_shared} and Appendix~\ref{sec:results:graftwm}--\ref{sec:results:pu}): their thresholds, and for some of them the title decision that depends on their outcome, were committed to the public repository before the first cell was run (including the smoke check), which gives those grids an external time-stamp.")
+rep(P, r"Statistical tests (paired, per-condition) are reported throughout but were never adjudication criteria.",
+    r"In the grids of the original design the adjudication criteria were effect-size thresholds, and paired intervals and tests were reported but not used as criteria. In the later grids (Section~\ref{sec:results}) the labels \emph{holds}, \emph{weakened} and \emph{does not hold} are defined by whether the paired 95\% interval excludes zero at two, one or none of three levels, so interval position is part of the adjudication there.")
+print('protocol ok')

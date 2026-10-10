@@ -1,8 +1,8 @@
 % Highlights for Neurocomputing submission -- separate file, 3-5 bullets, each <=85 characters.
 \begin{itemize}
-\item Input-independent scan coefficients keep a Mamba-3 block 20-28pp ahead of S4D.
-\item Removing the multiplicative gate costs most at -6 dB; milder noise is not resolved.
-\item An additive branch of identical size does not substitute for the gate.
+\item Input-independent scan coefficients keep a Mamba-3 block 12-28pp ahead of S4D.
+\item Gate-removal cost grows with noise depth only in the forward fully frozen block.
+\item A multiplicative gate beats an equal-size additive branch at -6 dB in both hosts.
 \item Core contrasts re-run with independent training and evaluation noise.
-\item Paderborn: gate cost replicates with shared bearings; no model transfers otherwise.
+\item Paderborn: gate cost replicates on shared bearings; disjoint ones do not transfer.
 \end{itemize}
