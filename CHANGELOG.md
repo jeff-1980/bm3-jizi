@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-10 — format check against Neurocomputing requirements (manuscript v13b)
+
+- Keywords reduced from 8 to 7 (limit stated in the guide for authors: at most 7).
+- Added DOI/arXiv identifiers to the five bibliography entries that had none (XJTU-SY: 10.1109/TR.2018.2882682;
+  PHM Society paper: 10.36001/phme.2016.v3i1.1577; three arXiv preprints, identifiers matched to title and authors
+  through the arXiv API). 16 entries, all cited, none missing.
+
 ## 2026-10-10 — stage 11: corrections from the third review of the day; manuscript v13
 
 No new experiments.
