@@ -1,0 +1,136 @@
+[LAUNCH-SMOKE] 2026-10-10 08:43:23 prereg sha cc5ba8fc21c3 remote 9fadcfe GPU: 0 %, 0 MiB
+[INIT] grid D (xjtu_rev)  GPU free 15249/16384 MiB  stage-9 GPU-h so far 0.00  eval_sha 934248343b29
+[RUN] D awgn@+0dB s4d seed=99 (1/4)
+      oracle=59.80 (ep6) final=49.54 234s
+[RUN] D awgn@+0dB bm3_frozen seed=99 (2/4)
+      oracle=88.43 (ep17) final=81.09 344s
+[RUN] D awgn@-6dB s4d seed=99 (3/4)
+      oracle=57.76 (ep23) final=54.96 289s
+[RUN] D awgn@-6dB bm3_frozen seed=99 (4/4)
+      oracle=85.01 (ep18) final=77.95 324s
+[DONE]
+[SMOKE-DECISION] 2026-10-10 09:04:55 PROCEED {'s4d|awgn@+0dB': 49.5, 'bm3_frozen|awgn@+0dB': 81.1, 's4d|awgn@-6dB': 55.0, 'bm3_frozen|awgn@-6dB': 78.0} {'pipeline': True, 'not_floor': True, 'not_ceiling': True, 'margin_floor': 21.1, 'margin_ceiling': 42.0}
+[LAUNCH-GRID] 2026-10-10 09:04:55
+[INIT] grid D (xjtu_rev)  GPU free 15249/16384 MiB  stage-9 GPU-h so far 0.33  eval_sha 934248343b29
+[RUN] D awgn@+0dB s4d seed=0 (1/60)
+      oracle=58.41 (ep18) final=49.44 226s
+[RUN] D awgn@+0dB bm3_frozen seed=0 (2/60)
+      oracle=88.45 (ep19) final=79.07 344s
+[RUN] D awgn@+0dB frozen_nogate seed=0 (3/60)
+      oracle=49.31 (ep18) final=40.98 302s
+[RUN] D awgn@+0dB frozen_clti seed=0 (4/60)
+      oracle=87.12 (ep26) final=80.15 303s
+[RUN] D awgn@-2dB s4d seed=0 (5/60)
+      oracle=64.32 (ep8) final=48.31 221s
+[RUN] D awgn@-2dB bm3_frozen seed=0 (6/60)
+      oracle=89.44 (ep18) final=82.85 311s
+[RUN] D awgn@-2dB frozen_nogate seed=0 (7/60)
+      oracle=49.42 (ep22) final=41.59 296s
+[RUN] D awgn@-2dB frozen_clti seed=0 (8/60)
+      oracle=89.83 (ep15) final=80.52 305s
+[RUN] D awgn@-6dB s4d seed=0 (9/60)
+      oracle=54.60 (ep12) final=48.64 233s
+[RUN] D awgn@-6dB bm3_frozen seed=0 (10/60)
+      oracle=84.58 (ep15) final=76.19 316s
+[RUN] D awgn@-6dB frozen_nogate seed=0 (11/60)
+      oracle=47.61 (ep2) final=41.22 296s
+[RUN] D awgn@-6dB frozen_clti seed=0 (12/60)
+      oracle=82.92 (ep20) final=75.26 303s
+[RUN] D awgn@+0dB s4d seed=1 (13/60)
+      oracle=66.31 (ep9) final=54.43 222s
+[RUN] D awgn@+0dB bm3_frozen seed=1 (14/60)
+      oracle=68.80 (ep23) final=65.48 354s
+[RUN] D awgn@+0dB frozen_nogate seed=1 (15/60)
+      oracle=53.89 (ep16) final=47.38 302s
+[RUN] D awgn@+0dB frozen_clti seed=1 (16/60)
+      oracle=86.80 (ep9) final=76.42 310s
+[RUN] D awgn@-2dB s4d seed=1 (17/60)
+      oracle=64.27 (ep12) final=55.21 262s
+[RUN] D awgn@-2dB bm3_frozen seed=1 (18/60)
+      oracle=79.69 (ep18) final=71.97 365s
+[RUN] D awgn@-2dB frozen_nogate seed=1 (19/60)
+      oracle=51.93 (ep14) final=45.96 297s
+[RUN] D awgn@-2dB frozen_clti seed=1 (20/60)
+      oracle=86.82 (ep18) final=74.56 326s
+[RUN] D awgn@-6dB s4d seed=1 (21/60)
+      oracle=54.90 (ep17) final=53.27 245s
+[RUN] D awgn@-6dB bm3_frozen seed=1 (22/60)
+      oracle=78.15 (ep37) final=73.63 333s
+[RUN] D awgn@-6dB frozen_nogate seed=1 (23/60)
+      oracle=48.23 (ep2) final=40.62 300s
+[RUN] D awgn@-6dB frozen_clti seed=1 (24/60)
+      oracle=80.52 (ep16) final=73.70 314s
+[RUN] D awgn@+0dB s4d seed=2 (25/60)
+      oracle=61.50 (ep5) final=50.68 228s
+[RUN] D awgn@+0dB bm3_frozen seed=2 (26/60)
+      oracle=88.23 (ep18) final=74.38 330s
+[RUN] D awgn@+0dB frozen_nogate seed=2 (27/60)
+      oracle=56.62 (ep32) final=48.85 310s
+[RUN] D awgn@+0dB frozen_clti seed=2 (28/60)
+      oracle=89.89 (ep12) final=73.91 308s
+[RUN] D awgn@-2dB s4d seed=2 (29/60)
+      oracle=59.92 (ep10) final=51.81 224s
+[RUN] D awgn@-2dB bm3_frozen seed=2 (30/60)
+      oracle=87.69 (ep25) final=75.59 322s
+[RUN] D awgn@-2dB frozen_nogate seed=2 (31/60)
+      oracle=52.13 (ep22) final=46.42 305s
+[RUN] D awgn@-2dB frozen_clti seed=2 (32/60)
+      oracle=87.66 (ep12) final=75.42 331s
+[RUN] D awgn@-6dB s4d seed=2 (33/60)
+      oracle=56.62 (ep30) final=53.50 228s
+[RUN] D awgn@-6dB bm3_frozen seed=2 (34/60)
+      oracle=60.05 (ep24) final=56.86 332s
+[RUN] D awgn@-6dB frozen_nogate seed=2 (35/60)
+      oracle=50.52 (ep33) final=47.89 293s
+[RUN] D awgn@-6dB frozen_clti seed=2 (36/60)
+      oracle=77.93 (ep16) final=69.40 304s
+[RUN] D awgn@+0dB s4d seed=3 (37/60)
+      oracle=64.70 (ep7) final=51.15 223s
+[RUN] D awgn@+0dB bm3_frozen seed=3 (38/60)
+      oracle=91.37 (ep19) final=77.81 313s
+[RUN] D awgn@+0dB frozen_nogate seed=3 (39/60)
+      oracle=72.65 (ep26) final=67.17 292s
+[RUN] D awgn@+0dB frozen_clti seed=3 (40/60)
+      oracle=90.62 (ep10) final=78.87 308s
+[RUN] D awgn@-2dB s4d seed=3 (41/60)
+      oracle=62.23 (ep5) final=53.37 223s
+[RUN] D awgn@-2dB bm3_frozen seed=3 (42/60)
+      oracle=87.92 (ep11) final=81.72 318s
+[RUN] D awgn@-2dB frozen_nogate seed=3 (43/60)
+      oracle=70.38 (ep28) final=65.58 294s
+[RUN] D awgn@-2dB frozen_clti seed=3 (44/60)
+      oracle=87.28 (ep8) final=78.71 304s
+[RUN] D awgn@-6dB s4d seed=3 (45/60)
+      oracle=57.79 (ep29) final=53.93 223s
+[RUN] D awgn@-6dB bm3_frozen seed=3 (46/60)
+      oracle=84.83 (ep16) final=77.51 320s
+[RUN] D awgn@-6dB frozen_nogate seed=3 (47/60)
+      oracle=51.12 (ep31) final=46.66 294s
+[RUN] D awgn@-6dB frozen_clti seed=3 (48/60)
+      oracle=78.25 (ep23) final=73.70 303s
+[RUN] D awgn@+0dB s4d seed=4 (49/60)
+      oracle=55.13 (ep8) final=43.78 223s
+[RUN] D awgn@+0dB bm3_frozen seed=4 (50/60)
+      oracle=90.67 (ep15) final=80.21 313s
+[RUN] D awgn@+0dB frozen_nogate seed=4 (51/60)
+      oracle=87.75 (ep19) final=76.09 292s
+[RUN] D awgn@+0dB frozen_clti seed=4 (52/60)
+      oracle=88.40 (ep15) final=77.85 314s
+[RUN] D awgn@-2dB s4d seed=4 (53/60)
+      oracle=50.10 (ep33) final=45.70 248s
+[RUN] D awgn@-2dB bm3_frozen seed=4 (54/60)
+      oracle=88.62 (ep17) final=79.95 328s
+[RUN] D awgn@-2dB frozen_nogate seed=4 (55/60)
+      oracle=88.40 (ep18) final=78.81 332s
+[RUN] D awgn@-2dB frozen_clti seed=4 (56/60)
+      oracle=88.73 (ep15) final=78.61 495s
+[RUN] D awgn@-6dB s4d seed=4 (57/60)
+      oracle=54.74 (ep21) final=51.49 285s
+[RUN] D awgn@-6dB bm3_frozen seed=4 (58/60)
+      oracle=84.84 (ep21) final=76.60 330s
+[RUN] D awgn@-6dB frozen_nogate seed=4 (59/60)
+      oracle=78.17 (ep21) final=74.25 293s
+[RUN] D awgn@-6dB frozen_clti seed=4 (60/60)
+      oracle=85.63 (ep26) final=74.37 303s
+[DONE]
+[ALLDONE] 2026-10-10 14:02:11

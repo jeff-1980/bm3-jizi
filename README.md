@@ -2,7 +2,7 @@
 
 Code, experimental data, preregistration artifacts, and manuscript source for
 *"Necessary in Its Native Block: Selectivity and Gating in a Mamba-3 Block under
-Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; manuscript v11-draft, title pending).
+Matched-Noise Cross-Condition Drift"* (prepared for *Neurocomputing*; manuscript v11 final).
 
 The manuscript was retitled and substantially rescoped on 2026-10-03 after an
 independent review; `recheck/` holds the two follow-up grids that drove the
@@ -81,6 +81,9 @@ recheck/                   Follow-up grids (2026-10-01 / 2026-10-04), see CHANGE
   clti_gate.py, stage8_unitcheck.py, unitcheck_stage8/   Same-host gate arms and construction check
   recheck8_driver.py, analyze_stage8.py, stage8_decision_memo.md
   stage8/                  Stage-8 outputs (150 cells, tables, decisions, run logs)
+  prereg_stage9_reverse_indep.md  Stage-9 pre-specification (+ .sha256): reverse transition, independent noise
+  recheck9_driver.py, analyze_stage9.py, stage9_decision_memo.md
+  stage9/                  Stage-9 outputs (60 cells + 4 smoke cells, tables, decisions, run log)
 
 bearmamba3/                Dataset, model and auxiliary-loss modules imported by the harness
 baselines/, models_extended.py, noise_utils.py

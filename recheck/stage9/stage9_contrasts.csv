@@ -1,0 +1,25 @@
+key,rule,contrast,condition,mean,lo,hi,n_pos
+L1f_rev,final,frozen_clti - s4d,awgn@+0dB,27.5431,21.2707,33.8155,5
+L1f_rev,final,frozen_clti - s4d,awgn@-2dB,26.6852,19.4903,33.8802,5
+L1f_rev,final,frozen_clti - s4d,awgn@-6dB,21.1187,16.1925,26.0448,5
+L1f_rev,oracle,frozen_clti - s4d,awgn@+0dB,27.3544,21.5626,33.1461,5
+L1f_rev,oracle,frozen_clti - s4d,awgn@-2dB,27.8977,20.1047,35.6907,5
+L1f_rev,oracle,frozen_clti - s4d,awgn@-6dB,25.318,19.7714,30.8645,5
+L1p_rev,final,bm3_frozen - s4d,awgn@+0dB,25.4915,13.8793,37.1038,5
+L1p_rev,final,bm3_frozen - s4d,awgn@-2dB,27.538,18.2237,36.8522,5
+L1p_rev,final,bm3_frozen - s4d,awgn@-6dB,19.9914,8.0015,31.9813,5
+L1p_rev,oracle,bm3_frozen - s4d,awgn@+0dB,24.2927,8.5126,40.0729,5
+L1p_rev,oracle,bm3_frozen - s4d,awgn@-2dB,26.5074,16.2785,36.7363,5
+L1p_rev,oracle,bm3_frozen - s4d,awgn@-6dB,22.7562,8.8983,36.6141,5
+L2_rev,final,bm3_frozen - frozen_nogate,awgn@+0dB,19.297,2.8832,35.7109,5
+L2_rev,final,bm3_frozen - frozen_nogate,awgn@-2dB,22.7428,4.0662,41.4193,5
+L2_rev,final,bm3_frozen - frozen_nogate,awgn@-6dB,22.0275,3.1627,40.8924,5
+L2_rev,oracle,bm3_frozen - frozen_nogate,awgn@+0dB,21.4584,3.7925,39.1244,5
+L2_rev,oracle,bm3_frozen - frozen_nogate,awgn@-2dB,24.2236,4.4787,43.9685,5
+L2_rev,oracle,bm3_frozen - frozen_nogate,awgn@-6dB,23.3586,5.7395,40.9776,5
+nogate_minus_s4d,final,frozen_nogate - s4d,awgn@+0dB,6.1945,-15.6124,28.0014,2
+nogate_minus_s4d,final,frozen_nogate - s4d,awgn@-2dB,4.7952,-17.5019,27.0923,2
+nogate_minus_s4d,final,frozen_nogate - s4d,awgn@-6dB,-2.0361,-19.5586,15.4864,1
+nogate_minus_s4d,oracle,frozen_nogate - s4d,awgn@+0dB,2.8343,-19.9563,25.625,2
+nogate_minus_s4d,oracle,frozen_nogate - s4d,awgn@-2dB,2.2838,-25.0776,29.6452,2
+nogate_minus_s4d,oracle,frozen_nogate - s4d,awgn@-6dB,-0.6024,-17.2909,16.0862,1

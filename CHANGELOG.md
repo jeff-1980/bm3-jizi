@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-10-10 — stage 9: reverse transition under independent noise; manuscript v11 final (title T2)
+
+Pre-specified in `recheck/prereg_stage9_reverse_indep.md` (sha256 cc5ba8fc…, committed in 9fadcfe before
+the smoke check; unchanged). Fourth arm (frozen_clti) and the 9 h fuse approved by the author before the
+pre-specification was written. 60 cells + 4 smoke cells, 5.27 GPU-h. Decisions: `recheck/stage9_decision_memo.md`.
+
+- Reverse (40Hz10kN -> 37.5Hz11kN), independent noise, final epoch: frozen_clti - s4d +27.5/+26.7/+21.1 pp,
+  bm3_frozen - s4d +25.5/+27.5/+20.0 pp, bm3_frozen - frozen_nogate +19.3/+22.7/+22.0 pp; all HOLDS,
+  intervals excluding zero at every level, 5/5 seeds; no reversal. Arm means move -1.8..+1.7 pp vs the
+  earlier protocol.
+- Manuscript v11 final: title T2; Table 10 on independent noise (S4D+gate (wm) row kept on the earlier
+  protocol, marked); direction qualifiers in abstract/conclusion; protocol summary for the parts left on
+  the earlier protocol; paired-seed intervals for graft ratios; 645 follow-up cells.
+
 ## 2026-10-10 — stage 8: independent training/evaluation noise; manuscript v11-draft (title pending)
 
 Pre-specified in `recheck/prereg_stage8_indep_noise.md` (sha256 b4cd7065…, committed in 5cefc74 before
