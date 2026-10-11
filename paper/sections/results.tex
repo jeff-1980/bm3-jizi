@@ -7,7 +7,7 @@ Throughout, ``deep noise'' denotes the pre-specified adjudication band $\{0, -2,
 \centering
 \caption{Coverage of the study by protocol. I: run with independent training and evaluation noise (main text). E: run under the earlier protocol (\ref{app:earlier}). $-$: not run. P: partially frozen host (BM3-frozen); F: fully frozen host. ``Freeze'' is the contrast with S4D (BM3-frozen $-$ S4D for P, frozen$-$all $-$ S4D for F); ``gate removal'' and ``additive substitution'' are applied inside the host. Graft, stem/$A$ removal and per-class recall have no fully frozen counterpart.}
 \label{tab:coverage}
-\footnotesize\setlength{\tabcolsep}{4pt}
+\small\setlength{\tabcolsep}{4pt}
 \begin{tabular}{@{}lcccccccc@{}}
 \toprule
  & \multicolumn{2}{c}{XJTU forward} & \multicolumn{2}{c}{XJTU reverse} & \multicolumn{2}{c}{PU shared} & \multicolumn{2}{c}{PU disjoint} \\
@@ -38,7 +38,7 @@ A pre-specified grid of 150 cells (thresholds, labels and writing consequences c
 
 \begin{table}[htbp]
 \centering
-\caption{Independent training and evaluation noise, original XJTU-SY transition (37.5\,Hz/11\,kN $\rightarrow$ 40\,Hz/10\,kN). Upper block: macro-F1 (\%) at the final epoch, mean over 5 seeds. Lower block: paired differences with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference, and the pre-specified label. $^{\ddagger}$Added during review, not pre-specified.}
+\caption{Independent training and evaluation noise, original XJTU-SY transition (37.5\,Hz/11\,kN $\rightarrow$ 40\,Hz/10\,kN). Upper block: macro-F1 (\%) at the final epoch, mean over 5 seeds. Lower block: paired differences with 95\% $t$-intervals and the number of seeds (of 5) with a positive difference, and the pre-specified label. $^{\ddagger}$Added post hoc, not pre-specified.}
 \label{tab:indep}
 \scriptsize\setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}lcccl@{}}
@@ -124,7 +124,7 @@ Contrast & 0\,dB & $-2$\,dB & $-6$\,dB & label \\
 \subsection{Does the gate's contribution grow with noise depth?}
 \label{sec:results:depth}
 
-A contrast that is resolved at one level and not at another does not by itself show that the effect differs between levels. We therefore computed, with seeds paired, the difference between the gate-removal cost at a deeper level and at $0$\,dB (Table~\ref{tab:depth}). This analysis was added during review and is descriptive.
+A contrast that is resolved at one level and not at another does not by itself show that the effect differs between levels. We therefore computed, with seeds paired, the difference between the gate-removal cost at a deeper level and at $0$\,dB (Table~\ref{tab:depth}). This analysis was added post hoc and is descriptive.
 
 \begin{table}[htbp]
 \centering

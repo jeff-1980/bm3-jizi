@@ -6,6 +6,7 @@ W=$(cd "$(dirname "$0")" && pwd)/mfwork; cd $W
 export TEXMFCNF=/usr/share/texlive/texmf-dist/web2c TEXMF="{/usr/share/texlive/texmf-dist,/usr/share/texmf}" TEXMFDBS=''
 export MFINPUTS=".:/usr/share/texlive/texmf-dist/metafont/base:/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec:/usr/share/texlive/texmf-dist/fonts/source/public//:/usr/share/texlive/texmf-dist/fonts/source/jknappen//"
 export MFBASES=. 
+[ -f plain.base ] || mf -ini '\input plain; input modes; dump' >/dev/null 2>&1
 mf -progname=mf -base=plain "\\mode:=ljfour; mag:=$dpi/600; nonstopmode; input $name" >/dev/null 2>&1 || true
 gf=$(ls ${name}.*gf | head -1)
 gftopk $gf ${name}.${dpi}pk >/dev/null

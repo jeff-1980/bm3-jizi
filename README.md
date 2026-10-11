@@ -3,7 +3,7 @@
 Code, experimental data, pre-specification artifacts, and manuscript source for
 *"What Carries Deep-Noise Robustness in a Mamba-3 Block? Input-Independent Scans and
 Noise-Dependent Gating under Cross-Condition Shift"* (prepared for *Neurocomputing*;
-manuscript v12, 2026-10-10).
+manuscript v16, 2026-10-11).
 
 The manuscript was rescoped several times after independent reviews; `CHANGELOG.md` lists
 what changed and why, and `recheck/` holds the follow-up grids (stages 1-9). Since stage 10
@@ -21,7 +21,8 @@ paper/                     LaTeX source, figures, and compiled PDF for the manus
   figures/                 Fig.1-5 source scripts + rendered 300dpi pdf/png
   references.bib           Bibliography
   highlights.tex           Submission highlights
-  main_build.pdf           Manuscript PDF built with build_real.sh (preprint class option).
+  main_build.pdf           Manuscript PDF built with build_real.sh (preprint class option, 57 pages).
+  supplementary_S1_build.pdf, cover_letter_build.pdf   Supplementary Material S1 (3 pages) and cover letter.
   build_real.sh, genpk.sh  Build scripts: BibTeX + pdfLaTeX; the TS1 (text companion) fonts
                            are generated locally with Metafont (genpk.sh) when the TeX tree
                            has no cm-super, so no font substitution is used.
@@ -179,7 +180,7 @@ bibtex main
 pdflatex -interaction=nonstopmode main.tex
 pdflatex -interaction=nonstopmode main.tex
 ```
-Requires a TeX Live install with `elsarticle` (a standard install also has cm-super, so `pdflatex main.tex`, `bibtex main`, `pdflatex` x2 suffice; `build_real.sh` is for trees without it). Last verified build: 0 errors, 0 undefined references, 0 missing characters; 55 pages in the `preprint,12pt` class option, 21 pages with `[final,5p,twocolumn]` + mathptmx.
+Requires a TeX Live install with `elsarticle` (a standard install also has cm-super, so `pdflatex main.tex`, `bibtex main`, `pdflatex` x2 suffice; `build_real.sh` is for trees without it). Last verified build: 0 errors, 0 undefined references, 0 missing characters; 57 pages in the `preprint,12pt` class option.
 
 ## License
 

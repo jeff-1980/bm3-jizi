@@ -6,7 +6,7 @@
 
 Every reported cell in this study is tagged with $\mathtt{eval\_sha256}$, a SHA-256 hash of the raw held-out test-label byte array, computed once per run and asserted identical across every arm/condition/seed cell within a grid. It fingerprints \emph{that the same held-out label vector was scored every time}, not model weights or predictions. It is also the split on which the best-epoch rule of Section~\ref{sec:protocol:report} selects epochs. The full value shared by all 865 cells across all five grids is:
 \begin{quote}
-\texttt{\small 6c20b367\allowbreak 522ce5db\allowbreak 59720120\allowbreak f8a7cd12\allowbreak 792c7e07\allowbreak 0c6ae84b\allowbreak d1985511\allowbreak 998727de}
+\texttt{\scriptsize 6c20b367\allowbreak 522ce5db\allowbreak 59720120\allowbreak f8a7cd12\allowbreak 792c7e07\allowbreak 0c6ae84b\allowbreak d1985511\allowbreak 998727de}
 \end{quote}
 This value is recomputed independently at adjudication time (not merely copied from the run log) and cross-checked row-by-row against every grid's fairness report before any comparison across arms is treated as valid.
 

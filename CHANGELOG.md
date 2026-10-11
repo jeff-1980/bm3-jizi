@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-10-11 — manuscript v16 (review round: closest studies, configuration table, references)
+
+No new experiments; no result, number or conclusion changed.
+
+- Section 2.2: new paragraph comparing the study with MambaOut, the 59-dataset S4D/Mamba comparison and the
+  selectivity theory (differences stated as evaluation regime and intervention level).
+- New Table 2 (configuration fixed by the training code): windowing, fault-onset rule, network, optimiser,
+  class-weighted sampling (IR drawn about 4.2 times as often as its natural frequency; interaction with the gate
+  not tested). All values were read from the harness and dataset code. The convolutional stem has kernel 7 in the
+  Mamba-3 arms and 8 in S4D.
+- Abstract: "one block design (instantiated as a four-layer stack)". Figure 1 redrawn at a smaller canvas with larger text.
+- Second author added (Yongqing Tang) with CRediT roles; placeholder removed.
+- References: 12 entries moved from arXiv to the official venue (Crossref, publisher and proceedings pages, arXiv
+  journal_ref; per-entry sources in `paper/reference_lookup/`), duplicate arXiv identifiers removed. Four entries
+  remain preprints (Saadatmand et al., GLU Variants, Swish, GELU). Venue for HiPPO, Mamba-2, Hyena/LRU page numbers,
+  Bouthillier et al. and Shandirasegaran et al. rests on secondary sources (Semantic Scholar, arXiv comments).
+- Coverage table no longer scaled with resizebox. Supplementary S1 cross-references resolve to the main-text numbers.
+- Build scripts generate any missing Metafont fonts at the resolution LaTeX requests (including 450 dpi for scaled boxes).
+- Not done: the review's request to shorten the repeated pre-specification, audit and limitation text; the main text
+  is about 400 words longer than v15 and 57 pages instead of 55.
+
 ## 2026-10-11 — 50 references; real-font build (manuscript v14)
 
 - Bibliography extended from 16 to 50 entries (all cited). The 34 additions were looked up by title in the

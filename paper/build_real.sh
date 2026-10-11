@@ -8,8 +8,8 @@ export TEXMF="{$TEXMFVAR,/usr/share/texlive/texmf-dist,/usr/share/texmf}" TEXMFD
 if [ ! -f .fmt/pdflatex.fmt ]; then mkdir -p .fmt && ( cd .fmt && pdftex -ini -etex -jobname=pdflatex '\input pdftexconfig.tex \input latex.ltx \dump' >/dev/null ); fi
 MAPD="$TEXMFVAR/fonts/map/pdftex/updmap"
 if [ ! -s "$MAPD/pdftex.map" ]; then mkdir -p "$MAPD"; find /usr/share/texlive/texmf-dist/fonts/map/dvips /usr/share/texmf/fonts/map/dvips -name '*.map' -type f -print0 | xargs -0 cat | grep -v '^%' | grep -v '^[[:space:]]*$' | sort -u > "$MAPD/pdftex.map"; fi
-mkpk() { for i in 1 2 3 4 5 6; do rm -f missfont.log; pdflatex -interaction=nonstopmode $S.tex > b_$S.1.log 2>&1; [ -s missfont.log ] || return 0
-  for n in $(grep -o "tc[a-z]*[0-9]\{3,4\}\b" missfont.log | sort -u); do ./genpk.sh $n 600 | tail -1; done; done; }
+mkpk() { for i in $(seq 1 30); do rm -f missfont.log; pdflatex -interaction=nonstopmode $S.tex > b_$S.1.log 2>&1; [ -s missfont.log ] || return 0
+  sort -u missfont.log | while read -r line; do n=${line##* }; d=$(echo "$line" | sed -E 's/.*--dpi ([0-9]+).*/\1/'); ./genpk.sh $n $d | tail -1; done; done; }
 mkpk
 bibtex $S > b_$S.bib.log 2>&1 || true
 pdflatex -interaction=nonstopmode $S.tex > b_$S.2.log 2>&1

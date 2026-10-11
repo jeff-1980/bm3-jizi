@@ -38,7 +38,7 @@ COMP_COLORS = {
     "gate": RED,
     "proj": MUTED,
 }
-COMP_LABELS = {"conv": "conv\nstem", "scan": "scan\n(Δ,A,B,C)", "gate": "SiLU\ngate", "proj": "proj"}
+COMP_LABELS = {"conv": "conv\nstem", "scan": "scan", "gate": "SiLU\ngate", "proj": "proj"}
 
 
 def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatch_removed=False, labels=None, added_text="+ added"):
@@ -62,15 +62,15 @@ def block(ax, x0, y0, w, h, components, dim=None, removed=None, added=None, hatc
         if is_dim:
             txtcolor = MUTED
         ax.text(cx + slot_w / 2, y0 + h / 2, label, ha="center", va="center",
-                 fontsize=7.3, color=txtcolor, zorder=4, linespacing=1.0)
+                 fontsize=6.4, color=txtcolor, zorder=4, linespacing=1.0)
         if is_removed:
             ax.plot([cx + 0.06, cx + slot_w - 0.06], [y0 + 0.03, y0 + h - 0.03],
-                     color=CRITICAL, lw=2.2, zorder=5)
+                     color=INK, lw=1.4, zorder=5)
             ax.plot([cx + 0.06, cx + slot_w - 0.06], [y0 + h - 0.03, y0 + 0.03],
-                     color=CRITICAL, lw=2.2, zorder=5)
+                     color=INK, lw=1.4, zorder=5)
         if is_added:
             ax.text(cx + slot_w / 2, y0 + h + 0.16, added_text, ha="center", va="bottom",
-                     fontsize=7, color=GOOD, fontweight="bold", zorder=4)
+                     fontsize=6.8, color=GOOD, fontweight="bold", zorder=4)
     ax.add_patch(Rectangle((x0, y0), w, h, facecolor="none", edgecolor=INK, linewidth=1.3, zorder=6))
 
 
@@ -85,64 +85,40 @@ def verdict_box(ax, x, y, w, text, color):
 
 
 def main():
-    fig, ax = plt.subplots(figsize=(11.5, 3.5))
-    ax.set_xlim(0, 11.5)
-    ax.set_ylim(0, 3.5)
-    ax.axis("off")
-
-    bw, bh = 2.6, 0.85
-    y_block = 2.1
-    stage_x = [0.35, 4.25, 8.15]
-    titles = ["Step 1 -- Freeze the scan\n(partial and full)", "Step 2 -- Remove the gate\n(in the frozen host)", "Step 3 -- Replace the gate by an\nadditive branch (in the host)"]
-
-    # Step 1: freeze selectivity (scan slot dimmed = constants instead of input-dependent)
+    import textwrap
+    W, H = 7.6, 4.35                      # 1 data unit = 1 inch; the figure is shown at about 6.3 in
+    fig, ax = plt.subplots(figsize=(W, H))
+    ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
+    bw, bh = 2.15, 0.72
+    y_block = 2.3
+    stage_x = [0.2, 2.75, 5.3]
+    titles = ["Step 1: freeze the scan\n(partial and full)", "Step 2: remove the gate\n(in the frozen host)",
+              "Step 3: additive branch\nreplaces the gate"]
     block(ax, stage_x[0], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"})
-    ax.text(stage_x[0] + bw / 2, y_block + bh + 0.32, "BM3-frozen (partial) / frozen$-$all (full)", ha="center", fontsize=8.5,
-             color=SECONDARY_INK, style="italic")
-
-    # Step 2: remove gate (crossed out) on frozen base
     block(ax, stage_x[1], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"}, removed="gate")
-    ax.text(stage_x[1] + bw / 2, y_block + bh + 0.32, "frozen − gate", ha="center", fontsize=8.5,
-             color=SECONDARY_INK, style="italic")
-
-    # Step 3: graft gate onto plain S4D
-    block(ax, stage_x[2], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"}, added="gate", labels={"gate": "additive\nbranch"}, added_text="replaced")
-    ax.text(stage_x[2] + bw / 2, y_block + bh + 0.32, "frozen + additive branch", ha="center", fontsize=8.5,
-             color=SECONDARY_INK, style="italic")
-
-    # arrows between stages
+    block(ax, stage_x[2], y_block, bw, bh, ["conv", "scan", "gate", "proj"], dim={"scan"}, added="gate",
+          labels={"gate": "additive\nbranch"}, added_text="")
+    for x, t in zip(stage_x, ["BM3-frozen / frozen$-$all", "frozen $-$ gate", "frozen + additive branch"]):
+        ax.text(x + bw / 2, y_block + bh + 0.1, t, ha="center", va="bottom", fontsize=8, color=SECONDARY_INK, style="italic")
     for i in range(2):
-        x_from = stage_x[i] + bw + 0.08
-        x_to = stage_x[i + 1] - 0.08
-        arr = FancyArrowPatch((x_from, y_block + bh / 2), (x_to, y_block + bh / 2),
-                                arrowstyle="-|>", mutation_scale=16, color=MUTED, linewidth=1.6, zorder=2)
-        ax.add_patch(arr)
-
-    step_titles_y = y_block + bh + 0.95
+        ax.add_patch(FancyArrowPatch((stage_x[i] + bw + 0.06, y_block + bh / 2), (stage_x[i + 1] - 0.06, y_block + bh / 2),
+                                     arrowstyle="-|>", mutation_scale=14, color=SECONDARY_INK, linewidth=1.6, zorder=2))
     for x, t in zip(stage_x, titles):
-        ax.text(x + bw / 2, step_titles_y, t, ha="center", va="bottom", fontsize=10.5,
-                 fontweight="bold", color=INK, linespacing=1.3)
-
-    # verdict boxes
-    vy = 0.75
-    verdict_box(ax, stage_x[0] - 0.15, vy, bw + 0.3,
-                 "partial / full freeze vs S4D:\n+12–18pp / +20–23pp (forward)\n→ input-indep. coefficients suffice", CRITICAL)
-    verdict_box(ax, stage_x[1] - 0.15, vy, bw + 0.3,
-                 "partial host, forward: +9/+16/+27pp\n(resolved at −6 dB only)\nreverse: resolved at every level", GOOD)
-    verdict_box(ax, stage_x[2] - 0.15, vy, bw + 0.3,
-                 "mult. − add. at −6 dB:\n+23 (full) / +27 (partial) pp\nadditive vs gateless: not resolved", CRITICAL)
-
-    # bottom takeaway
-    ax.text(5.75, 0.22, "Conditional on this block, testbed and budget: input-independent scan coefficients suffice; gate cost grows with noise only in the forward fully frozen block.",
-             ha="center", va="center", fontsize=8.8, color=INK, style="italic")
-
-    # legend for component colors
-    handles = [Line2D([0], [0], marker="s", linestyle="none", markersize=10,
-                        markerfacecolor=COMP_COLORS[c], markeredgecolor=INK, label=COMP_LABELS[c].replace("\n", " "))
-               for c in ["conv", "scan", "gate", "proj"]]
-    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, 1.12), ncol=4,
-               frameon=False, fontsize=8, handletextpad=0.4, columnspacing=1.2)
-
+        ax.text(x + bw / 2, y_block + bh + 0.5, t, ha="center", va="bottom", fontsize=9, fontweight="bold", color=INK, linespacing=1.25)
+    vy, vh, vw = 0.95, 0.95, 2.3
+    boxes = [("partial / full freeze vs S4D:\n+12\u201318 / +20\u201323 pp (forward)\n\u2192 input-independent\ncoefficients suffice", CRITICAL),
+             ("partial host, forward:\n+9 / +16 / +27 pp\n(resolved at \u22126 dB only);\nreverse: resolved at every level", GOOD),
+             ("mult. \u2212 add. at \u22126 dB:\n+23 (full) / +27 (partial) pp;\nadditive vs gateless:\nnot resolved", CRITICAL)]
+    for x, (t, c) in zip(stage_x, boxes):
+        xb = x - 0.05
+        ax.add_patch(FancyBboxPatch((xb, vy), vw, vh, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor=c, edgecolor="none", alpha=0.14, zorder=2))
+        ax.add_patch(FancyBboxPatch((xb, vy), vw, vh, boxstyle="round,pad=0.02,rounding_size=0.05", facecolor="none", edgecolor=c, linewidth=1.2, zorder=3))
+        ax.text(xb + vw / 2, vy + vh / 2, t, ha="center", va="center", fontsize=7.9, color=INK, zorder=4, linespacing=1.3)
+    msg = "Conditional on this block, testbed and budget: input-independent scan coefficients suffice; gate cost grows with noise only in the forward fully frozen block."
+    ax.text(W / 2, 0.38, "\n".join(textwrap.wrap(msg, 88)), ha="center", va="center", fontsize=8.2, color=INK, style="italic")
+    handles = [Line2D([0], [0], marker="s", linestyle="none", markersize=8, markerfacecolor=COMP_COLORS[c], markeredgecolor=INK,
+                      label=("scan (Δ,A,B,C)" if c == "scan" else COMP_LABELS[c].replace("\n", " "))) for c in ["conv", "scan", "gate", "proj"]]
+    ax.legend(handles=handles, loc="upper left", bbox_to_anchor=(0.0, 1.03), ncol=4, frameon=False, fontsize=8, handletextpad=0.3, columnspacing=1.0)
     fig.savefig(os.path.join(OUT, "fig1_chain.pdf"), bbox_inches="tight", dpi=300)
     fig.savefig(os.path.join(OUT, "fig1_chain.png"), bbox_inches="tight", dpi=300)
     plt.close(fig)

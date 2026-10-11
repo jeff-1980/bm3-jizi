@@ -14,7 +14,6 @@
 
 % ---- convenience macros ----
 \newcommand{\pp}{\,\mathrm{pp}}
-\newcommand{\VERIFY}[1]{\textbf{\textcolor{red}{[VERIFY: #1]}}}
 
 \begin{document}
 
@@ -22,17 +21,19 @@
 
 \title{What Carries Deep-Noise Robustness in a Mamba-3 Block? Input-Independent Scans and Noise-Dependent Gating under Cross-Condition Shift}
 
-\author{Yi Wang\corref{cor1}}
+\author[lsu]{Yi Wang\corref{cor1}}
 \ead{jefflsxy@lsu.edu.cn}
-\address{College of Engineering, Lishui University, Lishui 323000, Zhejiang, China}
+\author[lyu]{Yongqing Tang}
+\address[lsu]{College of Engineering, Lishui University, Lishui, Zhejiang 323000, People's Republic of China}
+\address[lyu]{School of Physics, Mechanics and Electronics, Longyan University, Longyan, Fujian, People's Republic of China}
 \cortext[cor1]{Corresponding author}
 
 \begin{abstract}
-The robustness of Mamba-style selective state-space models is often attributed to input-dependent selectivity. We test this with controlled ablations of one Mamba-3 block on bearing vibration data under cross-condition shift (XJTU-SY, one speed-and-load pair run in both directions, training and evaluation bearings disjoint), with matched-noise training and final-epoch macro-F1 under a fixed budget. All central contrasts were run with training and evaluation noise drawn independently. Making the scan's dynamics and read/write coefficients input-independent does not remove the block's advantage over a time-invariant S4D: on the original transition the fully frozen block leads by $+21.3$, $+23.3$, $+20.3$\,pp at $0$, $-2$ and $-6$\,dB, and on the reverse transition by $+27.5$, $+26.7$, $+21.1$\,pp. Removing the multiplicative output gate costs $+5.4$, $+9.3$, $+32.6$\,pp in the fully frozen block, resolved only at $-6$\,dB; only in this host and direction does the cost grow significantly with noise depth, and without its gate the block still exceeds S4D at $0$ and $-2$\,dB but not at $-6$\,dB. Multiplicative gating exceeds an additive branch of identical size by $+23.3$\,pp at $-6$\,dB. On Paderborn bearings the gate-removal cost replicates when training and evaluation share bearings. Grafting a gate onto S4D, per-class results and Paderborn with disjoint bearings were run only under an earlier noise protocol and are descriptive. The evidence concerns one block, one shift pair per dataset and five seeds.
+The robustness of Mamba-style selective state-space models is often attributed to input-dependent selectivity. We test this with controlled ablations of one Mamba-3 block design (instantiated as a four-layer stack) on bearing vibration data under cross-condition shift (XJTU-SY, one speed-and-load pair run in both directions, training and evaluation bearings disjoint), with matched-noise training and final-epoch macro-F1 under a fixed budget. All central contrasts were run with training and evaluation noise drawn independently. Blocks whose scan dynamics and read/write coefficients are made input-independent still outperform a time-invariant S4D (this is not a claim that selectivity contributes nothing or that full performance is preserved relative to the unfrozen block): on the original transition the fully frozen block leads by $+21.3$, $+23.3$, $+20.3$\,pp at $0$, $-2$ and $-6$\,dB, and on the reverse transition by $+27.5$, $+26.7$, $+21.1$\,pp. Removing the multiplicative output gate costs $+5.4$, $+9.3$, $+32.6$\,pp in the fully frozen block, resolved only at $-6$\,dB; only in this host and direction does the cost grow significantly with noise depth, and without its gate the block still exceeds S4D at $0$ and $-2$\,dB but not at $-6$\,dB. Multiplicative gating exceeds an additive branch of identical size by $+23.3$\,pp at $-6$\,dB. On Paderborn bearings the gate-removal cost replicates when training and evaluation share bearings. Grafting a gate onto S4D, per-class results and Paderborn with disjoint bearings were run only under an earlier noise protocol and are descriptive. The evidence concerns one block design, one shift pair per dataset and five seeds.
 \end{abstract}
 
 \begin{keyword}
-state-space models \sep Mamba \sep selectivity \sep gating \sep robustness \sep ablation \sep distribution shift
+state-space models \sep Mamba \sep selectivity \sep gating \sep robustness \sep distribution shift
 \end{keyword}
 
 \end{frontmatter}
@@ -49,6 +50,11 @@ state-space models \sep Mamba \sep selectivity \sep gating \sep robustness \sep 
 
 \section*{CRediT authorship contribution statement}
 Yi Wang: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Writing -- original draft, Writing -- review \& editing, Visualization, Supervision, Project administration.
+
+Yongqing Tang: Funding acquisition, Project administration, Writing -- review \& editing, Resources, Formal analysis.
+
+\section*{Funding}
+This work was supported by the Natural Science Foundation of Fujian Province under Grant 2026J0011040.
 
 \section*{Declaration of competing interest}
 The authors declare that they have no known competing financial interests or personal relationships that could have appeared to influence the work reported in this paper.

@@ -8,16 +8,22 @@ Vibration windows from the XJTU-SY run-to-failure dataset~\cite{wang2020xjtusy} 
 
 \textbf{Composition of the data.} Training uses the bearings of the 37.5\,Hz/11\,kN condition whose failure mode is inner race or outer race (Bearing2\_1 is labelled IR; Bearing2\_2, 2\_4 and 2\_5 are labelled OR); evaluation uses those of the 40\,Hz/10\,kN condition (Bearing3\_3 and 3\_4 are IR; Bearing3\_1 and 3\_5 are OR). Bearings with cage or mixed failure modes are excluded. Windows are non-overlapping segments of 2048 samples of the horizontal channel taken from the fault phase, which is delimited by a kurtosis/RMS onset criterion with a last-15\% fallback; the evaluation set holds 3{,}504 OR and 1{,}744 IR windows, the training set 4{,}624 OR and 624 IR windows. Two consequences matter for interpretation. The IR class is learned from a single training bearing, so class-level results may reflect bearing-specific generalisation. And the five seeds resample initialisation, batch order and noise but not bearings: there are four independent bearings on each side, and none of the intervals reported here captures bearing-level uncertainty. One follow-up grid (Section~\ref{sec:results:reverse}) reverses the transition (40\,Hz/10\,kN $\rightarrow$ 37.5\,Hz/11\,kN). It uses the same eight bearings with their roles swapped, so it tests the other direction rather than independent bearings; its evaluation set holds 4{,}624 OR and 624 IR windows, all IR windows coming from Bearing2\_1, and its label hash is $\mathtt{93424834\ldots}$. The 35\,Hz/12\,kN condition has no inner-race bearing and cannot form a binary pair.
 
-The principal arms are summarised in Table~\ref{tab:arms}.
+The principal arms are summarised in Table~\ref{tab:arms}, and the configuration that the code fixes for all of them in Table~\ref{tab:config}.
 
-\begin{table}[htbp]
-\centering
-\caption{Principal experimental arms and parameter counts.}
-\label{tab:arms}
-\begin{tabular}{@{}lp{8.6cm}r@{}}
+\begingroup\footnotesize
+\begin{longtable}{@{}lp{0.64\linewidth}r@{}}
+\caption{Principal experimental arms and parameter counts.}\label{tab:arms}\\
 \toprule
 Arm & Description & Params \\
 \midrule
+\endfirsthead
+\caption[]{(continued)}\\
+\toprule
+Arm & Description & Params \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
 BM3 & Mamba-style block stack (conv stem $k{=}7$ $\rightarrow$ selective scan $\rightarrow$ SiLU gate $\rightarrow$ projection), with and without an auxiliary physics loss (Section~\ref{sec:protocol:confounds}) & 177{,}938 \\
 BM3-frozen & BM3 with the input-dependent parts of $\Delta$, $A$, $B$, $C$ replaced by learned constants; trapezoidal weight, rotation angles, stem, gate and the remaining components unchanged (Section~\ref{sec:protocol:freeze}) & 112{,}410 \\
 S4D & Parameter-matched diagonal time-invariant SSM (LayerNorm; no BatchNorm anywhere in either SSM arm) & 100{,}162 \\
@@ -35,9 +41,28 @@ S4D+gate (wm) & Graft rebuilt in the donor's shape: per layer $x, z$ projected t
 S4D+branch & Same modules, parameters and initial weights, combined additively: $W_{\mathrm{out}}(y + \mathrm{SiLU}(z))$ (control) & 198{,}978 \\
 frozen$+$add & BM3-frozen with the gate replaced in place: $W_{\mathrm{out}}(y + \mathrm{SiLU}(z))$ instead of $W_{\mathrm{out}}(y \odot \mathrm{SiLU}(z))$; same modules, parameters and initial weights (\ref{sec:results:nativeadd}) & 112{,}410 \\
 CNN/TCN baselines & Conventional baselines for context & --- \\
+\end{longtable}
+\endgroup
+
+\begin{table}[!ht]
+\centering\footnotesize
+\caption{Configuration fixed by the training code for all arms (differences between arms are noted). OR: outer race, IR: inner race.}
+\label{tab:config}
+\begin{tabular}{@{}lp{0.74\linewidth}@{}}
+\toprule
+Setting & Value \\
+\midrule
+Signal & Horizontal channel at 25.6\,kHz; non-overlapping 2048-sample windows (16 per 32{,}768-sample file) from the fault phase. \\
+Fault phase & Starts at the earlier of (a) the first file at which the rolling mean over 5 files of the per-file kurtosis exceeds 5.0 and (b) the first file at which the rolling mean of the per-file standard deviation exceeds twice its baseline (mean over the first $\min(20, N/5)$ files, $N$ files in the run); if neither occurs, the last 15\% of the files. \\
+Scaling and noise & Each window is z-scored, then white Gaussian noise is added at the stated SNR to training and evaluation windows. \\
+Network & $d_{\mathrm{model}}=64$, 4 layers, state size 128, LayerNorm; input stem Conv1d($1\!\rightarrow\!64$), stride 2, padding 3, kernel 7 in the Mamba-3 arms and 8 in S4D; Mamba-3 expansion 2 ($d_{\mathrm{inner}}=128$). \\
+Optimisation & AdamW, learning rate $3\times10^{-4}$, weight decay $10^{-4}$, cosine annealing to zero over 50 epochs, batch size 64 (evaluation 128), gradient-norm clipping at 1.0. \\
+Sampling & Training windows are drawn with replacement with probability inversely proportional to class frequency, as many draws per epoch as training windows. With 4{,}624 OR and 624 IR training windows (original transition) the expected class shares are equal instead of 11.9\% IR, so IR windows are drawn about 4.2 times as often as their natural frequency. This holds for every arm; its interaction with the gate was not tested. \\
+Loss and seeds & Cross-entropy only in all attribution arms. Seeds 0--4 set initialisation, sampler draws and noise; they do not resample bearings. \\
 \bottomrule
 \end{tabular}
 \end{table}
+
 
 \subsection{What the frozen arm freezes, and what the checks verify}
 \label{sec:protocol:freeze}
@@ -59,4 +84,4 @@ Before component attribution, three candidate confounds were examined on the sam
 \subsection{Pre-specification and adjudication}
 \label{sec:protocol:prereg}
 
-Every adjudicated question in this study had numeric decision thresholds written to a task card and to disk before the corresponding grid was launched. This is internal pre-specification, not external registration: the supporting evidence is local file modification times and run-directory names (released, \ref{app:fairness}), which are not tamper-evident and are not preserved by a repository checkout, so the trail lets readers inspect the order of events but cannot prove it. The exception is the follow-up grids from the width-matched graft onwards (Sections~\ref{sec:results:indep}--\ref{sec:results:pu_shared} and~\ref{sec:results:graftwm}--\ref{sec:results:pu}): their thresholds, and for some of them the title decision that depends on their outcome, were committed to the public repository before the first cell was run (including the smoke check), which gives those grids an external time-stamp. Later questions (component ablation, graft) were specified after earlier grids had been seen, as is natural in a staged design. Adjudication was mechanical: an analysis pass applies the thresholds and emits a decision artifact; an independent reviewer pass re-computes aggregates, verifies fingerprints row-by-row, and must cite file paths and modification times for every check. The pre-specified thresholds were binding in practice: two attempted post-hoc criterion substitutions and one stale-artifact false verification were caught and re-adjudicated under the original rules --- this is the one place where pre-specification actually bit. \ref{app:incidents} details the incidents, the automated executor/reviewer implementation, and the human adjudication gates; all scientific decisions --- thresholds, rulings, and interpretations --- were made by the authors and are timestamped. In the grids of the original design the adjudication criteria were effect-size thresholds, and paired intervals and tests were reported but not used as criteria. In the later grids (Section~\ref{sec:results}) the labels \emph{holds}, \emph{weakened} and \emph{does not hold} are defined by whether the paired 95\% interval excludes zero at two, one or none of three levels, so interval position is part of the adjudication there. A single repeat of one 2-epoch configuration in a separate process differed by $\sim\!0.7\pp$ macro-F1 (non-deterministic kernel reductions; \ref{app:confusion}); this is an observed repeat difference, not an estimated variability bound, and arm-level contrasts are judged against seed-level variability (2--9$\pp$).
+Every adjudicated question in this study had numeric decision thresholds written to a task card and to disk before the corresponding grid was launched. This is internal pre-specification, not external registration: the supporting evidence is local file modification times and run-directory names (released, \ref{app:fairness}), which are not tamper-evident and are not preserved by a repository checkout, so the trail lets readers inspect the order of events but cannot prove it. The exception is the follow-up grids from the width-matched graft onwards (Sections~\ref{sec:results:indep}--\ref{sec:results:pu_shared} and~\ref{sec:results:graftwm}--\ref{sec:results:pu}): their thresholds, and for some of them the title decision that depends on their outcome, were committed to the public repository before the first cell was run (including the smoke check), which gives those grids an external time-stamp. Later questions (component ablation, graft) were specified after earlier grids had been seen, as is natural in a staged design. Adjudication was mechanical (an analysis pass applies the thresholds and a separate reviewer pass re-computes the aggregates); the incidents in which automated adjudication departed from the pre-specified criteria, and the human adjudication gates, are described in \ref{app:incidents}. In the grids of the original design the adjudication criteria were effect-size thresholds, and paired intervals and tests were reported but not used as criteria. In the later grids (Section~\ref{sec:results}) the labels \emph{holds}, \emph{weakened} and \emph{does not hold} are defined by whether the paired 95\% interval excludes zero at two, one or none of three levels, so interval position is part of the adjudication there. A single repeat of one 2-epoch configuration in a separate process differed by $\sim\!0.7\pp$ macro-F1 (non-deterministic kernel reductions; \ref{app:confusion}); this is an observed repeat difference, not an estimated variability bound, and arm-level contrasts are judged against seed-level variability (2--9$\pp$).
