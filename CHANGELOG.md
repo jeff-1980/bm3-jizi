@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-10-26 — SASC revision: figure script and stage-12 pre-specification (before any stage-12 cell)
+
+- `paper/sasc_v17/make_figures_v17.py`: paired-effect figure, training curves, noise-depth table and final
+  training-loss table, all computed from the released stage-8/9 records (210 cells). No new runs; every printed
+  contrast matches the v16 tables.
+- `recheck/prereg_stage12_bearing_level.md` (+ `.sha256`) and `recheck/recheck12_driver.py`: a descriptive 20-cell
+  re-run (forward XJTU-SY, -6 dB, frozen_clti / frozen_clti_nogate / frozen_clti_add / s4d, seeds 0-4) that saves
+  final-epoch predictions per evaluation window with its bearing, because the stage-8 records hold no per-window
+  predictions. Committed before the first stage-12 cell.
+
 ## 2026-10-11 — manuscript v16 (review round: closest studies, configuration table, references)
 
 No new experiments; no result, number or conclusion changed.
