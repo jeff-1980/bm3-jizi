@@ -1,5 +1,12 @@
 # Changelog
 
+## 2026-10-27 — stage 13 (TIMC revision) results
+
+- `recheck/stage13/`: 30 cells, unfrozen block bm3_nokin, XJTU-SY forward and reverse, 0/-2/-6 dB, seeds 0-4, run
+  2026-10-27 06:53-09:43Z with `recheck/recheck13_driver.py` at 2ee90e4, unmodified, under
+  `prereg_stage13_unfrozen.md` (committed in 2ee90e4 before the first cell).
+- Same software stack as stage 12; eval hashes 6c20b367522c / 934248343b29 reproduced. Smoke cells (seed 99) excluded.
+
 ## 2026-10-27 — TIMC revision: stage-13 pre-specification (before any stage-13 cell)
 
 - `recheck/prereg_stage13_unfrozen.md` (+ `.sha256`) and `recheck/recheck13_driver.py`: 30 cells of the unfrozen

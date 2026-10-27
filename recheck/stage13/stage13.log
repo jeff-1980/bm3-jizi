@@ -1,0 +1,67 @@
+[harness_loader] bearmamba3 from /home/jeffwork/p9_stage12/bearmamba3/__init__.py; models_extended from /home/jeffwork/p9_stage12/models_extended.py; DATA_ROOT /home/jeffwork/data_xjtu/XJTU-SY_Bearing_Datasets
+[INIT] fwd test bearings ['Bearing3_1', 'Bearing3_3', 'Bearing3_4', 'Bearing3_5'] windows 5248 eval_sha 6c20b367522c
+[RUN] fwd awgn@+0dB bm3_nokin seed=0
+/home/jeffwork/p9_stage12/recheck/recheck13_driver.py:75: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  ls.append(float(loss))
+      final=88.67 Bearing3_1:1.00 Bearing3_3:0.73 Bearing3_4:0.72 Bearing3_5:1.00 371s
+[RUN] fwd awgn@-2dB bm3_nokin seed=0
+      final=88.64 Bearing3_1:1.00 Bearing3_3:0.65 Bearing3_4:0.75 Bearing3_5:1.00 340s
+[RUN] fwd awgn@-6dB bm3_nokin seed=0
+      final=84.14 Bearing3_1:0.99 Bearing3_3:0.38 Bearing3_4:0.73 Bearing3_5:0.99 338s
+[RUN] fwd awgn@+0dB bm3_nokin seed=1
+      final=83.53 Bearing3_1:1.00 Bearing3_3:0.71 Bearing3_4:0.58 Bearing3_5:1.00 334s
+[RUN] fwd awgn@-2dB bm3_nokin seed=1
+      final=84.60 Bearing3_1:1.00 Bearing3_3:0.63 Bearing3_4:0.64 Bearing3_5:1.00 338s
+[RUN] fwd awgn@-6dB bm3_nokin seed=1
+      final=85.06 Bearing3_1:0.99 Bearing3_3:0.51 Bearing3_4:0.73 Bearing3_5:0.97 336s
+[RUN] fwd awgn@+0dB bm3_nokin seed=2
+      final=84.85 Bearing3_1:1.00 Bearing3_3:0.50 Bearing3_4:0.69 Bearing3_5:1.00 337s
+[RUN] fwd awgn@-2dB bm3_nokin seed=2
+      final=84.47 Bearing3_1:1.00 Bearing3_3:0.46 Bearing3_4:0.70 Bearing3_5:1.00 333s
+[RUN] fwd awgn@-6dB bm3_nokin seed=2
+      final=82.27 Bearing3_1:0.99 Bearing3_3:0.39 Bearing3_4:0.68 Bearing3_5:0.98 330s
+[RUN] fwd awgn@+0dB bm3_nokin seed=3
+      final=91.22 Bearing3_1:1.00 Bearing3_3:0.71 Bearing3_4:0.81 Bearing3_5:1.00 333s
+[RUN] fwd awgn@-2dB bm3_nokin seed=3
+      final=91.13 Bearing3_1:1.00 Bearing3_3:0.66 Bearing3_4:0.83 Bearing3_5:1.00 331s
+[RUN] fwd awgn@-6dB bm3_nokin seed=3
+      final=84.98 Bearing3_1:0.99 Bearing3_3:0.43 Bearing3_4:0.74 Bearing3_5:0.99 331s
+[RUN] fwd awgn@+0dB bm3_nokin seed=4
+      final=93.22 Bearing3_1:1.00 Bearing3_3:0.74 Bearing3_4:0.86 Bearing3_5:1.00 329s
+[RUN] fwd awgn@-2dB bm3_nokin seed=4
+      final=92.09 Bearing3_1:1.00 Bearing3_3:0.68 Bearing3_4:0.85 Bearing3_5:1.00 331s
+[RUN] fwd awgn@-6dB bm3_nokin seed=4
+      final=86.12 Bearing3_1:1.00 Bearing3_3:0.44 Bearing3_4:0.76 Bearing3_5:0.99 330s
+[INIT] rev test bearings ['Bearing2_1', 'Bearing2_2', 'Bearing2_4', 'Bearing2_5'] windows 5248 eval_sha 934248343b29
+[RUN] rev awgn@+0dB bm3_nokin seed=0
+      final=86.67 Bearing2_1:0.99 Bearing2_2:0.89 Bearing2_4:0.97 Bearing2_5:0.94 330s
+[RUN] rev awgn@-2dB bm3_nokin seed=0
+      final=83.95 Bearing2_1:0.99 Bearing2_2:0.88 Bearing2_4:0.93 Bearing2_5:0.92 330s
+[RUN] rev awgn@-6dB bm3_nokin seed=0
+      final=77.07 Bearing2_1:0.90 Bearing2_2:0.84 Bearing2_4:0.86 Bearing2_5:0.88 330s
+[RUN] rev awgn@+0dB bm3_nokin seed=1
+      final=74.54 Bearing2_1:1.00 Bearing2_2:0.83 Bearing2_4:0.94 Bearing2_5:0.79 330s
+[RUN] rev awgn@-2dB bm3_nokin seed=1
+      final=77.68 Bearing2_1:1.00 Bearing2_2:0.85 Bearing2_4:0.94 Bearing2_5:0.84 329s
+[RUN] rev awgn@-6dB bm3_nokin seed=1
+      final=71.70 Bearing2_1:0.91 Bearing2_2:0.80 Bearing2_4:0.85 Bearing2_5:0.81 330s
+[RUN] rev awgn@+0dB bm3_nokin seed=2
+      final=79.46 Bearing2_1:0.99 Bearing2_2:0.90 Bearing2_4:0.97 Bearing2_5:0.83 330s
+[RUN] rev awgn@-2dB bm3_nokin seed=2
+      final=80.70 Bearing2_1:0.99 Bearing2_2:0.89 Bearing2_4:0.96 Bearing2_5:0.86 330s
+[RUN] rev awgn@-6dB bm3_nokin seed=2
+      final=73.56 Bearing2_1:0.95 Bearing2_2:0.80 Bearing2_4:0.85 Bearing2_5:0.83 330s
+[RUN] rev awgn@+0dB bm3_nokin seed=3
+      final=82.79 Bearing2_1:0.99 Bearing2_2:0.88 Bearing2_4:0.97 Bearing2_5:0.89 329s
+[RUN] rev awgn@-2dB bm3_nokin seed=3
+      final=81.78 Bearing2_1:0.99 Bearing2_2:0.86 Bearing2_4:0.95 Bearing2_5:0.90 329s
+[RUN] rev awgn@-6dB bm3_nokin seed=3
+      final=77.34 Bearing2_1:0.95 Bearing2_2:0.82 Bearing2_4:0.87 Bearing2_5:0.88 330s
+[RUN] rev awgn@+0dB bm3_nokin seed=4
+      final=81.55 Bearing2_1:1.00 Bearing2_2:0.89 Bearing2_4:0.99 Bearing2_5:0.87 330s
+[RUN] rev awgn@-2dB bm3_nokin seed=4
+      final=84.76 Bearing2_1:1.00 Bearing2_2:0.89 Bearing2_4:0.95 Bearing2_5:0.92 330s
+[RUN] rev awgn@-6dB bm3_nokin seed=4
+      final=80.60 Bearing2_1:0.96 Bearing2_2:0.86 Bearing2_4:0.92 Bearing2_5:0.90 329s
+[DONE]
