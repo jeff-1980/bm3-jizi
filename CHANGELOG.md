@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-10-27 — TIMC revision: stage-13 pre-specification (before any stage-13 cell)
+
+- `recheck/prereg_stage13_unfrozen.md` (+ `.sha256`) and `recheck/recheck13_driver.py`: 30 cells of the unfrozen
+  block (`bm3_nokin`, cross-entropy only) on both XJTU-SY transitions, 0/-2/-6 dB, seeds 0-4, under the stage-8/9
+  protocol (independent noise, 50 epochs, final epoch), to measure the cost of freezing under the final protocol.
+  Training loop copied verbatim from `recheck9_driver.py`; per-window predictions saved. Committed before the first
+  stage-13 cell.
+
 ## 2026-10-27 — stage 12 (SASC revision) results
 
 - `recheck/stage12/`: 20 cells, forward XJTU-SY, -6 dB, arms frozen_clti / frozen_clti_nogate / frozen_clti_add / s4d,
