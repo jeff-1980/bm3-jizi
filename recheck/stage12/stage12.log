@@ -1,0 +1,46 @@
+[harness_loader] bearmamba3 from /home/jeffwork/p9_stage12/bearmamba3/__init__.py; models_extended from /home/jeffwork/p9_stage12/models_extended.py; DATA_ROOT /home/jeffwork/data_xjtu/XJTU-SY_Bearing_Datasets
+[INIT] test bearings ['Bearing3_1', 'Bearing3_3', 'Bearing3_4', 'Bearing3_5']  windows 5248  eval_sha 6c20b367522c
+[RUN] awgn@-6dB frozen_clti seed=0
+/home/jeffwork/p9_stage12/recheck/recheck12_driver.py:70: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  ls.append(float(loss))
+      final=87.32 (stage8 87.36) Bearing3_1:0.98 Bearing3_3:0.51 Bearing3_4:0.79 Bearing3_5:0.99 348s
+[RUN] awgn@-6dB frozen_clti_nogate seed=0
+      final=55.01 (stage8 54.78) Bearing3_1:0.55 Bearing3_3:0.56 Bearing3_4:0.46 Bearing3_5:0.72 290s
+[RUN] awgn@-6dB frozen_clti_add seed=0
+      final=56.40 (stage8 56.51) Bearing3_1:0.57 Bearing3_3:0.56 Bearing3_4:0.46 Bearing3_5:0.75 330s
+[RUN] awgn@-6dB s4d seed=0
+      final=64.28 (stage8 64.28) Bearing3_1:0.71 Bearing3_3:0.68 Bearing3_4:0.46 Bearing3_5:0.85 226s
+[RUN] awgn@-6dB frozen_clti seed=1
+      final=90.25 (stage8 90.53) Bearing3_1:0.99 Bearing3_3:0.60 Bearing3_4:0.86 Bearing3_5:0.98 304s
+[RUN] awgn@-6dB frozen_clti_nogate seed=1
+      final=54.91 (stage8 55.02) Bearing3_1:0.58 Bearing3_3:0.57 Bearing3_4:0.44 Bearing3_5:0.70 282s
+[RUN] awgn@-6dB frozen_clti_add seed=1
+      final=87.04 (stage8 87.41) Bearing3_1:0.88 Bearing3_3:0.67 Bearing3_4:0.89 Bearing3_5:0.96 339s
+[RUN] awgn@-6dB s4d seed=1
+      final=70.64 (stage8 70.64) Bearing3_1:0.70 Bearing3_3:0.73 Bearing3_4:0.63 Bearing3_5:0.86 230s
+[RUN] awgn@-6dB frozen_clti seed=2
+      final=88.18 (stage8 88.37) Bearing3_1:0.97 Bearing3_3:0.56 Bearing3_4:0.82 Bearing3_5:0.98 309s
+[RUN] awgn@-6dB frozen_clti_nogate seed=2
+      final=53.10 (stage8 53.01) Bearing3_1:0.57 Bearing3_3:0.51 Bearing3_4:0.42 Bearing3_5:0.71 280s
+[RUN] awgn@-6dB frozen_clti_add seed=2
+      final=62.15 (stage8 62.10) Bearing3_1:0.63 Bearing3_3:0.63 Bearing3_4:0.50 Bearing3_5:0.84 331s
+[RUN] awgn@-6dB s4d seed=2
+      final=70.10 (stage8 70.10) Bearing3_1:0.75 Bearing3_3:0.68 Bearing3_4:0.56 Bearing3_5:0.87 234s
+[RUN] awgn@-6dB frozen_clti seed=3
+      final=87.41 (stage8 87.62) Bearing3_1:0.97 Bearing3_3:0.56 Bearing3_4:0.80 Bearing3_5:0.98 316s
+[RUN] awgn@-6dB frozen_clti_nogate seed=3
+      final=56.64 (stage8 56.56) Bearing3_1:0.61 Bearing3_3:0.60 Bearing3_4:0.43 Bearing3_5:0.74 290s
+[RUN] awgn@-6dB frozen_clti_add seed=3
+      final=57.04 (stage8 57.60) Bearing3_1:0.62 Bearing3_3:0.60 Bearing3_4:0.42 Bearing3_5:0.75 340s
+[RUN] awgn@-6dB s4d seed=3
+      final=68.80 (stage8 68.80) Bearing3_1:0.73 Bearing3_3:0.73 Bearing3_4:0.53 Bearing3_5:0.87 232s
+[RUN] awgn@-6dB frozen_clti seed=4
+      final=89.61 (stage8 90.59) Bearing3_1:0.99 Bearing3_3:0.60 Bearing3_4:0.82 Bearing3_5:0.99 318s
+[RUN] awgn@-6dB frozen_clti_nogate seed=4
+      final=62.36 (stage8 62.10) Bearing3_1:0.62 Bearing3_3:0.59 Bearing3_4:0.55 Bearing3_5:0.81 298s
+[RUN] awgn@-6dB frozen_clti_add seed=4
+      final=63.89 (stage8 64.55) Bearing3_1:0.63 Bearing3_3:0.59 Bearing3_4:0.57 Bearing3_5:0.83 349s
+[RUN] awgn@-6dB s4d seed=4
+      final=69.00 (stage8 69.01) Bearing3_1:0.76 Bearing3_3:0.69 Bearing3_4:0.53 Bearing3_5:0.87 241s
+[DONE]

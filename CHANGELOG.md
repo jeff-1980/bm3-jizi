@@ -1,5 +1,14 @@
 # Changelog
 
+## 2026-10-27 — stage 12 (SASC revision) results
+
+- `recheck/stage12/`: 20 cells, forward XJTU-SY, -6 dB, arms frozen_clti / frozen_clti_nogate / frozen_clti_add / s4d,
+  seeds 0-4, run 2026-10-27 00:54-02:51Z with `recheck/recheck12_driver.py` at 4fbb0dd, unmodified, under the
+  pre-specification committed in 4fbb0dd.
+- Software stack differs from stages 1-9: Python 3.12.3, torch 2.11.0+cu130, triton 3.6.0, mamba_ssm 2.3.2.post1,
+  RTX A5000; eval label hash 6c20b367522c reproduced.
+- Final macro-F1 within -0.98..+0.26 pp of the stage-8 cells. Descriptive only; main tables keep the stage-8 values.
+
 ## 2026-10-26 — SASC revision: figure script and stage-12 pre-specification (before any stage-12 cell)
 
 - `paper/sasc_v17/make_figures_v17.py`: paired-effect figure, training curves, noise-depth table and final
